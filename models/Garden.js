@@ -6,4 +6,4 @@ const GardenSchema = new Schema({
   plant: Array 
 })
 
-module.exports = model('user', GardenSchema)
+module.exports = model('garden', GardenSchema)

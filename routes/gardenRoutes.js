@@ -9,10 +9,10 @@ router.get('/gardens', (req, res) => Garden.find()
 
 //POST a garden
 router.post('/gardens', (req, res) => Garden.create(req.body)
-  .then(({ _id })) => {
+  .then(({ _id }) => {
     User.findByIdAndUpdate
     (req.body.owner, { $push: {gardens: _id }})
-  } 
+  })) 
 
   //PUT a garden
   router.put('/gardens/:id', (req, res) => Garden.findByIdAndUpdate(req.params.id, req.body)

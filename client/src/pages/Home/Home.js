@@ -24,7 +24,7 @@ const Home = () => {
     const handleInputSubmit = event => {
         event.preventDefault()
         console.log(sessionState.searchPlant)
-        
+
         setSessionState({ ...sessionState, searchPlant: '' })
     }
 
@@ -42,7 +42,7 @@ const Home = () => {
             {sessionState.redirect ? <Redirect to={{ pathname: '/signin' }} /> :
                 (
                     <Container>
-                        <form>
+                        <form mt={2}>
                             <TextField
                                 label="With normal TextField"
                                 id="searchPlant"
@@ -64,6 +64,7 @@ const Home = () => {
                                 }}
                             />
                         </form>
+                        <p>Test test test test test</p>
                     </Container>
                 )
             }

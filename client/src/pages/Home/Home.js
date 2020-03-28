@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Button } from '@material-ui/core'
 import { Redirect } from 'react-router-dom'
+import Navbar from '../../components/Navbar/NavbarHome.js'
 import axios from 'axios'
+
 
 const Home = () => {
 
@@ -19,16 +21,17 @@ const Home = () => {
 
     return (
         <>
+            <Navbar />
             {/* {sessionState.redirect ? <Redirect to={{ pathname: '/signin' }} /> :
                 ( */}
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleLogOut}
-                >
-                    Logout
+            <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleLogOut}
+            >
+                Logout
                 </Button>
-                {/* )
+            {/* )
              } */}
         </>
     )

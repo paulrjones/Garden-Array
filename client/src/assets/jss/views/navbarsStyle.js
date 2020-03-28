@@ -50,7 +50,8 @@ const navbarsStyle = theme => ({
     padding: "0px",
     top: "4px",
     borderRadius: "50%",
-    marginLeft: "5px"
+    marginLeft: "5px",
+      
   }
 });
 

@@ -11,6 +11,8 @@ import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 
+// import from components 
+import Navbar from '../../components/Navbar/Navbar.js'
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -78,6 +80,9 @@ export default function SignUp() {
 
   return (
     <>
+
+    <Navbar />
+    
       {userState.redirect ? <Redirect to={{ pathname: '/signin' }} /> :
         (<Container component="main" maxWidth="xs">
           <CssBaseline />

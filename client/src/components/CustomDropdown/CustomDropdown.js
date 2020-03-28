@@ -89,6 +89,7 @@ export default function CustomDropdown(props) {
           aria-haspopup="true"
           {...buttonProps}
           onClick={handleClick}
+          
         >
           {icon}
           {buttonText !== undefined ? buttonText : null}
@@ -150,6 +151,7 @@ export default function CustomDropdown(props) {
                         key={key}
                         onClick={() => handleClose(prop)}
                         className={dropdownItem}
+
                       >
                         {prop}
                       </MenuItem>

@@ -71,7 +71,7 @@ const customDropdownStyle = theme => ({
     "&:hover": {
       boxShadow:
         "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
-      backgroundColor: "#212121",
+      backgroundColor: "#004d49",
       color: "#fff"
     }
   },
@@ -129,6 +129,7 @@ const customDropdownStyle = theme => ({
   buttonIcon: {
     width: "20px",
     height: "20px",
+    
   },
   caret: {
     transition: "all 150ms ease-in",
@@ -152,7 +153,7 @@ const customDropdownStyle = theme => ({
     padding: "0.1875rem 1.25rem",
     fontSize: "0.75rem",
     lineHeight: "1.428571",
-    color: "#777",
+    color: "#",
     whiteSpace: "nowrap",
     fontWeight: "inherit",
     marginTop: "10px",

@@ -82,6 +82,7 @@ export default function Header(props) {
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerToggle}
+            style={{ backgroundColor: "#004d49" }}
           >
             <Menu />
           </IconButton>

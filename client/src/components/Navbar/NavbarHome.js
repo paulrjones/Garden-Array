@@ -41,10 +41,10 @@ export default function SectionNavbars() {
           >
             <Header
               brand={
-                    <img
-                      src={profileImage}
-                      className={classes.img}
-                    />}
+                <img
+                  src={profileImage}
+                  className={classes.img}
+                />}
               color="transparent"
 
 
@@ -59,7 +59,7 @@ export default function SectionNavbars() {
                     >
                       <i
                         className={
-                          classes.socialIcons 
+                          classes.socialIcons
                         }
                       />{" "}
                       Plant Page
@@ -84,7 +84,7 @@ export default function SectionNavbars() {
                     <Button
                       color="transparent"
                       className={
-                        classes.navLink 
+                        classes.navLink
                       }
                       style={{ backgroundColor: 'tealBt' }}
                     >
@@ -93,7 +93,7 @@ export default function SectionNavbars() {
                           classes.socialIcons
                         }
                       />{" "}
-                      Logout
+                      Login/Register
                   </Button>
                   </ListItem>
                   <ListItem className={classes.listItem}>
@@ -107,34 +107,35 @@ export default function SectionNavbars() {
                       <i
                         className={
                           classes.socialIcons
+                          
                         }
                       />{" "}
                       My Profile
                   </Button>
                   </ListItem>
                   <ListItem className={classes.listItem}>
-                  <div>
-                    <CustomInput
-                      white
-                      inputRootCustomClasses={classes.inputRootCustomClasses}
-                      formControlProps={{
-                        className: classes.formControl
-                      }}
-                      inputProps={{
-                        placeholder: "Search",
-                        inputProps: {
-                          "aria-label": "Search",
-                          className: classes.searchInput
-                        }
-                      }}
-                    />
+                    <div>
+                      <CustomInput
+                        white
+                        inputRootCustomClasses={classes.inputRootCustomClasses}
+                        formControlProps={{
+                          className: classes.formControl
+                        }}
+                        inputProps={{
+                          placeholder: "Search",
+                          inputProps: {
+                            "aria-label": "Search",
+                            className: classes.searchInput
+                          }
+                        }}
+                      />
                       <Button justIcon round color="transparent">
-                      <Search className={classes.searchIcon} />
-                    </Button>
-                  </div>
+                        <Search className={classes.searchIcon} />
+                      </Button>
+                    </div>
                   </ListItem>
                 </List>
-                
+
               }
             />
 

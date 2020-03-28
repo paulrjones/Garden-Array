@@ -93,7 +93,8 @@ const headerLinksStyle = theme => ({
   icons: {
     width: "20px",
     height: "20px",
-    marginRight: "3px"
+    marginRight: "3px",
+    
   },
   socialIcons: {
     position: "relative",

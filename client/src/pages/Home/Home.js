@@ -52,17 +52,7 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            {/* {sessionState.redirect ? <Redirect to={{ pathname: '/signin' }} /> :
-                ( */}
-            <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleLogOut}
-            >
-                Logout
-                </Button>
-            {/* )
-             } */}
+            
             {isLoggedIn ?
                 (<>
                     <Container className={classes.root}>

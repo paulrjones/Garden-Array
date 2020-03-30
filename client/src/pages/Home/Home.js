@@ -1,72 +1,115 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import {
     TextField,
+    Typography,
     InputAdornment,
     IconButton,
     Icon,
-    Container
+    Container,
+    Grid,
+    InputLabel,
+    Select,
 } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search'
 import { Redirect } from 'react-router-dom'
-// import axios from 'axios'
+import PlantQueryCard from '../../components/PlantQueryCard'
+import Footer from '../../components/Footer'
+import UserContext from '../../utils/UserContext'
+import PlantContext from '../../utils/PlantContext'
+
+const useStyles = makeStyles({
+    root: {
+        marginTop: 10,
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    input: {
+        marginBottom: 5
+    }
+});
 
 const Home = () => {
 
-    const [sessionState, setSessionState] = useState({
-        redirect: false,
-        searchPlant: ''
-    })
+    const classes = useStyles();
 
-    const handleInputChange = ({ target }) => {
-        setSessionState({ ...sessionState, [target.name]: target.value })
-    }
+    const { isLoggedIn } = useContext(UserContext)
 
-    const handleInputSubmit = event => {
-        event.preventDefault()
-        console.log(sessionState.searchPlant)
-
-        setSessionState({ ...sessionState, searchPlant: '' })
-    }
-
-    // const handleLogOut = () => {
-    //     axios.get('/api/users/logout')
-    //         .then(user => {
-    //             console.log(user)
-    //             setSessionState({ ...sessionState, redirect: true })
-    //         })
-    //         .catch(e => console.error(e))
-    // }
+    const {
+        result,
+        plants,
+        searchPlant,
+        searchedPlant,
+        sortBy,
+        handleSelectInputChange,
+        handlePlantInputChange,
+        handleSearchPlant
+    } = useContext(PlantContext)
 
     return (
         <>
-            {sessionState.redirect ? <Redirect to={{ pathname: '/signin' }} /> :
-                (
-                    <Container>
-                        <form mt={2}>
-                            <TextField
-                                label="With normal TextField"
-                                id="searchPlant"
-                                name="searchPlant"
-                                value={sessionState.searchPlant}
-                                onChange={handleInputChange}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment>
-                                            <IconButton
-                                                onClick={handleInputSubmit}
-                                            >
-                                                <Icon>
-                                                    <SearchIcon />
-                                                </Icon>
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
-                                }}
+            {isLoggedIn ?
+                (<>
+                    <Container className={classes.root}>
+                        <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                            <form>
+                                <Grid item xs={12}>
+                                    <InputLabel htmlFor="selectSortBy">SortBy</InputLabel>
+                                    <Select
+                                        native
+                                        id='sortBy'
+                                        name='sortBy'
+                                        value={sortBy}
+                                        onChange={handleSelectInputChange}
+                                        className={classes.input}
+                                        display='flex'
+                                        inputProps={{
+                                            name: 'sortBy',
+                                            id: 'age-native-simple'
+                                        }}
+                                    >
+                                        <option aria-label="SortBy" value="" />
+                                        <option value='q'>Common or Scientific Name</option>
+                                    </Select>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Search"
+                                        id="searchPlant"
+                                        name="searchPlant"
+                                        value={searchPlant}
+                                        onChange={handlePlantInputChange}
+                                        className={classes.input}
+                                        display='flex'
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment>
+                                                    <IconButton
+                                                        onClick={handleSearchPlant}
+                                                    >
+                                                        <Icon>
+                                                            <SearchIcon />
+                                                        </Icon>
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        }}
+                                    />
+                                </Grid>
+                            </form>
+                            <Typography component="span">
+                                Results: {result}
+                            </Typography>
+                            <Typography component="span">
+                                {searchedPlant}
+                            </Typography>
+                            <PlantQueryCard
+                                plantObj={plants}
                             />
-                        </form>
-                        <p>Test test test test test</p>
+                        </Grid>
                     </Container>
-                )
+                    <Footer />
+                </>) : <Redirect to={{ pathname: '/signin' }} />
             }
         </>
     )

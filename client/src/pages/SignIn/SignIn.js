@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom'
-import axios from 'axios'
+import UserContext from '../../utils/UserContext'
 
 function Copyright() {
   return (
@@ -44,104 +44,87 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  subtitle: {
+    fontSize: 12
+  }
 }));
 
 export default function SignIn() {
   const classes = useStyles();
 
-  const [userState, setUserState] = useState({
-    username: '',
-    password: '',
-    isLoggedIn: false,
-    redirect: false
-  })
-
-  const handleInputChange = ({ target }) => {
-    setUserState({ ...userState, [target.name]: target.value })
-  }
-
-  const handleUserLogin = event => {
-    event.preventDefault()
-    axios.post('/api/users/login', {
-      username: userState.username,
-      password: userState.password
-    })
-      .then(user => {
-        console.log(user)
-        let userIsLoggedIn = user.data.isLoggedIn
-        setUserState({ ...userState, redirect: true, isLoggedIn: userIsLoggedIn  })
-      })
-      .catch(e => console.error(e))
-  }
+  const { username, password, isLoggedIn, handleSignInUser, handleInputChange } = useContext(UserContext)
 
   return (
     <>
-    { userState.isLoggedIn ? <Redirect to={{ pathname: '/' }} /> :
-      (<Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
-            Sign in
-        </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              onChange={handleInputChange}
-              value={userState.username}
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleInputChange}
-              value={userState.password}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={handleUserLogin}
-            >
-              Sign In
+      {isLoggedIn ? <Redirect to={{ pathname: '/' }} /> :
+        (<Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Typography component="h1" variant="h5">
+              Sign in
+          </Typography>
+            <form className={classes.form} noValidate>    
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                onChange={handleInputChange}
+                value={username}
+                autoFocus
+              />
+              <Typography variant="subtitle" display="block" className={classes.subtitle}>
+                Username is case sensitive*
+              </Typography>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={handleInputChange}
+                value={password}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={handleSignInUser}
+              >
+                Sign In
           </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
               </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/signup" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </form>
-        </div>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
-      </Container>)
+            </form>
+          </div>
+          <Box mt={8}>
+            <Copyright />
+          </Box>
+        </Container>)
       }
     </>
   );

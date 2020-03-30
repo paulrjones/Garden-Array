@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom'
-import axios from 'axios'
+import UserContext from '../../utils/UserContext'
 
 function Copyright() {
   return (
@@ -49,40 +49,17 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
 
-  const [userState, setUserState] = useState({
-    username: '',
-    password: '',
-    isLoggedIn: false,
-    redirect: false
-  })
-
-  const handleInputChange = ({ target }) => {
-    setUserState({ ...userState, [target.name]: target.value })
-  }
-
-  const handleUserLogin = event => {
-    event.preventDefault()
-    axios.post('/api/users/login', {
-      username: userState.username,
-      password: userState.password
-    })
-      .then(user => {
-        console.log(user)
-        let userIsLoggedIn = user.data.isLoggedIn
-        setUserState({ ...userState, redirect: true, isLoggedIn: userIsLoggedIn  })
-      })
-      .catch(e => console.error(e))
-  }
+  const { username, password, isLoggedIn, handleSignInUser, handleInputChange } = useContext(UserContext)
 
   return (
     <>
-    { userState.isLoggedIn ? <Redirect to={{ pathname: '/' }} /> :
+    {isLoggedIn ? <Redirect to={{ pathname: '/' }} /> : 
       (<Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
             Sign in
-        </Typography>
+          </Typography>
           <form className={classes.form} noValidate>
             <TextField
               variant="outlined"
@@ -94,7 +71,7 @@ export default function SignIn() {
               name="username"
               autoComplete="username"
               onChange={handleInputChange}
-              value={userState.username}
+              value={username}
               autoFocus
             />
             <TextField
@@ -108,7 +85,7 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
               onChange={handleInputChange}
-              value={userState.password}
+              value={password}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -120,7 +97,7 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={handleUserLogin}
+              onClick={handleSignInUser}
             >
               Sign In
           </Button>

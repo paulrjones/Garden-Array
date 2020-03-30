@@ -88,9 +88,7 @@ function App() {
   }
 
   plantState.handleSearchPlant = event => {
-
     event.preventDefault()
-
     Plant.getPlants(`${plantState.sortBy}`, `${plantState.searchPlant}`)
       .then(({ data: plantsObj }) => {
         let resultCount = plantsObj.length

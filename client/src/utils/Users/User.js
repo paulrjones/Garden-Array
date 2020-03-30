@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 const User = {
-  createSession: books => axios.post('/users/login', books),
-  createAccount: books => axios.post('/users/register', books),
-  delete: id => axios.delete(`/api/books/${id}`)
+  login: users => axios.post('/api/users/login', users),
+  register: users => axios.post('/api/users/register', users),
+  delete: id => axios.delete(`/api/users/${id}`, { headers: {"Authorization": "Bearer " + (localStorage.getItem('jwt'))}})
 }
 
 export default User

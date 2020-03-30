@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom'
-import axios from 'axios'
+import UserContext from '../../utils/UserContext'
 
 // import from components 
 import Navbar from '../../components/Navbar/Navbar.js'
@@ -25,6 +25,7 @@ function Copyright() {
     </Typography>
   );
 }
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,34 +50,16 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
-  const [userState, setUserState] = useState({
-    firstName: '',
-    lastName: '',
-    userName: '',
-    email: '',
-    password: '',
-    redirect: false
-  })
-
-  const handleInputChange = ({ target }) => {
-    setUserState({ ...userState, [target.name]: target.value })
-  }
-
-  const handleInputSubmit = event => {
-    event.preventDefault()
-
-    axios.post('/api/users/register', {
-      first_name: userState.firstName,
-      last_name: userState.lastName,
-      username: userState.userName,
-      email: userState.email,
-      password: userState.password
-    })
-      .then(() => {
-        setUserState({ ...userState, redirect: true })
-      })
-      .catch(e => console.error(e))
-  }
+  const { 
+    email,
+    password,
+    username,
+    last, 
+    first,
+    redirect, 
+    handleInputChange, 
+    handleRegisterUser 
+  } = useContext(UserContext)
 
   return (
     <>
@@ -84,25 +67,26 @@ export default function SignUp() {
     <Navbar />
     
       {userState.redirect ? <Redirect to={{ pathname: '/signin' }} /> :
+      {redirect ? <Redirect to={{ pathname: '/signin' }} /> :
         (<Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
             <Typography component="h1" variant="h5">
               Sign up
-        </Typography>
+            </Typography>
             <form className={classes.form} noValidate>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     autoComplete="fname"
-                    name="firstName"
                     variant="outlined"
                     required
                     fullWidth
-                    id="firstName"
+                    id="firstname"
                     label="First Name"
+                    name="first"
                     autoFocus
-                    value={userState.firstName}
+                    value={first}
                     onChange={handleInputChange}
                   />
                 </Grid>
@@ -111,11 +95,11 @@ export default function SignUp() {
                     variant="outlined"
                     required
                     fullWidth
-                    id="lastName"
+                    id="lastname"
                     label="Last Name"
-                    name="lastName"
+                    name="last"
                     autoComplete="lname"
-                    value={userState.lastName}
+                    value={last}
                     onChange={handleInputChange}
                   />
                 </Grid>
@@ -124,11 +108,11 @@ export default function SignUp() {
                     variant="outlined"
                     required
                     fullWidth
-                    id="userName"
+                    id="username"
                     label="Username"
-                    name="userName"
+                    name="username"
                     autoComplete="username"
-                    value={userState.userName}
+                    value={username}
                     onChange={handleInputChange}
                   />
                 </Grid>
@@ -141,7 +125,7 @@ export default function SignUp() {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
-                    value={userState.email}
+                    value={email}
                     onChange={handleInputChange}
                   />
                 </Grid>
@@ -155,7 +139,7 @@ export default function SignUp() {
                     type="password"
                     id="password"
                     autoComplete="current-password"
-                    value={userState.password}
+                    value={password}
                     onChange={handleInputChange}
                   />
                 </Grid>
@@ -166,7 +150,7 @@ export default function SignUp() {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={handleInputSubmit}
+                onClick={handleRegisterUser}
               >
                 Sign Up
           </Button>

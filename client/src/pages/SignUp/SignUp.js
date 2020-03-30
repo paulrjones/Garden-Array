@@ -12,7 +12,8 @@ import { Redirect } from 'react-router-dom'
 import UserContext from '../../utils/UserContext'
 
 // import from components 
-import Navbar from '../../components/Navbar/Navbar.js'
+import Navbar from '../../components/Navbar'
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -65,8 +66,6 @@ export default function SignUp() {
     <>
 
     <Navbar />
-    
-      {userState.redirect ? <Redirect to={{ pathname: '/signin' }} /> :
       {redirect ? <Redirect to={{ pathname: '/signin' }} /> :
         (<Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -168,6 +167,7 @@ export default function SignUp() {
           </Box>
         </Container>)
       }
+      
     </>
   );
 }

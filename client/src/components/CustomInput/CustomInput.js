@@ -22,7 +22,7 @@ export default function CustomInput(props) {
     labelProps,
     inputProps,
     error,
-    white,
+    black,
     inputRootCustomClasses,
     success
   } = props;
@@ -35,14 +35,14 @@ export default function CustomInput(props) {
     [classes.underlineError]: error,
     [classes.underlineSuccess]: success && !error,
     [classes.underline]: true,
-    [classes.whiteUnderline]: white
+    [classes.whiteUnderline]: black
   });
   const marginTop = classNames({
     [inputRootCustomClasses]: inputRootCustomClasses !== undefined
   });
   const inputClasses = classNames({
     [classes.input]: true,
-    [classes.whiteInput]: white
+    [classes.whiteInput]: black
   });
   var formControlClasses;
   if (formControlProps !== undefined) {

@@ -48,7 +48,7 @@ const customDropdownStyle = theme => ({
       backgroundColor: "transparent",
       border: "0",
       boxShadow: "none",
-      color: "black"
+      color: "white"
     }
   },
   dropdownItem: {
@@ -63,7 +63,7 @@ const customDropdownStyle = theme => ({
     clear: "both",
     fontWeight: "400",
     height: "fit-content",
-    color: "#333",
+    color: "white",
     whiteSpace: "nowrap",
     minHeight: "unset"
   },
@@ -72,51 +72,10 @@ const customDropdownStyle = theme => ({
       boxShadow:
         "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(33, 33, 33, 0.4)",
       backgroundColor: "#004d49",
-      color: "#fff"
+      color: "white"
     }
   },
-  primaryHover: {
-    "&:hover": {
-      backgroundColor: primaryColor,
-      color: "#FFFFFF",
-      ...primaryBoxShadow
-    }
-  },
-  infoHover: {
-    "&:hover": {
-      backgroundColor: infoColor,
-      color: "#FFFFFF",
-      ...infoBoxShadow
-    }
-  },
-  successHover: {
-    "&:hover": {
-      backgroundColor: successColor,
-      color: "#FFFFFF",
-      ...successBoxShadow
-    }
-  },
-  warningHover: {
-    "&:hover": {
-      backgroundColor: warningColor,
-      color: "#FFFFFF",
-      ...warningBoxShadow
-    }
-  },
-  dangerHover: {
-    "&:hover": {
-      backgroundColor: dangerColor,
-      color: "#FFFFFF",
-      ...dangerBoxShadow
-    }
-  },
-  roseHover: {
-    "&:hover": {
-      backgroundColor: roseColor,
-      color: "#FFFFFF",
-      ...roseBoxShadow
-    }
-  },
+  
   dropdownItemRTL: {
     textAlign: "right"
   },
@@ -124,7 +83,7 @@ const customDropdownStyle = theme => ({
     margin: "5px 0",
     backgroundColor: "rgba(0, 0, 0, 0.12)",
     height: "1px",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   buttonIcon: {
     width: "20px",

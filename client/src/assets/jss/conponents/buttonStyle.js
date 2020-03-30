@@ -311,7 +311,7 @@ const buttonStyle = {
       minWidth: "30px",
       width: "30px",
       "& .fab,& .fas,& .far,& .fal,& .material-icons": {
-        fontSize: "20px",
+        fontSize: "px",
         lineHeight: "29px"
       },
       "& svg": {

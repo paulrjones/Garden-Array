@@ -61,8 +61,8 @@ const Profile = () => {
                                     <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                                         <ListSubheader component="div">Garden Name Here</ListSubheader>
                                     </GridListTile>
-                                    {tileData.map((tile) => (
-                                        <GridListTile key='https://via.placeholder.com/500x450'>
+                                    {tileData.map((tile, i) => (
+                                        <GridListTile key={i}>
                                             <img src='https://via.placeholder.com/500x450' alt={tile.title} className={classes.gridListImg} />
                                             <GridListTileBar
                                                 title={tile.title}

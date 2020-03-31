@@ -28,13 +28,24 @@ router.post('/users/register', (req, res) => {
   })
 })
 
+// Get One User Info
+router.get('/users/:id', (req, res) => {
+  User.findById(req.params.id)
+    .then(user => {
+      console.log(user)
+      res.json(user)
+    })
+})
+
+
+// Update User Info
 router.put('/users/:id', (req, res) => {
   User.updateOne({ _id: req.params.id }, { $set: { 
     username: req.body.username,
     first_name: req.body.fname,
     last_name: req.body.lname,
     email: req.body.email
-    }}, (err, res) => {
+    }}, err => {
       if(err) throw err
       res.sendStatus(200)
     })

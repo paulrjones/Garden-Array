@@ -29,29 +29,25 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     avatarDiv: {
-        display: 'inline-block',
-        marginRight: 10
+        display: 'flex',
+        justifyContent: 'space-around',
+        marginRight: 10,
     },
     username: {
+        display: 'flex',
+        justifyContent: 'space-around',
         fontSize: 64,
         [theme.breakpoints.down('sm')]: {
             fontSize: 32
         }
     },
     usernameDiv: {
-        display: 'inline'
+        display: 'inline',
+        textAlign: 'center'
     },
     headerBtnDiv: {
-        [theme.breakpoints.down('sm')]: {
-            display: 'flex',
-            justifyContent: 'center'
-        },
-        [theme.breakpoints.up('md')]: {
-            display: 'inline'
-        },
-        [theme.breakpoints.up('lg')]: {
-            display: 'inline'
-        }
+        display: 'flex',
+        justifyContent: 'center'
     },
     headerBtn: {
         [theme.breakpoints.down('sm')]: {
@@ -96,17 +92,17 @@ const ProfileHeader = () => {
                     <Avatar className={classes.avatar}>OP</Avatar>
                 </div>
                 <div className={classes.usernameDiv}>
-                    <Typography variant="title" className={classes.username}>
+                    <Typography variant='h2' className={classes.username}>
                         Username
                         </Typography>
-                    <div className={classes.headerBtnDiv}>
-                        <Button variant='outlined' className={classes.headerBtn}>
-                            Settings
+                </div>
+                <div className={classes.headerBtnDiv}>
+                    <Button variant='outlined' className={classes.headerBtn}>
+                        Settings
                             </Button>
-                        <Button variant='outlined' className={classes.headerBtn}>
-                            Edit Profile
+                    <Button variant='outlined' className={classes.headerBtn}>
+                        Edit Profile
                             </Button>
-                    </div>
                 </div>
             </Grid>
             <Grid item xs={12} className={classes.infoContainer}>

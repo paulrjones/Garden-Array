@@ -52,7 +52,7 @@ const Home = () => {
                 (<>
                     <Container className={classes.root}>
                         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                            <form>
+                            <form onSubmit={e => handleSearchPlant(e)}>
                                 <Grid item xs={12}>
                                     <InputLabel htmlFor="selectSortBy">SortBy</InputLabel>
                                     <Select

@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom'
 import Home from './pages/Home'
 import SignUp from './pages/SignUp'
 import LogIn from './pages/SignIn'
+import Profile from './pages/Profile'
+import ProfileEdit from './pages/ProfileEdit'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import UserContext from './utils/UserContext'
 import PlantContext from './utils/PlantContext'
@@ -98,6 +100,7 @@ function App() {
       .catch(e => console.error(e))
   }
 
+
   return (
     <>
       <UserContext.Provider value={userState} >
@@ -106,6 +109,8 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={LogIn} />
+            <Route path="/user" component={Profile} />
+            <Route path="/edit" component={ProfileEdit} />
           </ThemeProvider>
         </PlantContext.Provider>
       </UserContext.Provider>

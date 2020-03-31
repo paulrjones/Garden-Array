@@ -28,9 +28,18 @@ router.post('/users/register', (req, res) => {
   })
 })
 
-// UserLogout Route
-router.get('/users/logout', (req, res) => {
-  req.logout()
+router.put('/users/:id', (req, res) => {
+  User.updateOne({ _id: req.params.id }, { $set: { 
+    username: req.body.username,
+    first_name: req.body.fname,
+    last_name: req.body.lname,
+    email: req.body.email
+    }}, (err, res) => {
+      if(err) throw err
+      res.sendStatus(200)
+    })
 })
+
+
 
 module.exports = router

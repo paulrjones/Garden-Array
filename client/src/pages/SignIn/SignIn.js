@@ -77,7 +77,7 @@ export default function SignIn() {
                 value={username}
                 autoFocus
               />
-              <Typography variant="subtitle" display="block" className={classes.subtitle}>
+              <Typography display="block" className={classes.subtitle}>
                 Username is case sensitive*
               </Typography>
               <TextField

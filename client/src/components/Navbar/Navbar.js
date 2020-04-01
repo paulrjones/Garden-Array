@@ -1,147 +1,138 @@
-import React from "react";
-// @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Search from "@material-ui/icons/Search";
-import Email from "@material-ui/icons/Email";
-import Face from "@material-ui/icons/Face";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import Explore from "@material-ui/icons/Explore";
-// core components
-import GridContainer from '../Grid/GridContainer.js';
-import GridItem from '../Grid/GridItem.js';
-import Header from '../Header/Header.js';
-import CustomInput from '../CustomInput/CustomInput.js';
-import CustomDropdown from '../CustomDropdown/CustomDropdown.js';
-import Button from '../CustomButtons/Button.js';
-import teal from '@material-ui/core/colors/teal';
+import React, { useState, useContext } from 'react';
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import MenuIcon from '@material-ui/icons/Menu';
+import LocalFloristIcon from '@material-ui/icons/LocalFlorist';
+import SearchIcon from '@material-ui/icons/Search';
+import { Link } from '@material-ui/core'
+import UserContext from '../../utils/UserContext'
 
-import image from "../../assets/img/Garden.jpg";
-import profileImage from "../../assets/img/logo.jpg";
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex'
+  },
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
+  mobileHeader: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
+  },
+  XLHeader: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
+  },
+  logoImg: {
+    width: 125,
+    height: '100%',
+  },
+  link: {
+    color: 'black'
+  }
+}));
 
-import styles from '../../assets/jss/views/navbarsStyle.js';
+export default function TemporaryDrawer() {
+  const [headerState] = useState({
+    anchor: 'left',
+    anchorXL: 'top'
+  })
 
-const useStyles = makeStyles(styles);
-const tealBt = teal[900]
-
-export default function SectionNavbars() {
   const classes = useStyles();
-  return (
-    <div id="navbar" className={classes.navbar}>
-      <div
-        className={classes.navigation}
-      >
-        <div id="navbar" className={classes.navbar}>
-          <div
-            className={classes.navigation}
-            style={{ backgroundImage: "url(" + image + ")" }}
-          >
-            <Header
-              brand={
-                    <img
-                      src={profileImage}
-                      className={classes.img}
-                    />}
-              color="transparent"
+
+  const { handleLogOut } = useContext(UserContext)
+
+  const [state, setState] = useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open, menu: true });
+  };
 
 
-              rightLinks={
-                <List className={classes.list}>
-                  <ListItem className={classes.listItem}>
-                    <Button
-                      color="transparent"
-                      className={
-                        classes.navLink
-                      }
-                    >
-                      <i
-                        className={
-                          classes.socialIcons 
-                        }
-                      />{" "}
-                      Plant Page
-                  </Button>
-                  </ListItem>
-                  <ListItem className={classes.listItem}>
-                    <Button
-                      color="transparent"
-                      className={
-                        classes.navLink
-                      }
-                    >
-                      <i
-                        className={
-                          classes.socialIcons
-                        }
-                      />{" "}
-                      My Garden
-                  </Button>
-                  </ListItem>
-                  <ListItem className={classes.listItem}>
-                    <Button
-                      color="transparent"
-                      className={
-                        classes.navLink 
-                      }
-                      style={{ backgroundColor: 'tealBt' }}
-                    >
-                      <i
-                        className={
-                          classes.socialIcons
-                        }
-                      />{" "}
-                      Logout
-                  </Button>
-                  </ListItem>
-                  <ListItem className={classes.listItem}>
-                    <Button
-                      color="transparent"
-                      className={
-                        classes.navLink
-                      }
-                      style={{ backgroundColor: 'tealBt' }}
-                    >
-                      <i
-                        className={
-                          classes.socialIcons
-                        }
-                      />{" "}
-                      My Profile
-                  </Button>
-                  </ListItem>
-                  <ListItem className={classes.listItem}>
-                  <div>
-                    <CustomInput
-                      white
-                      inputRootCustomClasses={classes.inputRootCustomClasses}
-                      formControlProps={{
-                        className: classes.formControl
-                      }}
-                      inputProps={{
-                        placeholder: "Search",
-                        inputProps: {
-                          "aria-label": "Search",
-                          className: classes.searchInput
-                        }
-                      }}
-                    />
-                      <Button justIcon round color="transparent">
-                      <Search className={classes.searchIcon} />
-                    </Button>
-                  </div>
-                  </ListItem>
-                </List>
-                
-              }
-            />
 
-
-          </div>
-        </div>
-      </div>
+  const list = (anchor) => (
+    <div
+      className={clsx(classes.list, {
+        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+      })}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <Link href="/" className={classes.link}>
+        <List>
+          <ListItem button key='Search Plants'>
+            <ListItemIcon><SearchIcon /></ListItemIcon>
+            <ListItemText primary='Search Plants' />
+          </ListItem>
+        </List>
+      </Link>
+      <Link href="/user" className={classes.link}>
+        <List>
+          <ListItem button key='View Gardens'>
+            <ListItemIcon><LocalFloristIcon /></ListItemIcon>
+            <ListItemText primary='View Gardens' />
+          </ListItem>
+        </List>
+      </Link>
+      <Link href="/edit" className={classes.link}>
+        <List>
+          <ListItem button key='Edit Profile'>
+            <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+            <ListItemText primary='Edit Profie' />
+          </ListItem>
+        </List>
+      </Link>
+      <Divider />
+      <List onClick={handleLogOut}>
+        <ListItem button key='Log Out' onClick={handleLogOut}>
+          <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+          <ListItemText primary='Log Out' />
+        </ListItem>
+      </List>
     </div>
+  );
+
+  return (
+    <>
+      <div className={classes.root}>
+        <React.Fragment key={headerState.anchor}>
+          <Button className={classes.mobileHeader} onClick={toggleDrawer(headerState.anchor, true)}><MenuIcon /></Button>
+          <Drawer className={classes.mobileHeader} anchor={headerState.anchor} open={state[headerState.anchor]} onClose={toggleDrawer(headerState.anchor, false)}>
+            {list(headerState.anchor)}
+          </Drawer>
+        </React.Fragment>
+        <React.Fragment key={headerState.anchorXL}>
+          <Button className={classes.XLHeader} onClick={toggleDrawer(headerState.anchorXL, true)}><MenuIcon /></Button>
+          <Drawer className={classes.XLHeader} anchor={headerState.anchorXL} open={state[headerState.anchorXL]} onClose={toggleDrawer(headerState.anchorXL, false)}>
+            {list(headerState.anchorXL)}
+          </Drawer>
+        </React.Fragment>
+        <img src='https://i.imgur.com/lwEAqtD.png' alt='garden-array-logo' className={classes.logoImg} />
+      </div>
+      <hr />
+    </>
   );
 }

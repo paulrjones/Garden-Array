@@ -8,12 +8,11 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom'
 import UserContext from '../../utils/UserContext'
-import Navbar from '../../components/Navbar'
-
+import { green } from '@material-ui/core/colors';
 
 function Copyright() {
   return (
@@ -27,6 +26,12 @@ function Copyright() {
     </Typography>
   );
 }
+
+const theme = createMuiTheme({
+  palette: {
+    primary: green
+  }
+})
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,7 +53,11 @@ const useStyles = makeStyles((theme) => ({
   },
   subtitle: {
     fontSize: 12
-  }
+  },
+  logoImg: {
+    width: 200,
+    height: '100%'
+  } 
 }));
 
 export default function SignIn() {
@@ -58,11 +67,11 @@ export default function SignIn() {
 
   return (
     <>
-    <Navbar />
       {isLoggedIn ? <Redirect to={{ pathname: '/' }} /> :
         (<Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
+            <img src='https://i.imgur.com/lwEAqtD.png' alt='garden-array-logo' className={classes.logoImg} />
             <Typography component="h1" variant="h5">
               Sign in
           </Typography>
@@ -80,7 +89,7 @@ export default function SignIn() {
                 value={username}
                 autoFocus
               />
-              <Typography variant="subtitle" display="block" className={classes.subtitle}>
+              <Typography display="block" className={classes.subtitle}>
                 Username is case sensitive*
               </Typography>
               <TextField
@@ -100,26 +109,30 @@ export default function SignIn() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleSignInUser}
-              >
-                Sign In
-          </Button>
+              <ThemeProvider theme={theme}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={handleSignInUser}
+                >
+                  Sign In
+                </Button>
+              </ThemeProvider>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-              </Link>
-                </Grid>
                 <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  <div className={classes.floatRight}>
+                    <Link href="/signup" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </div>
+                  <div className={classes.floatRight}>
+                    <Link href="#" variant="body2">
+                      Forgot password?
+                    </Link>
+                  </div>
                 </Grid>
               </Grid>
             </form>

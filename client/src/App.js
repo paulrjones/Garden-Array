@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom'
 import Home from './pages/Home'
 import SignUp from './pages/SignUp'
 import LogIn from './pages/SignIn'
+import Profile from './pages/Profile'
+import ProfileEdit from './pages/ProfileEdit'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import UserContext from './utils/UserContext'
 import PlantContext from './utils/PlantContext'
@@ -21,7 +23,7 @@ function App() {
   });
 
   const [userState, setUserState] = useState({
-    user: {},
+    user: '',
     first: '',
     last: '',
     username: '',
@@ -80,11 +82,24 @@ function App() {
 
     User.login(user)
       .then(({ data }) => {
+        console.log(data)
         localStorage.setItem('jwt', data.token)
         localStorage.setItem('isLoggedIn', data.isLoggedIn)
         setUserState({ ...userState, username: '', password: '', isLoggedIn: data.isLoggedIn })
       })
       .catch(e => console.error(e))
+
+    User.getOneUser(userState.username)
+      .then(({ data: userData }) => {
+        setUserState({ ...userState, user: userData })
+      })
+      .catch(e => console.error(e))
+
+  }
+
+  userState.handleLogOut = () => {
+    localStorage.clear()
+    setUserState({ ...userState, isLoggedIn: false })
   }
 
   plantState.handleSearchPlant = event => {
@@ -98,6 +113,7 @@ function App() {
       .catch(e => console.error(e))
   }
 
+
   return (
     <>
       <UserContext.Provider value={userState} >
@@ -106,6 +122,8 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={LogIn} />
+            <Route path="/user" component={Profile} />
+            <Route path="/edit" component={ProfileEdit} />
           </ThemeProvider>
         </PlantContext.Provider>
       </UserContext.Provider>

@@ -14,7 +14,6 @@ import FormControl from '@material-ui/core/FormControl';
 
 
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -48,6 +47,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
+// function AddGarden(){
+//   const classes = useStyles();
+
+//   const {
+//     garden_name,
+//     about,
+//     location,
+//     my_garden
+//   }= useContext(GardenContext)
+
+
 function getSteps() {
   return ['Garden Name', 'About Garden', 'Garden Location', 'Your Garden?'];
 }
@@ -67,9 +78,10 @@ function getStepContent(step) {
             margin="normal"
             required
             fullWidth
-            id="gardenName"
             label="Garden Name"
-            name="gardenName"
+            name="garden_name"
+            value={garden_name}
+            onChange={handleInputChange}
            />
           </form>
           </container>
@@ -88,6 +100,10 @@ function getStepContent(step) {
                 label="About Your Garden"
                 multiline rowsMax="4"
                 variant="outlined"
+                name="about"
+                value={about}
+                onChange={handleInputChange}
+
               />
             </form>
           </container>
@@ -106,9 +122,10 @@ function getStepContent(step) {
               margin="normal"
               required
               fullWidth
-              id="gardenName"
-              label="Garden Name"
-              name="gardenName"
+              label="location"
+              name="location"
+              value={location}
+              onChange={handleInputChange}
             />
           </form>
         </container>
@@ -120,8 +137,8 @@ function getStepContent(step) {
           <>
           <FormControl component="fieldset">
             <FormLabel component="legend">Who's garden is this?</FormLabel>
-            <RadioGroup>
-            {/* <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}> */}
+
+            <RadioGroup aria-label="Whose Garden" name="my_garden" value={my_garden} onChange={handleChange}>
               <FormControlLabel value="myGarden" control={<Radio />} label="This is my wonderful garden!" />
               <FormControlLabel value="otherGarden" control={<Radio />} label="A garden I've visited or want to visit someday!" />
             </RadioGroup>
@@ -129,7 +146,7 @@ function getStepContent(step) {
           </>
         );
   }
-}
+// }
 
 
 export default function HorizontalLinearStepper() {
@@ -253,4 +270,5 @@ export default function HorizontalLinearStepper() {
       </div>
     </div>
   );
+}
 }

@@ -11,8 +11,8 @@ const GardenSchema = new Schema({
   location: {
     type: String
   },
-  myGarden: {
-    type: Boolean
+  my_garden: {
+    type: String
   }
   plant: {
     type: Array,

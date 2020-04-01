@@ -11,6 +11,8 @@ import UserContext from './utils/UserContext'
 import PlantContext from './utils/PlantContext'
 import User from './utils/Users';
 import Plant from './utils/Plant'
+import GardenContext from './utils/GardenContext'
+import Garden from './utils/Garden'
 
 function App() {
 
@@ -43,6 +45,15 @@ function App() {
     name: '',
   });
 
+  const [gardenState, setGardenState] =
+  useState({
+    garden: {},
+    garden_name: '',
+    about: '',
+    location: '',
+    my_garden: '',
+  })
+
   userState.handleInputChange = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
   }
@@ -53,6 +64,10 @@ function App() {
 
   plantState.handleSelectInputChange = ({ target }) => {
     setPlantState({ ...plantState, [target.name]: target.value })
+  }
+
+  gardenState.handleGardenInputChange = ({ target }) => {
+    setGardenState({ ...gardenState, [target.name]: target.value })
   }
 
   userState.handleRegisterUser = event => {
@@ -97,6 +112,23 @@ function App() {
         let resultCount = plantsObj.length
         let searchedPlantResult = plantState.searchPlant
         setPlantState({ ...plantState, plants: plantsObj, result: resultCount, searchedPlant: ` for '${searchedPlantResult}'`, searchPlant: '' })
+      })
+      .catch(e => console.error(e))
+  }
+
+  gardenState.handleCreateGarden = event => {
+    event.preventDefault()
+
+    const garden = {
+      garden_name: gardenState.garden_name,
+      about: userState.about,
+      location: userState.location,
+      my_garden: userState.my_garden
+    }
+
+    Garden.create(garden)
+      .then(() => {
+        setGardenState({ ...gardenState, redirect: true })
       })
       .catch(e => console.error(e))
   }

@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import SignUp from './pages/SignUp'
 import LogIn from './pages/SignIn'
 import Profile from './pages/Profile'
+import ProfileInfo from './pages/ProfileInfo'
 import ProfileEdit from './pages/ProfileEdit'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import UserContext from './utils/UserContext'
@@ -157,6 +158,7 @@ function App() {
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={LogIn} />
             <Route path="/user/:userid" component={Profile} />
+            <Route path="/info/:userid" component={ProfileInfo} />
             <Route path="/edit" component={ProfileEdit} />
           </ThemeProvider>
         </PlantContext.Provider>

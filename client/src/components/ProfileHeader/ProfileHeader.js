@@ -8,6 +8,7 @@ import {
     makeStyles
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -83,23 +84,40 @@ const useStyles = makeStyles((theme) => ({
 const ProfileHeader = () => {
 
     const classes = useStyles()
+    const history = useHistory()
+
+    const avatarLetters = () => {
+        let chars = localStorage.getItem('first_name').charAt(0) + localStorage.getItem('last_name').charAt(0)
+        return chars.toUpperCase()
+    }
+
+    const redirect = path => {
+        history.push(path)
+    }
 
     return (
         <Container className={classes.root}>
             <Grid item xs={12}>
                 <div className={classes.avatarDiv}>
-                    <Avatar className={classes.avatar}>OP</Avatar>
+                    <Avatar className={classes.avatar}>{avatarLetters()}</Avatar>
                 </div>
                 <div className={classes.usernameDiv}>
                     <Typography variant='h2' className={classes.username}>
                         {localStorage.getItem('username')}
-                        </Typography>
+                    </Typography>
                 </div>
                 <div className={classes.headerBtnDiv}>
-                    <Button variant='outlined' className={classes.headerBtn}>
+                    <Button 
+                    variant='outlined' 
+                    className={classes.headerBtn}
+                    >
                         Settings
                             </Button>
-                    <Button variant='outlined' className={classes.headerBtn}>
+                    <Button 
+                    variant='outlined' 
+                    className={classes.headerBtn}
+                    onClick={() => {redirect('/edit')}}
+                    > 
                         Edit Profile
                             </Button>
                 </div>

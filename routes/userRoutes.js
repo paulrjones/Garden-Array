@@ -37,17 +37,13 @@ router.get('/users/:username', (req, res) => {
     .catch(e => console.error(e))
 })
 
-
 // Update User Info
 router.put('/users/:id', (req, res) => {
-  User.updateOne({ _id: req.params.id }, { $set: { 
-    username: req.body.username,
-    first_name: req.body.fname,
-    last_name: req.body.lname,
-    email: req.body.email
-    }}, err => {
-      if(err) throw err
-      res.sendStatus(200)
+  User.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => {User.findById(req.params.id)
+    .then(user => res.json(user))
+    .catch(e => console.error(e))
+    .catch(e => console.error(e))
     })
 })
 

@@ -89,7 +89,7 @@ export default function TemporaryDrawer() {
           </ListItem>
         </List>
       </Link>
-      <Link href="/user" className={classes.link}>
+      <Link href={`/user/${localStorage.getItem('id')}`} className={classes.link}>
         <List>
           <ListItem button key='View Gardens'>
             <ListItemIcon><LocalFloristIcon /></ListItemIcon>
@@ -101,7 +101,7 @@ export default function TemporaryDrawer() {
         <List>
           <ListItem button key='Edit Profile'>
             <ListItemIcon><AccountCircleIcon /></ListItemIcon>
-            <ListItemText primary='Edit Profie' />
+            <ListItemText primary='Edit Profile' />
           </ListItem>
         </List>
       </Link>

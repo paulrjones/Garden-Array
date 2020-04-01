@@ -2,13 +2,11 @@ import React from 'react'
 import {
     Container,
     Typography,
-    Button,
     Avatar,
     Grid,
     makeStyles
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
-import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -84,15 +82,10 @@ const useStyles = makeStyles((theme) => ({
 const ProfileHeader = () => {
 
     const classes = useStyles()
-    const history = useHistory()
 
     const avatarLetters = () => {
         let chars = localStorage.getItem('first_name').charAt(0) + localStorage.getItem('last_name').charAt(0)
         return chars.toUpperCase()
-    }
-
-    const redirect = path => {
-        history.push(path)
     }
 
     return (

@@ -58,10 +58,6 @@ const ProfileInfo = () => {
 
     const { isLoggedIn } = useContext(UserContext)
 
-    const {
-
-    } = useContext(UserContext)
-
     const redirect = (path) => {
         history.push(path)
     }

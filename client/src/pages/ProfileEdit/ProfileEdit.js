@@ -52,7 +52,7 @@ const ProfileEdit = () => {
                         <Typography variant="h1" className={classes.title} >Edit Profile</Typography>
                     </div>
                     <TextField
-                        id="outlined-basic"
+                        id=""
                         label="Username"
                         variant="outlined"
                         className={classes.textField}
@@ -60,7 +60,7 @@ const ProfileEdit = () => {
                         onChange={handleProfileEditChange}
                     />
                     <TextField
-                        id="outlined-basic"
+                        id=""
                         label="First Name"
                         variant="outlined"
                         className={classes.textField}
@@ -68,7 +68,7 @@ const ProfileEdit = () => {
                         onChange={handleProfileEditChange}
                     />
                     <TextField
-                        id="outlined-basic"
+                        id=""
                         label="Last Name"
                         variant="outlined"
                         className={classes.textField}
@@ -76,7 +76,7 @@ const ProfileEdit = () => {
                         onChange={handleProfileEditChange}
                     />
                     <TextField
-                        id="outlined-basic"
+                        id=""
                         label="Email"
                         variant="outlined"
                         className={classes.textField}

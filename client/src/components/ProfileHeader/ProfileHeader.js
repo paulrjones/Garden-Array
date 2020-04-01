@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
     Container,
     Typography,
@@ -8,20 +8,20 @@ import {
     makeStyles
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
+import UserContext from '../../utils/UserContext'
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
         color: theme.palette.getContrastText(green[300]),
         backgroundColor: green[300],
+        marginRight: 0,
         [theme.breakpoints.down('sm')]: {
             width: 100,
-            height: 100,
-            marginLeft: '2rem'
+            height: 100
         },
         [theme.breakpoints.up('md')]: {
             width: 150,
-            height: 150,
-            marginLeft: '2rem'
+            height: 150
         },
         [theme.breakpoints.up('lg')]: {
             width: 200,
@@ -85,6 +85,8 @@ const ProfileHeader = () => {
 
     const classes = useStyles()
 
+    const { user } = useContext(UserContext)
+
     return (
         <Container className={classes.root}>
             <Grid item xs={12}>
@@ -93,7 +95,7 @@ const ProfileHeader = () => {
                 </div>
                 <div className={classes.usernameDiv}>
                     <Typography variant='h2' className={classes.username}>
-                        Username
+                        {user.username}
                         </Typography>
                 </div>
                 <div className={classes.headerBtnDiv}>

@@ -23,7 +23,7 @@ function App() {
   });
 
   const [userState, setUserState] = useState({
-    user: {},
+    user: '',
     first: '',
     last: '',
     username: '',
@@ -82,11 +82,19 @@ function App() {
 
     User.login(user)
       .then(({ data }) => {
+        console.log(data)
         localStorage.setItem('jwt', data.token)
         localStorage.setItem('isLoggedIn', data.isLoggedIn)
         setUserState({ ...userState, username: '', password: '', isLoggedIn: data.isLoggedIn })
       })
       .catch(e => console.error(e))
+
+    User.getOneUser(userState.username)
+      .then(({ data: userData }) => {
+        setUserState({ ...userState, user: userData })
+      })
+      .catch(e => console.error(e))
+
   }
 
   plantState.handleSearchPlant = event => {

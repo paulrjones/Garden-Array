@@ -29,12 +29,12 @@ router.post('/users/register', (req, res) => {
 })
 
 // Get One User Info
-router.get('/users/:id', (req, res) => {
-  User.findById(req.params.id)
+router.get('/users/:username', (req, res) => {
+  User.findOne({ username: req.params.username })
     .then(user => {
-      console.log(user)
       res.json(user)
     })
+    .catch(e => console.error(e))
 })
 
 

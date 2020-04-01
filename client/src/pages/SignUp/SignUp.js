@@ -6,9 +6,10 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'; 
 import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom'
+import { green } from '@material-ui/core/colors';
 import UserContext from '../../utils/UserContext'
 
 function Copyright() {
@@ -23,6 +24,12 @@ function Copyright() {
     </Typography>
   );
 }
+
+const theme = createMuiTheme({
+  palette: {
+    primary: green
+  }
+})
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,20 +50,24 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  logoImg: {
+    width: 200,
+    height: '100%'
+  }
 }));
 
 export default function SignUp() {
   const classes = useStyles();
 
-  const { 
+  const {
     email,
     password,
     username,
-    last, 
+    last,
     first,
-    redirect, 
-    handleInputChange, 
-    handleRegisterUser 
+    redirect,
+    handleInputChange,
+    handleRegisterUser
   } = useContext(UserContext)
 
   return (
@@ -65,6 +76,7 @@ export default function SignUp() {
         (<Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
+            <img src='https://i.imgur.com/lwEAqtD.png' alt='garden-array-logo' className={classes.logoImg} />
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
@@ -138,16 +150,18 @@ export default function SignUp() {
                   />
                 </Grid>
               </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleRegisterUser}
-              >
-                Sign Up
-          </Button>
+              <ThemeProvider theme={theme}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={handleRegisterUser}
+                >
+                  Sign Up
+                </Button>
+              </ThemeProvider>
               <Grid container justify="flex-end">
                 <Grid item>
                   <Link href="/signin" variant="body2">
@@ -162,7 +176,7 @@ export default function SignUp() {
           </Box>
         </Container>)
       }
-      
+
     </>
   );
 }

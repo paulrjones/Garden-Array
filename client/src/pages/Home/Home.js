@@ -13,6 +13,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search'
 import { Redirect } from 'react-router-dom'
+import Navbar from '../../components/Navbar'
 import PlantQueryCard from '../../components/PlantQueryCard'
 import Footer from '../../components/Footer'
 import UserContext from '../../utils/UserContext'
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
         marginBottom: 5
     }
 });
+
 
 const Home = () => {
 
@@ -48,6 +50,8 @@ const Home = () => {
 
     return (
         <>
+            <Navbar />
+            
             {isLoggedIn ?
                 (<>
                     <Container className={classes.root}>

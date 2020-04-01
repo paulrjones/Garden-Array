@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom'
 import UserContext from '../../utils/UserContext'
+import Navbar from '../../components/Navbar'
+
 
 function Copyright() {
   return (
@@ -56,6 +58,7 @@ export default function SignIn() {
 
   return (
     <>
+    <Navbar />
       {isLoggedIn ? <Redirect to={{ pathname: '/' }} /> :
         (<Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -63,7 +66,7 @@ export default function SignIn() {
             <Typography component="h1" variant="h5">
               Sign in
           </Typography>
-            <form className={classes.form} noValidate>    
+            <form className={classes.form} noValidate>
               <TextField
                 variant="outlined"
                 margin="normal"

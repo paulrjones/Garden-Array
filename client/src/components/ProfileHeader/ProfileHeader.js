@@ -106,21 +106,6 @@ const ProfileHeader = () => {
                         {localStorage.getItem('username')}
                     </Typography>
                 </div>
-                <div className={classes.headerBtnDiv}>
-                    <Button 
-                    variant='outlined' 
-                    className={classes.headerBtn}
-                    >
-                        Settings
-                            </Button>
-                    <Button 
-                    variant='outlined' 
-                    className={classes.headerBtn}
-                    onClick={() => {redirect('/edit')}}
-                    > 
-                        Edit Profile
-                            </Button>
-                </div>
             </Grid>
             <Grid item xs={12} className={classes.infoContainer}>
                 <hr />

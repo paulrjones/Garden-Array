@@ -97,6 +97,11 @@ function App() {
 
   }
 
+  userState.handleLogOut = () => {
+    localStorage.clear()
+    setUserState({ ...userState, isLoggedIn: false })
+  }
+
   plantState.handleSearchPlant = event => {
     event.preventDefault()
     Plant.getPlants(`${plantState.sortBy}`, `${plantState.searchPlant}`)

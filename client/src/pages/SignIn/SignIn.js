@@ -12,8 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Redirect } from 'react-router-dom'
 import UserContext from '../../utils/UserContext'
-import Navbar from '../../components/Navbar'
-
 
 function Copyright() {
   return (
@@ -58,7 +56,6 @@ export default function SignIn() {
 
   return (
     <>
-    <Navbar />
       {isLoggedIn ? <Redirect to={{ pathname: '/' }} /> :
         (<Container component="main" maxWidth="xs">
           <CssBaseline />

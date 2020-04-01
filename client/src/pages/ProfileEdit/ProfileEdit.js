@@ -8,6 +8,7 @@ import {
     Button
 } from '@material-ui/core'
 import UserContext from '../../utils/UserContext'
+import Navbar from '../../components/Navbar'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,57 +48,60 @@ const ProfileEdit = () => {
     return (
         <>
             {isLoggedIn ?
-                (<Container className={classes.root}>
-                    <div>
-                        <Typography variant="h1" className={classes.title} >Edit Profile</Typography>
-                    </div>
-                    <TextField
-                        id=""
-                        label="Username"
-                        variant="outlined"
-                        className={classes.textField}
-                        value={handleInputValue}
-                        onChange={handleProfileEditChange}
-                    />
-                    <TextField
-                        id=""
-                        label="First Name"
-                        variant="outlined"
-                        className={classes.textField}
-                        value={handleInputValue}
-                        onChange={handleProfileEditChange}
-                    />
-                    <TextField
-                        id=""
-                        label="Last Name"
-                        variant="outlined"
-                        className={classes.textField}
-                        value={handleInputValue}
-                        onChange={handleProfileEditChange}
-                    />
-                    <TextField
-                        id=""
-                        label="Email"
-                        variant="outlined"
-                        className={classes.textField}
-                        value={handleInputValue}
-                        onChange={handleProfileEditChange}
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.btn}
-                    >
-                        Submit
-            </Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        className={classes.btn}
-                    >
-                        Cancel
-            </Button>
-                </Container>)
+                (<>
+                    <Navbar />
+                    <Container className={classes.root}>
+                        <div>
+                            <Typography variant="h1" className={classes.title} >Edit Profile</Typography>
+                        </div>
+                        <TextField
+                            id=""
+                            label="Username"
+                            variant="outlined"
+                            className={classes.textField}
+                            value={handleInputValue}
+                            onChange={handleProfileEditChange}
+                        />
+                        <TextField
+                            id=""
+                            label="First Name"
+                            variant="outlined"
+                            className={classes.textField}
+                            value={handleInputValue}
+                            onChange={handleProfileEditChange}
+                        />
+                        <TextField
+                            id=""
+                            label="Last Name"
+                            variant="outlined"
+                            className={classes.textField}
+                            value={handleInputValue}
+                            onChange={handleProfileEditChange}
+                        />
+                        <TextField
+                            id=""
+                            label="Email"
+                            variant="outlined"
+                            className={classes.textField}
+                            value={handleInputValue}
+                            onChange={handleProfileEditChange}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.btn}
+                        >
+                            Submit
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.btn}
+                        >
+                            Cancel
+                        </Button>
+                    </Container>
+                </>)
                 : <Redirect to={{ pathname: '/signin' }} />
             }
         </>

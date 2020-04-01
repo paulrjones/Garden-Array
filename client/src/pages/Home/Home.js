@@ -50,10 +50,9 @@ const Home = () => {
 
     return (
         <>
-            <Navbar />
-            
             {isLoggedIn ?
                 (<>
+                    <Navbar />
                     <Container className={classes.root}>
                         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                             <form onSubmit={e => handleSearchPlant(e)}>

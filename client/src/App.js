@@ -17,8 +17,8 @@ function App() {
   const theme = createMuiTheme({
     typography: {
       fontFamily: [
-        'Courier Prime',
-        'monospace'
+        'Nanum Gothic',
+        'sans-serif'
       ].join(','),
     }
   });
@@ -119,6 +119,7 @@ function App() {
         localStorage.setItem('first_name', data.first_name)
         localStorage.setItem('last_name', data.last_name)
         localStorage.setItem('email', data.email)
+        window.location.href = `/user/${localStorage.getItem('id')}`
       })
       .catch(e => console.error(e))
   }

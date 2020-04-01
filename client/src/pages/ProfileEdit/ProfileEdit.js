@@ -112,8 +112,7 @@ const ProfileEdit = () => {
                                 variant="contained"
                                 color="primary"
                                 className={classes.btn}
-                                href="/user"
-                                onClick={(e) => {handleEditProfileSubmit(e); redirect(`/user/${localStorage.getItem('id')}`)}}
+                                onClick={(e) => {handleEditProfileSubmit(e)}}
                             >
                                 Submit
                             </Button>

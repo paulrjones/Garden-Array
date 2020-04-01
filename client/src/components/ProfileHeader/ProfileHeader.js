@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
     Container,
     Typography,
@@ -8,7 +8,6 @@ import {
     makeStyles
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
-import UserContext from '../../utils/UserContext'
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -85,8 +84,6 @@ const ProfileHeader = () => {
 
     const classes = useStyles()
 
-    const { user } = useContext(UserContext)
-
     return (
         <Container className={classes.root}>
             <Grid item xs={12}>
@@ -95,7 +92,7 @@ const ProfileHeader = () => {
                 </div>
                 <div className={classes.usernameDiv}>
                     <Typography variant='h2' className={classes.username}>
-                        {user.username}
+                        {localStorage.getItem('username')}
                         </Typography>
                 </div>
                 <div className={classes.headerBtnDiv}>

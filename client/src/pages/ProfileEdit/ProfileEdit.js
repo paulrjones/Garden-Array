@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core'
 import UserContext from '../../utils/UserContext'
 import Navbar from '../../components/Navbar'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,7 +44,21 @@ const ProfileEdit = () => {
 
     const classes = useStyles()
 
-    const { handleInputValue, handleProfileEditChange, isLoggedIn } = useContext(UserContext)
+    const history = useHistory()
+
+    const {
+        handleProfileEditChange,
+        handleEditProfileSubmit,
+        isLoggedIn,
+        editUser,
+        editFirst,
+        editLast,
+        editEmail
+    } = useContext(UserContext)
+
+    const redirect = (path) => {
+        history.push(path)
+    }
 
     return (
         <>
@@ -54,52 +69,64 @@ const ProfileEdit = () => {
                         <div>
                             <Typography variant="h1" className={classes.title} >Edit Profile</Typography>
                         </div>
-                        <TextField
-                            id=""
-                            label="Username"
-                            variant="outlined"
-                            className={classes.textField}
-                            value={handleInputValue}
-                            onChange={handleProfileEditChange}
-                        />
-                        <TextField
-                            id=""
-                            label="First Name"
-                            variant="outlined"
-                            className={classes.textField}
-                            value={handleInputValue}
-                            onChange={handleProfileEditChange}
-                        />
-                        <TextField
-                            id=""
-                            label="Last Name"
-                            variant="outlined"
-                            className={classes.textField}
-                            value={handleInputValue}
-                            onChange={handleProfileEditChange}
-                        />
-                        <TextField
-                            id=""
-                            label="Email"
-                            variant="outlined"
-                            className={classes.textField}
-                            value={handleInputValue}
-                            onChange={handleProfileEditChange}
-                        />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.btn}
-                        >
-                            Submit
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.btn}
-                        >
-                            Cancel
-                        </Button>
+                        <form>
+                            <TextField
+                                id="editUser"
+                                label="Username"
+                                variant="outlined"
+                                name="editUser"
+                                className={classes.textField}
+                                value={editUser}
+                                onChange={handleProfileEditChange}
+                            />
+                            <TextField
+                                id="editFirst"
+                                label="First Name"
+                                variant="outlined"
+                                name="editFirst"
+                                className={classes.textField}
+                                value={editFirst}
+                                onChange={handleProfileEditChange}
+                                placeholder={localStorage.getItem('first_name')}
+                            />
+                            <TextField
+                                id="editLast"
+                                label="Last Name"
+                                variant="outlined"
+                                name="editLast"
+                                className={classes.textField}
+                                value={editLast}
+                                onChange={handleProfileEditChange}
+                                placeholder={localStorage.getItem('last_name')}
+                            />
+                            <TextField
+                                id="editEmail"
+                                label="Email"
+                                variant="outlined"
+                                name="editEmail"
+                                className={classes.textField}
+                                value={editEmail}
+                                onChange={handleProfileEditChange}
+                                placeholder={localStorage.getItem('email')}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.btn}
+                                href="/user"
+                                onClick={(e) => {handleEditProfileSubmit(e); redirect(`/user/${localStorage.getItem('id')}`)}}
+                            >
+                                Submit
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.btn}
+                                onClick={redirect(`/user/${localStorage.getItem('id')}`)}
+                            >
+                                Cancel
+                            </Button>
+                        </form>
                     </Container>
                 </>)
                 : <Redirect to={{ pathname: '/signin' }} />

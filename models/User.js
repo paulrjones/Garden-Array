@@ -5,7 +5,7 @@ const UserSchema = new Schema({
     last_name: String,
     username: String,
     email: String,
-    Gardens: [{
+    gardens: [{
         type: Schema.Types.ObjectId,
         ref: 'garden'
     }]

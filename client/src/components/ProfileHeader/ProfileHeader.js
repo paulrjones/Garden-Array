@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
     Container,
     Typography,
@@ -8,20 +8,20 @@ import {
     makeStyles
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
+import UserContext from '../../utils/UserContext'
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
         color: theme.palette.getContrastText(green[300]),
         backgroundColor: green[300],
+        marginRight: 0,
         [theme.breakpoints.down('sm')]: {
             width: 100,
-            height: 100,
-            marginLeft: '2rem'
+            height: 100
         },
         [theme.breakpoints.up('md')]: {
             width: 150,
-            height: 150,
-            marginLeft: '2rem'
+            height: 150
         },
         [theme.breakpoints.up('lg')]: {
             width: 200,
@@ -29,29 +29,25 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     avatarDiv: {
-        display: 'inline-block',
-        marginRight: 10
+        display: 'flex',
+        justifyContent: 'space-around',
+        marginRight: 10,
     },
     username: {
+        display: 'flex',
+        justifyContent: 'space-around',
         fontSize: 64,
         [theme.breakpoints.down('sm')]: {
             fontSize: 32
         }
     },
     usernameDiv: {
-        display: 'inline'
+        display: 'inline',
+        textAlign: 'center'
     },
     headerBtnDiv: {
-        [theme.breakpoints.down('sm')]: {
-            display: 'flex',
-            justifyContent: 'center'
-        },
-        [theme.breakpoints.up('md')]: {
-            display: 'inline'
-        },
-        [theme.breakpoints.up('lg')]: {
-            display: 'inline'
-        }
+        display: 'flex',
+        justifyContent: 'center'
     },
     headerBtn: {
         [theme.breakpoints.down('sm')]: {
@@ -89,6 +85,8 @@ const ProfileHeader = () => {
 
     const classes = useStyles()
 
+    const { user } = useContext(UserContext)
+
     return (
         <Container className={classes.root}>
             <Grid item xs={12}>
@@ -96,17 +94,17 @@ const ProfileHeader = () => {
                     <Avatar className={classes.avatar}>OP</Avatar>
                 </div>
                 <div className={classes.usernameDiv}>
-                    <Typography variant="title" className={classes.username}>
-                        Username
+                    <Typography variant='h2' className={classes.username}>
+                        {user.username}
                         </Typography>
-                    <div className={classes.headerBtnDiv}>
-                        <Button variant='outlined' className={classes.headerBtn}>
-                            Settings
+                </div>
+                <div className={classes.headerBtnDiv}>
+                    <Button variant='outlined' className={classes.headerBtn}>
+                        Settings
                             </Button>
-                        <Button variant='outlined' className={classes.headerBtn}>
-                            Edit Profile
+                    <Button variant='outlined' className={classes.headerBtn}>
+                        Edit Profile
                             </Button>
-                    </div>
                 </div>
             </Grid>
             <Grid item xs={12} className={classes.infoContainer}>

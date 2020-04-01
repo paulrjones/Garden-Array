@@ -10,7 +10,8 @@ const UserContext = createContext({
     isLoggedIn: false, 
     handleInputChange: () => {},
     handleRegisterUser: () => {},
-    handleSignInUser: () => {}
+    handleSignInUser: () => {},
+    handleLogOut: () => {}
 });
 
 export default UserContext;

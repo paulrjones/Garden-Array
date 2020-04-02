@@ -5,6 +5,7 @@ const axios = require('axios')
 router.get('/plants/:type/:plantname', (req, res) => {
     axios.get(`http://trefle.io/api/plants/?token=MTlkYVBRamp0Q3ZzaG5NQ2JEbHYrQT09&${req.params.type}=${req.params.plantname}`)
         .then(({ data: plants }) => {
+            console.log(plants)
             res.json(plants)
         })
         .catch(e => console.error(e))

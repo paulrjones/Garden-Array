@@ -6,12 +6,16 @@ const GardenSchema = new Schema({
    required: true
   },
   about: {
-    type: String,
-    required: false
+    type: String
+  },
+  location: {
+    type: String
+  },
+  my_garden: {
+    type: String
   },
   plant: {
     type: Array,
-    required: false
   }, 
   owner: {
     type: Schema.Types.ObjectId,

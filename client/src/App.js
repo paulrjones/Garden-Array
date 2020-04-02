@@ -6,11 +6,14 @@ import LogIn from './pages/SignIn'
 import Profile from './pages/Profile'
 import ProfileInfo from './pages/ProfileInfo'
 import ProfileEdit from './pages/ProfileEdit'
+import CreateGarden from './pages/CreateGarden'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import UserContext from './utils/UserContext'
 import PlantContext from './utils/PlantContext'
 import User from './utils/Users';
 import Plant from './utils/Plant'
+import GardenContext from './utils/GardenContext'
+import Garden from './utils/Garden'
 
 function App() {
 
@@ -48,6 +51,15 @@ function App() {
     name: '',
   });
 
+  const [gardenState, setGardenState] =
+  useState({
+    garden: {},
+    garden_name: '',
+    about: '',
+    location: '',
+    my_garden: '',
+  })
+
   // User Handlers
   userState.handleInputChange = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
@@ -55,6 +67,10 @@ function App() {
 
   userState.handleProfileEditChange = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
+  }
+
+  gardenState.handleGardenInputChange = ({ target }) => {
+    setGardenState({ ...gardenState, [target.name]: target.value })
   }
 
   userState.handleRegisterUser = event => {
@@ -149,10 +165,29 @@ function App() {
       .catch(e => console.error(e))
   }
 
+
+  gardenState.handleCreateGarden = event => {
+    event.preventDefault()
+
+    const garden = {
+      garden_name: gardenState.garden_name,
+      about: gardenState.about,
+      location: gardenState.location,
+      my_garden: gardenState.my_garden
+    }
+
+    Garden.create(garden)
+      .then(() => {
+        setGardenState({ ...gardenState, redirect: true, garden })
+      })
+      .catch(e => console.error(e))
+  }
+  
   return (
     <>
       <UserContext.Provider value={userState} >
         <PlantContext.Provider value={plantState}>
+          <GardenContext.Provider value={gardenState}>
           <ThemeProvider theme={theme} >
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={SignUp} />
@@ -160,7 +195,9 @@ function App() {
             <Route path="/user/:userid" component={Profile} />
             <Route path="/info/:userid" component={ProfileInfo} />
             <Route path="/edit" component={ProfileEdit} />
+            <Route path="/creategarden" component={CreateGarden} />
           </ThemeProvider>
+          </GardenContext.Provider>
         </PlantContext.Provider>
       </UserContext.Provider>
     </>

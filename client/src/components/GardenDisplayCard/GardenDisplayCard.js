@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   
   media: {
     height: 180,
-    
   },
   title: {
     fontSize: 14,

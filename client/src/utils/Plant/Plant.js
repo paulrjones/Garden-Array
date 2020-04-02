@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const User = {
+const Plant = {
   getPlants: (category, plant) => axios.get(`/api/plants/${category}/${plant}`,),
 }
 
-export default User
+export default Plant

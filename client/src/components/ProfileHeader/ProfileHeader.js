@@ -99,6 +99,7 @@ const ProfileHeader = () => {
                     <Button variant='outlined' className={classes.headerBtn}>
                         Settings
                             </Button>
+                
                     <Button variant='outlined' className={classes.headerBtn}>
                         Edit Profile
                             </Button>

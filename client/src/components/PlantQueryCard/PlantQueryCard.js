@@ -58,7 +58,7 @@ const PlantQueryCard = () => {
                                 </Typography>) : <></>}
                         </CardContent> 
                         <CardActions>
-                            <Button size="small">Learn More</Button>
+                            <defButton size="small">Learn More</defButton>
                             <Button href={`/plants/${plantsMap.common_name}`} size="small">Save</Button>
                         </CardActions>
                     </Card>)

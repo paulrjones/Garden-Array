@@ -5,7 +5,7 @@ import SignUp from './pages/SignUp'
 import LogIn from './pages/SignIn'
 import Profile from './pages/Profile'
 import ProfileEdit from './pages/ProfileEdit'
-import AddGarden from './pages/AddGarden'
+import CreateGarden from './pages/CreateGarden'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import UserContext from './utils/UserContext'
 import PlantContext from './utils/PlantContext'
@@ -128,7 +128,7 @@ function App() {
 
     Garden.create(garden)
       .then(() => {
-        setGardenState({ ...gardenState, redirect: true })
+        setGardenState({ ...gardenState, redirect: true, garden })
       })
       .catch(e => console.error(e))
   }
@@ -138,14 +138,16 @@ function App() {
     <>
       <UserContext.Provider value={userState} >
         <PlantContext.Provider value={plantState}>
+          <GardenContext.Provider value={gardenState}>
           <ThemeProvider theme={theme} >
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={LogIn} />
             <Route path="/user" component={Profile} />
             <Route path="/edit" component={ProfileEdit} />
-            <Route path="/addgarden" component={AddGarden} />
+            <Route path="/creategarden" component={CreateGarden} />
           </ThemeProvider>
+          </GardenContext.Provider>
         </PlantContext.Provider>
       </UserContext.Provider>
     </>

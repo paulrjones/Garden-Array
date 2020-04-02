@@ -1,7 +1,7 @@
 import React from 'react'
 import GardenInput from '../../components/GardenInput'
 
-const AddGarden = () => {
+const CreateGarden = () => {
   return (
     <>
       <GardenInput />
@@ -9,4 +9,4 @@ const AddGarden = () => {
   )
 }
 
-export default AddGarden
+export default CreateGarden

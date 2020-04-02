@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import GardenContext from '../../utils/GardenContext'
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -48,23 +49,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-// function AddGarden(){
-//   const classes = useStyles();
-
-//   const {
-//     garden_name,
-//     about,
-//     location,
-//     my_garden
-//   }= useContext(GardenContext)
-
 
 function getSteps() {
   return ['Garden Name', 'About Garden', 'Garden Location', 'Your Garden?'];
 }
 
 
-function getStepContent(step) {
+function getStepContent(step, garden_name,
+  about,
+  location,
+  my_garden,
+  handleGardenInputChange,
+  handleCreateGarden) {
   switch (step) {
     case 0:
       return (
@@ -81,7 +77,7 @@ function getStepContent(step) {
             label="Garden Name"
             name="garden_name"
             value={garden_name}
-            onChange={handleInputChange}
+            onChange={handleGardenInputChange}
            />
           </form>
           </container>
@@ -102,7 +98,7 @@ function getStepContent(step) {
                 variant="outlined"
                 name="about"
                 value={about}
-                onChange={handleInputChange}
+                onChange={handleGardenInputChange}
 
               />
             </form>
@@ -125,7 +121,7 @@ function getStepContent(step) {
               label="location"
               name="location"
               value={location}
-              onChange={handleInputChange}
+              onChange={handleGardenInputChange}
             />
           </form>
         </container>
@@ -138,7 +134,7 @@ function getStepContent(step) {
           <FormControl component="fieldset">
             <FormLabel component="legend">Who's garden is this?</FormLabel>
 
-            <RadioGroup aria-label="Whose Garden" name="my_garden" value={my_garden} onChange={handleChange}>
+            <RadioGroup aria-label="Whose Garden" name="my_garden" value={my_garden} onChange={handleGardenInputChange}>
               <FormControlLabel value="myGarden" control={<Radio />} label="This is my wonderful garden!" />
               <FormControlLabel value="otherGarden" control={<Radio />} label="A garden I've visited or want to visit someday!" />
             </RadioGroup>
@@ -146,7 +142,7 @@ function getStepContent(step) {
           </>
         );
   }
-// }
+}
 
 
 export default function HorizontalLinearStepper() {
@@ -197,6 +193,15 @@ export default function HorizontalLinearStepper() {
     setActiveStep(0);
   };
 
+  const {
+    garden_name,
+    about,
+    location,
+    my_garden,
+    handleGardenInputChange,
+    handleCreateGarden
+  }= useContext(GardenContext)
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep}>
@@ -240,7 +245,12 @@ export default function HorizontalLinearStepper() {
           </div>
         ) : (
             <div>
-              <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+              <Typography className={classes.instructions}>{getStepContent(activeStep, garden_name,
+                about,
+                location,
+                my_garden,
+                handleGardenInputChange, 
+                handleCreateGarden)}</Typography>
               <div>
                 <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                   Back
@@ -271,4 +281,4 @@ export default function HorizontalLinearStepper() {
     </div>
   );
 }
-}
+//}

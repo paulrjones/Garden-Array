@@ -14,6 +14,7 @@ import InfoIcon from '@material-ui/icons/Info'
 import tileData from '../../mockdb/db.json'
 import ProfileHeader from '../../components/ProfileHeader'
 import UserContext from '../../utils/UserContext'
+import Navbar from '../../components/Navbar'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,7 +53,9 @@ const Profile = () => {
     return (
         <>
             {isLoggedIn ?
-                (<Container className={classes.root}>
+                (<>
+                <Navbar />
+                <Container className={classes.root}>
                     <Grid className={classes.header} container>
                         <ProfileHeader />
                         <Grid item xs={12}>
@@ -61,8 +64,8 @@ const Profile = () => {
                                     <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                                         <ListSubheader component="div">Garden Name Here</ListSubheader>
                                     </GridListTile>
-                                    {tileData.map((tile) => (
-                                        <GridListTile key='https://via.placeholder.com/500x450'>
+                                    {tileData.map((tile, i) => (
+                                        <GridListTile key={i}>
                                             <img src='https://via.placeholder.com/500x450' alt={tile.title} className={classes.gridListImg} />
                                             <GridListTileBar
                                                 title={tile.title}
@@ -79,7 +82,8 @@ const Profile = () => {
                             </div>
                         </Grid>
                     </Grid>
-                </Container>)
+                </Container>
+                </>)
                 : <Redirect to={{ pathname: '/signin' }} />}
         </>
     )

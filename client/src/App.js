@@ -121,9 +121,9 @@ function App() {
 
     const garden = {
       garden_name: gardenState.garden_name,
-      about: userState.about,
-      location: userState.location,
-      my_garden: userState.my_garden
+      about: gardenState.about,
+      location: gardenState.location,
+      my_garden: gardenState.my_garden
     }
 
     Garden.create(garden)

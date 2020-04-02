@@ -269,7 +269,12 @@ export default function HorizontalLinearStepper() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleNext}
+                  onClick={(event) => {
+                    if (activeStep === steps.length - 1) {
+                      handleCreateGarden(event)
+                    }
+                    handleNext(event)
+                  }}
                   className={classes.button}
                 >
                   {activeStep === steps.length - 1 ? 'Finish' : 'Next'}

@@ -13,7 +13,7 @@ const GardenSchema = new Schema({
   },
   my_garden: {
     type: String
-  }
+  },
   plant: {
     type: Array,
   }, 

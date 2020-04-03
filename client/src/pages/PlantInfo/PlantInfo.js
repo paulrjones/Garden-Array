@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -66,12 +66,16 @@ const useStylesImg = makeStyles({
 
   export default function PlantInfo() {
    const classes = useStylesImg();
-  const { plants, currentPlant } = useContext(PlantContext)
+  const { plants, currentPlant, handleToggleInfo } = useContext(PlantContext)
+  // const { plants, currentPlant } = useContext(PlantContext)
+
+  console.log(currentPlant)
   const { images, main_species }      = currentPlant
   const { specifications,  growth }   = main_species
 
   console.log('growth.precipitation_maximum : ', growth.precipitation_maximum)
 
+  useEffect(() => handleToggleInfo(), [])
 
   //---------------- Images -------------------
   let plantImage
@@ -112,12 +116,12 @@ const useStylesImg = makeStyles({
     <div> 
      <Grid container spacing={3}>
       <Grid item xs={3}>
-          <div className="one">xs=3.0</div>
+          {/* <div className="one">xs=3.0</div> */}
           <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Flower Image not available"
+          alt="Plant Image not available"
           height="140"
           image={plantImage}
           // image="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSa4mGeB_nqOmefSqfpjqU9chJvb3cynE8RzDK3GXdGnSuqj4lP&usqp=CAU"
@@ -149,7 +153,7 @@ const useStylesImg = makeStyles({
 
 
 
-      <div className="two">xs=6.0</div>    
+      {/* <div className="two">xs=6.0</div>     */}
 
         <Card  className="classes" variant="outlined">
            <CardContent className="{classes.cardContent}">

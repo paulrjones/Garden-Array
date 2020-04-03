@@ -13,7 +13,8 @@ const PlantContext = createContext({
     handleSelectInputchange: () => { },
     handlePlantInputChange: () => { },
     handleSearchPlant: () => { },
-    handlePlantInfo: () => { }
+    handlePlantInfo: () => { },
+    handleToggleInfo: () => { }
 });
 
 export default PlantContext;

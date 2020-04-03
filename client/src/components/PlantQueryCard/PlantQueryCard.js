@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PlantContext from '../../utils/PlantContext'
-
+import { Redirect } from 'react-router-dom'
 const useStyles = makeStyles({
     root: {
         minWidth: 275,
@@ -34,12 +34,14 @@ const PlantQueryCard = () => {
 
     const classes = useStyles();
 
-    const { plants } = useContext(PlantContext)
+    const { plants, isInfo,  handlePlantInfo} = useContext(PlantContext)
 
     return (
         <>
             {
-                plants.map((plantsMap, i) =>
+             isInfo ? <Redirect to='/plant_info' /> 
+             :   
+             plants.map((plantsMap, i) =>
                     <Card key={i} className={classes.root} variant="outlined">
                         <CardContent className={classes.cardContent}>
                             <Typography className={classes.title}>
@@ -58,7 +60,9 @@ const PlantQueryCard = () => {
                                 </Typography>) : <></>}
                         </CardContent> 
                         <CardActions>
-                            <Button size="small">Learn More</Button>
+                            {/* <Button size="small">Learn More</Button> */}
+                            <Button onClick={event => handlePlantInfo(event, i, plantsMap)} size="small">Learn More</Button>
+                            {/* <Button onClick={(e) =>handlePlantInfo(e, i, `${plantsMap.scientific_name}`)}size="small">Learn More</Button> */}
                             <Button href={`/plants/${plantsMap.common_name}`} size="small">Save</Button>
                         </CardActions>
                     </Card>)

@@ -118,6 +118,7 @@ function App() {
      })
      .catch(e => console.error(e))
     
+
      // Plant.getPlants(`${plantState.sortBy}`, scientific_name)
     //   .then(({ data: plantsObj }) => {
     //     let resultCount = plantsObj.length
@@ -125,6 +126,9 @@ function App() {
     //     PlantInfo(scientific_name)
     //   })
       // .catch(e => console.error(e))
+  }
+  plantState.handleToggleInfo = () => {
+    setPlantState({ ...plantState, isInfo: !plantState.isInfo })
   }
   return (
     <>

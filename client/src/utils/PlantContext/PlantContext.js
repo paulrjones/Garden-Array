@@ -8,7 +8,6 @@ const PlantContext = createContext({
     sortBy: '',
     name: '',
     plantTitle: '',
-    images:'',
     handleSelectInputchange: () => { },
     handlePlantInputChange: () => { },
     handleSearchPlant: () => { }

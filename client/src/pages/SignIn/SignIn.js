@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   logoImg: {
     width: 200,
     height: '100%'
-  } 
+  }
 }));
 
 export default function SignIn() {

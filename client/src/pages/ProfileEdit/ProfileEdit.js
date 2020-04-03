@@ -113,7 +113,7 @@ const ProfileEdit = () => {
                                 color="primary"
                                 className={classes.btn}
                                 href="/user"
-                                onClick={(e) => {handleEditProfileSubmit(e); redirect(`/user/${localStorage.getItem('id')}`)}}
+                                onClick={(e) => { handleEditProfileSubmit(e); redirect(`/user/${localStorage.getItem('id')}`) }}
                             >
                                 Submit
                             </Button>
@@ -121,7 +121,7 @@ const ProfileEdit = () => {
                                 variant="contained"
                                 color="secondary"
                                 className={classes.btn}
-                                onClick={() => {redirect(`/info/${localStorage.getItem('id')}`)}}
+                                onClick={() => { redirect(`/info/${localStorage.getItem('id')}`) }}
                             >
                                 Cancel
                             </Button>

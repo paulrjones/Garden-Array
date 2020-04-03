@@ -28,7 +28,6 @@ function App() {
     }
   });
 
-  // Context/State Defined
   const [userState, setUserState] = useState({
     user: '',
     first: '',
@@ -36,10 +35,6 @@ function App() {
     username: '',
     email: '',
     password: '',
-    editUser: localStorage.getItem('username'),
-    editFirst: localStorage.getItem('first_name'),
-    editLast: localStorage.getItem('last_name'),
-    editEmail: localStorage.getItem('email'),
     redirect: false,
     isLoggedIn: localStorage.getItem('isLoggedIn')
   });
@@ -69,8 +64,12 @@ function App() {
     setUserState({ ...userState, [target.name]: target.value })
   }
 
-  userState.handleProfileEditChange = ({ target }) => {
-    setUserState({ ...userState, [target.name]: target.value })
+  plantState.handlePlantInputChange = ({ target }) => {
+    setPlantState({ ...plantState, [target.name]: target.value })
+  }
+
+  plantState.handleSelectInputChange = ({ target }) => {
+    setPlantState({ ...plantState, [target.name]: target.value })
   }
 
   gardenState.handleGardenInputChange = ({ target }) => {
@@ -97,7 +96,7 @@ function App() {
 
   userState.handleSignInUser = event => {
     event.preventDefault()
-    localStorage.setItem('username', userState.username)
+
     const user = {
       username: userState.username,
       password: userState.password
@@ -114,24 +113,9 @@ function App() {
 
     User.getOneUser(userState.username)
       .then(({ data: userData }) => {
-        localStorage.setItem('id', userData._id)
-        localStorage.setItem('username', userData.username)
-        localStorage.setItem('first_name', userData.first_name)
-        localStorage.setItem('last_name', userData.last_name)
-        localStorage.setItem('email', userData.email)
+        setUserState({ ...userState, user: userData })
       })
       .catch(e => console.error(e))
-  }
-
-  userState.handleEditProfileSubmit = event => {
-    event.preventDefault()
-
-    const user = {
-      first_name: userState.editFirst,
-      last_name: userState.editLast,
-      username: userState.editUser,
-      email: userState.edutEmail
-    }
 
     User.editUserInfo(localStorage.getItem('id'), user)
       .then(({ data }) => {
@@ -147,16 +131,6 @@ function App() {
   userState.handleLogOut = () => {
     localStorage.clear()
     setUserState({ ...userState, isLoggedIn: false })
-  }
-
-
-  // Plant Handlers 
-  plantState.handlePlantInputChange = ({ target }) => {
-    setPlantState({ ...plantState, [target.name]: target.value })
-  }
-
-  plantState.handleSelectInputChange = ({ target }) => {
-    setPlantState({ ...plantState, [target.name]: target.value })
   }
 
   plantState.handleSearchPlant = event => {

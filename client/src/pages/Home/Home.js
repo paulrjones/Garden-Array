@@ -13,6 +13,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search'
 import { Redirect } from 'react-router-dom'
+import Navbar from '../../components/Navbar'
 import PlantQueryCard from '../../components/PlantQueryCard'
 import Footer from '../../components/Footer'
 import UserContext from '../../utils/UserContext'
@@ -28,6 +29,7 @@ const useStyles = makeStyles({
         marginBottom: 5
     }
 });
+
 
 const Home = () => {
 
@@ -50,9 +52,10 @@ const Home = () => {
         <>
             {isLoggedIn ?
                 (<>
+                    <Navbar />
                     <Container className={classes.root}>
                         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                            <form>
+                            <form onSubmit={e => handleSearchPlant(e)}>
                                 <Grid item xs={12}>
                                     <InputLabel htmlFor="selectSortBy">SortBy</InputLabel>
                                     <Select

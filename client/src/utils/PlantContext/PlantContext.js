@@ -9,6 +9,7 @@ const PlantContext = createContext({
     name: '',
     isInfo: false,
     currentPlant: {},
+    plantTitle: '',
     handleSelectInputchange: () => { },
     handlePlantInputChange: () => { },
     handleSearchPlant: () => { },

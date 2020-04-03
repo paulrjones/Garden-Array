@@ -6,11 +6,16 @@ import LogIn from './pages/SignIn'
 import Profile from './pages/Profile'
 import ProfileInfo from './pages/ProfileInfo'
 import ProfileEdit from './pages/ProfileEdit'
+import CreateGarden from './pages/CreateGarden'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import UserContext from './utils/UserContext'
 import PlantContext from './utils/PlantContext'
 import User from './utils/Users';
 import Plant from './utils/Plant'
+import PlantInfo from './pages/PlantInfo'
+import GardenContext from './utils/GardenContext'
+import Garden from './utils/Garden'
+
 
 function App() {
 
@@ -46,7 +51,18 @@ function App() {
     searchedPlant: '',
     sortBy: 'Common or Scientific Name',
     name: '',
+    isInfo: false,
+    currentPlant: {}
   });
+
+  const [gardenState, setGardenState] =
+  useState({
+    garden: {},
+    garden_name: '',
+    about: '',
+    location: '',
+    my_garden: '',
+  })
 
   // User Handlers
   userState.handleInputChange = ({ target }) => {
@@ -55,6 +71,10 @@ function App() {
 
   userState.handleProfileEditChange = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
+  }
+
+  gardenState.handleGardenInputChange = ({ target }) => {
+    setGardenState({ ...gardenState, [target.name]: target.value })
   }
 
   userState.handleRegisterUser = event => {
@@ -143,6 +163,9 @@ function App() {
     event.preventDefault()
     Plant.getPlants(`${plantState.sortBy}`, `${plantState.searchPlant}`)
       .then(({ data: plantsObj }) => {
+        console.log(plantsObj)
+        console.log(plantState.searchPlant)
+
         let resultCount = plantsObj.length
         let searchedPlantResult = plantState.searchPlant
         setPlantState({ ...plantState, plants: plantsObj, result: resultCount, searchedPlant: ` for '${searchedPlantResult}'`, searchPlant: '' })
@@ -150,18 +173,63 @@ function App() {
       .catch(e => console.error(e))
   }
 
+  // plantState.handlePlantinfo = ( index, scientific_name,
+  //   common_name) => {
+  plantState.handlePlantInfo = (event,index, plant) =>{
+     event.preventDefault()
+     Plant.getPlant(`${plant.id}`)
+     .then(({ data: plantObj }) => {
+      console.log('Plant Details: ', plantObj)
+      console.log('plant: ', plant)
+    //  setPlantState({ ...plantState, isInfo: true, currentPlant: plant })
+     setPlantState({ ...plantState, isInfo: true, currentPlant: plantObj })
+     })
+     .catch(e => console.error(e))
+    
+     // Plant.getPlants(`${plantState.sortBy}`, scientific_name)
+    //   .then(({ data: plantsObj }) => {
+    //     let resultCount = plantsObj.length
+    //     let searchedPlantResult = plantState.searchPlant
+    //     PlantInfo(scientific_name)
+    //   })
+      // .catch(e => console.error(e))
+  }
+  
+  
+  gardenState.handleCreateGarden = event => {
+    event.preventDefault()
+
+    const garden = {
+      garden_name: gardenState.garden_name,
+      about: gardenState.about,
+      location: gardenState.location,
+      my_garden: gardenState.my_garden
+    }
+
+    Garden.create(garden)
+      .then(() => {
+        setGardenState({ ...gardenState, redirect: true, garden })
+      })
+      .catch(e => console.error(e))
+  }
+  
+
   return (
     <>
       <UserContext.Provider value={userState} >
         <PlantContext.Provider value={plantState}>
+          <GardenContext.Provider value={gardenState}>
           <ThemeProvider theme={theme} >
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={LogIn} />
+            <Route path="/plant_info" component={PlantInfo} />
             <Route path="/user/:userid" component={Profile} />
             <Route path="/info/:userid" component={ProfileInfo} />
             <Route path="/edit" component={ProfileEdit} />
+            <Route path="/creategarden" component={CreateGarden} />
           </ThemeProvider>
+          </GardenContext.Provider>
         </PlantContext.Provider>
       </UserContext.Provider>
     </>

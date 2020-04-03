@@ -60,6 +60,7 @@ const PlantQueryCard = () => {
                                 </Typography>) : <></>}
                         </CardContent> 
                         <CardActions>
+
                             {/* <Button size="small">Learn More</Button> */}
                             <Button onClick={event => handlePlantInfo(event, i, plantsMap)} size="small">Learn More</Button>
                             {/* <Button onClick={(e) =>handlePlantInfo(e, i, `${plantsMap.scientific_name}`)}size="small">Learn More</Button> */}

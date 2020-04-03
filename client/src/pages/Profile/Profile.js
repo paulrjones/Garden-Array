@@ -15,6 +15,7 @@ import tileData from '../../mockdb/db.json'
 import ProfileHeader from '../../components/ProfileHeader'
 import UserContext from '../../utils/UserContext'
 import Navbar from '../../components/Navbar'
+import GardenDishplayCard from '../../components/GardenDisplayCard'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -65,18 +66,9 @@ const Profile = () => {
                                         <ListSubheader component="div">Garden Name Here</ListSubheader>
                                     </GridListTile>
                                     {tileData.map((tile, i) => (
-                                        <GridListTile key={i}>
-                                            <img src='https://via.placeholder.com/500x450' alt={tile.title} className={classes.gridListImg} />
-                                            <GridListTileBar
-                                                title={tile.title}
-                                                subtitle={<span>by: {tile.author}</span>}
-                                                actionIcon={
-                                                    <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
-                                                        <InfoIcon />
-                                                    </IconButton>
-                                                }
-                                            />
-                                        </GridListTile>
+                                        <GardenDishplayCard 
+                                        className={classes.gridListImg}
+                                        />
                                     ))}
                                 </GridList>
                             </div>

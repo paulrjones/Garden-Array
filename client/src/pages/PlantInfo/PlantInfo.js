@@ -55,8 +55,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const useStylesImg = makeStyles({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 140,
+  },
+});
+
   export default function PlantInfo() {
-  // const classes = useStyles();
+   const classes = useStylesImg();
   const { plants, currentPlant } = useContext(PlantContext)
   const { images, main_species }      = currentPlant
   const { specifications,  growth }   = main_species
@@ -104,37 +113,43 @@ const useStyles = makeStyles((theme) => ({
      <Grid container spacing={3}>
       <Grid item xs={3}>
           <div className="one">xs=3.0</div>
-          <Card className="flower">
-            <CardActionArea>
-              <CardMedia
-                className="media"
-                image="https://www.fleursdeparis.com/media/catalog/product/cache/4/image/1800x/040ec09b1e35df139433887a97daa66f/r/o/rosen_herz_box_medium_infinite_love_vibrant_red_wei_.jpg"
-                 title="Contemplative Reptile" 
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Flower
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                  across all continents except Antarctica
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Share
-              </Button>
-              <Button size="small" color="primary">
-                Learn More
-              </Button>
-            </CardActions>
-          </Card>
+          <Card className={classes.root}>
+      <CardActionArea>
+        <CardMedia
+          component="img"
+          alt="Flower Image not available"
+          height="140"
+          image={plantImage}
+          // image="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSa4mGeB_nqOmefSqfpjqU9chJvb3cynE8RzDK3GXdGnSuqj4lP&usqp=CAU"
+          title="Plant Details"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+          {currentPlant.common_name}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+          The gardens I admire most are relaxing, easy to move through, and not too hard to maintain.
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p" fontStyle="italic" m={1}>
+            Fine Gardening: https://www.finegardening.com/article/15-tips-for-designing-a-garden
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+      <CardActions>
+        <Button size="small" color="primary">
+          Share
+        </Button>
+        <Button size="small" color="primary">
+          Learn More
+        </Button>
+      </CardActions>
+    </Card>
       </Grid>
       <Grid item xs={6}>
-      <div className="two">xs=6.0</div>
-        
 
+
+
+      <div className="two">xs=6.0</div>    
 
         <Card  className="classes" variant="outlined">
            <CardContent className="{classes.cardContent}">
@@ -158,9 +173,9 @@ const useStyles = makeStyles((theme) => ({
              <Typography>Growth Period:       {specifications.growth_period}</Typography>
              <Typography>Flower Color:        {main_species.flower.color}</Typography>
              <Typography>Duration:            {currentPlant.duration}</Typography>
-              <Typography>
+              {/* <Typography>
                  Image:      {plantImage}
-             </Typography>
+              </Typography> */}
 
              <br></br><br></br>
              {/* <Divider /> */}

@@ -58,7 +58,7 @@ const PlantQueryCard = () => {
                                 <Typography>
                                     {plantsMap.common_name}
                                 </Typography>) : <></>}
-                        </CardContent>
+                        </CardContent> 
                         <CardActions>
                             {/* <Button size="small">Learn More</Button> */}
                             <Button onClick={event => handlePlantInfo(event, i, plantsMap)} size="small">Learn More</Button>

@@ -7,10 +7,18 @@ const UserContext = createContext({
     username: '',
     password: '',
     email: '',
+    editUser: '',
+    editFirst: '',
+    editLast: '',
+    editEmail: '',
     isLoggedIn: false, 
     handleInputChange: () => {},
+    handleProfileEditChange: () => {},
+    handleEditProfileSubmit: () => {},
     handleRegisterUser: () => {},
-    handleSignInUser: () => {}
+    handleSignInUser: () => {},
+    handleLogOut: () => {},
+    handleUserProfile: () => {}
 });
 
 export default UserContext;

@@ -28,9 +28,25 @@ router.post('/users/register', (req, res) => {
   })
 })
 
-// UserLogout Route
-router.get('/users/logout', (req, res) => {
-  req.logout()
+// Get One User Info
+router.get('/users/:username', (req, res) => {
+  User.findOne({ username: req.params.username })
+    .then(user => {
+      res.json(user)
+    })
+    .catch(e => console.error(e))
 })
+
+// Update User Info
+router.put('/users/:id', (req, res) => {
+  User.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => {User.findById(req.params.id)
+    .then(user => res.json(user))
+    .catch(e => console.error(e))
+    .catch(e => console.error(e))
+    })
+})
+
+
 
 module.exports = router

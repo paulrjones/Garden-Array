@@ -7,11 +7,15 @@ const PlantContext = createContext({
     searchedPlant: '',
     sortBy: '',
     name: '',
+    isInfo: false,
+    currentPlant: {},
     plantTitle: '',
     images:'',
     handleSelectInputchange: () => { },
     handlePlantInputChange: () => { },
-    handleSearchPlant: () => { }
+    handleSearchPlant: () => { },
+    handlePlantInfo: () => { },
+    handleToggleInfo: () => { }
 });
 
 export default PlantContext;

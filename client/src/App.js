@@ -12,8 +12,10 @@ import UserContext from './utils/UserContext'
 import PlantContext from './utils/PlantContext'
 import User from './utils/Users';
 import Plant from './utils/Plant'
+import PlantInfo from './pages/PlantInfo'
 import GardenContext from './utils/GardenContext'
 import Garden from './utils/Garden'
+
 
 function App() {
 
@@ -44,6 +46,8 @@ function App() {
     searchedPlant: '',
     sortBy: 'Common or Scientific Name',
     name: '',
+    isInfo: false,
+    currentPlant: {}
   });
 
   const [gardenState, setGardenState] =
@@ -124,6 +128,9 @@ function App() {
     event.preventDefault()
     Plant.getPlants(`${plantState.sortBy}`, `${plantState.searchPlant}`)
       .then(({ data: plantsObj }) => {
+        console.log(plantsObj)
+        console.log(plantState.searchPlant)
+
         let resultCount = plantsObj.length
         let searchedPlantResult = plantState.searchPlant
         setPlantState({ ...plantState, plants: plantsObj, result: resultCount, searchedPlant: ` for '${searchedPlantResult}'`, searchPlant: '' })
@@ -131,7 +138,35 @@ function App() {
       .catch(e => console.error(e))
   }
 
+  // plantState.handlePlantinfo = ( index, scientific_name,
+  //   common_name) => {
+  plantState.handlePlantInfo = (event,index, plant) =>{
+     event.preventDefault()
+     Plant.getPlant(`${plant.id}`)
+     .then(({ data: plantObj }) => {
+      console.log('Plant Details: ', plantObj)
+      console.log('plant: ', plant)
+    //  setPlantState({ ...plantState, isInfo: true, currentPlant: plant })
+     setPlantState({ ...plantState, isInfo: true, currentPlant: plantObj })
+     })
+     .catch(e => console.error(e))
+    
 
+     // Plant.getPlants(`${plantState.sortBy}`, scientific_name)
+    //   .then(({ data: plantsObj }) => {
+    //     let resultCount = plantsObj.length
+    //     let searchedPlantResult = plantState.searchPlant
+    //     PlantInfo(scientific_name)
+    //   })
+      // .catch(e => console.error(e))
+  }
+
+  plantState.handleToggleInfo = () => {
+    setPlantState({ ...plantState, isInfo: !plantState.isInfo })
+  }
+
+  
+  
   gardenState.handleCreateGarden = event => {
     event.preventDefault()
 
@@ -149,6 +184,8 @@ function App() {
       .catch(e => console.error(e))
   }
   
+
+
   return (
     <>
       <UserContext.Provider value={userState} >
@@ -158,6 +195,7 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={LogIn} />
+            <Route path="/plant_info" component={PlantInfo} />
             <Route path="/user/:userid" component={Profile} />
             <Route path="/info/:userid" component={ProfileInfo} />
             <Route path="/edit" component={ProfileEdit} />

@@ -39,7 +39,7 @@ const PlantQueryCard = () => {
     return (
         <>
             {
-             isInfo ? <Redirect to='/plant_info' /> 
+             isInfo ? <Redirect to='/plant_info/' /> 
              :   
              plants.map((plantsMap, i) =>
                     <Card key={i} className={classes.root} variant="outlined">

@@ -149,7 +149,7 @@ function App() {
 
   // plantState.handlePlantinfo = ( index, scientific_name,
   //   common_name) => {
-  plantState.handlePlantInfo = (event,index, plant) =>{
+  plantState.handlePlantInfo = (event, index, plant) =>{
      event.preventDefault()
      Plant.getPlant(`${plant.id}`)
      .then(({ data: plantObj }) => {
@@ -197,11 +197,11 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={LogIn} />
-            <Route path="/plant_info" component={PlantInfo} />
-            <Route path="/user/:userid" component={Profile} />
-            <Route path="/info/:userid" component={ProfileInfo} />
-            <Route path="/edit" component={ProfileEdit} />
-            <Route path="/creategarden" component={CreateGarden} />
+            <Route exact path="/plant_info/:plantid" component={PlantInfo} />
+            <Route exact path="/user/:userid" component={Profile} />
+            <Route exact path="/info/:userid" component={ProfileInfo} />
+            <Route exact path="/edit" component={ProfileEdit} />
+            <Route exact path="/creategarden" component={CreateGarden} />
           </ThemeProvider>
           </GardenContext.Provider>
         </PlantContext.Provider>

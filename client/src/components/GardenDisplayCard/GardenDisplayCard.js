@@ -19,10 +19,8 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 275,
     marginTop: 8
   },
-  
   media: {
     height: 180,
-    
   },
   title: {
     fontSize: 14,

@@ -2,6 +2,7 @@ import React from 'react'
 import {
     Container,
     Typography,
+    Button,
     Avatar,
     Grid,
     makeStyles
@@ -83,16 +84,11 @@ const ProfileHeader = () => {
 
     const classes = useStyles()
 
-    const avatarLetters = () => {
-        let chars = localStorage.getItem('first_name').charAt(0) + localStorage.getItem('last_name').charAt(0)
-        return chars.toUpperCase()
-    }
-
     return (
         <Container className={classes.root}>
             <Grid item xs={12}>
                 <div className={classes.avatarDiv}>
-                    <Avatar className={classes.avatar}>{avatarLetters()}</Avatar>
+                    <Avatar className={classes.avatar}>OP</Avatar>
                 </div>
                 <div className={classes.usernameDiv}>
                     <Typography variant='h2' className={classes.username}>

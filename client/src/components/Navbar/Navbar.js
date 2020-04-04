@@ -13,6 +13,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MenuIcon from '@material-ui/icons/Menu';
 import LocalFloristIcon from '@material-ui/icons/LocalFlorist';
 import SearchIcon from '@material-ui/icons/Search';
+import EmojiNatureIcon from '@material-ui/icons/EmojiNature';
 import { Link } from '@material-ui/core'
 import UserContext from '../../utils/UserContext'
 
@@ -89,6 +90,16 @@ export default function TemporaryDrawer() {
           </ListItem>
         </List>
       </Link>
+      
+      <Link href={`/creategarden/${localStorage.getItem('id')}`} className={classes.link}>
+        <List>
+          <ListItem button key='Create Gardens'>
+            <ListItemIcon><EmojiNatureIcon /></ListItemIcon>
+            <ListItemText primary='Create Gardens' />
+          </ListItem>
+        </List>
+      </Link>
+
       <Link href={`/user/${localStorage.getItem('id')}`} className={classes.link}>
         <List>
           <ListItem button key='View Gardens'>

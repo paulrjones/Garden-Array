@@ -48,7 +48,7 @@ function App() {
     result: 'No results',
     searchPlant: '',
     searchedPlant: '',
-    sortBy: 'Common or Scientific Name',
+    sortBy: 'q',
     name: '',
     isInfo: false,
     currentPlant: {}
@@ -88,6 +88,7 @@ function App() {
   }
 
   plantState.handleSelectInputChange = ({ target }) => {
+    console.log(target.value)
     setPlantState({ ...plantState, [target.name]: target.value })
   }
 
@@ -193,33 +194,7 @@ function App() {
   }
 
   plantInfoState.handlePlantInfoSearch = (event, id) => {
-    event.preventDefault()
-
-    Plant.getPlantInfoPage(id)
-      .then(({ data }) => {
-        setPlantInfoState({
-          ...plantInfoState,
-          common_name: '',
-          scientific_name: '',
-          family_common_name: '',
-          duration: '',
-          precipitation_max: '',
-          precipitation_min: '',
-          specifications: '',
-          native_status: '',
-          growth_habit: '',
-          drought_tolerance: '',
-          foliage_color: '',
-          lifespan: '',
-          mature_height: '',
-          shade_tolerance: '',
-          fruit_seed_color: '',
-          bloom_period: '',
-          growth_period: '',
-          flower_color: '',
-        })
-      })
-      .catch(e => console.error(e))
+    window.location.replace(`/plant_info/${id}`)
   }
 
   plantState.handleSearchPlant = event => {
@@ -231,6 +206,34 @@ function App() {
         setPlantState({ ...plantState, plants: plantsObj, result: resultCount, searchedPlant: ` for '${searchedPlantResult}'`, searchPlant: '' })
       })
       .catch(e => console.error(e))
+  }
+
+  plantInfoState.handleRenderPlant = id => {
+    Plant.getPlantInfoPage(id)
+        .then(({ data }) => {
+          console.log(data)
+          setPlantInfoState({
+            ...plantInfoState,
+            common_name: data.common_name,
+            scientific_name: data.scientific_name,
+            family_common_name: data.family.common_name,
+            duration: data.duration,
+            precipitation_max: data.main_species.growth.precipitation_maximum.inches,
+            precipitation_min: data.main_species.growth.precipitation_minimum.inches,
+            native_status: data.native_status,
+            growth_habit: data.main_species.specifications.growth_habit,
+            foliage_color: data.main_species.foliage.color,
+            lifespan: data.main_species.specifications.lifespan,
+            drought_tolerance: data.main_species.growth.drought_tolerance,
+            mature_height: data.main_species.specifications.mature_height.ft,
+            shade_tolerance: data.main_species.growth.shade_tolerance,
+            fruit_seed_color: data.main_species.fruit_or_seed.color,
+            bloom_period: data.main_species.seed.bloom_period,
+            growth_period: data.main_species.specifications.growth_period,
+            flower_color: data.main_species.flower.color,
+          })
+        })
+        .catch(e => console.error(e))
   }
 
   // plantState.handlePlantInfo = (event, index, plant) => {
@@ -278,7 +281,7 @@ function App() {
                 <Route path="/user/:userid" component={Profile} />
                 <Route path="/info/:userid" component={ProfileInfo} />
                 <Route path="/edit" component={ProfileEdit} />
-                <Route path="/plant_info" component={PlantInfo} />
+                <Route path="/plant_info/:id" component={PlantInfo} />
                 <Route path="/creategarden" component={CreateGarden} />
               </ThemeProvider>
             </PlantContext.Provider>

@@ -65,7 +65,7 @@ const Home = () => {
                                     <InputLabel htmlFor="selectSortBy">SortBy</InputLabel>
                                     <Select
                                         native
-                                        id='sortBy'
+                                        id='selectSortBy'
                                         name='sortBy'
                                         value={sortBy}
                                         onChange={handleSelectInputChange}

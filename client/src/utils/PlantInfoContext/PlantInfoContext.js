@@ -7,7 +7,6 @@ const PlantInfoContext = createContext({
     duration: '',
     precipitation_max: '',
     precipitation_min: '',
-    specifications: '',
     native_status: '',
     growth_habit: '',
     drought_tolerance: '',
@@ -19,7 +18,8 @@ const PlantInfoContext = createContext({
     bloom_period: '',
     growth_period: '',
     flower_color: '',
-    handlePlantInfoSearch: () => {}
+    handlePlantInfoSearch: () => {},
+    handleRenderPlant: () => {}
 });
 
 export default PlantInfoContext;

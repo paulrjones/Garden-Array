@@ -1,4 +1,4 @@
-import {createContext} from 'react';
+import { createContext } from 'react';
 
 const UserContext = createContext({
     user: {},
@@ -11,14 +11,14 @@ const UserContext = createContext({
     editFirst: '',
     editLast: '',
     editEmail: '',
-    isLoggedIn: false, 
-    handleInputChange: () => {},
-    handleProfileEditChange: () => {},
-    handleEditProfileSubmit: () => {},
-    handleRegisterUser: () => {},
-    handleSignInUser: () => {},
-    handleLogOut: () => {},
-    handleUserProfile: () => {}
+    isLoggedIn: false,
+    handleInputChange: () => { },
+    handleProfileEditChange: () => { },
+    handleEditProfileSubmit: () => { },
+    handleRegisterUser: () => { },
+    handleSignInUser: () => { },
+    handleLogOut: () => { },
+    handleUserProfile: () => { }
 });
 
 export default UserContext;

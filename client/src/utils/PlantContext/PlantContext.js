@@ -10,7 +10,6 @@ const PlantContext = createContext({
     isInfo: false,
     currentPlant: {},
     plantTitle: '',
-    images:'',
     handleSelectInputchange: () => { },
     handlePlantInputChange: () => { },
     handleSearchPlant: () => { },

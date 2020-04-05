@@ -120,7 +120,7 @@ const ProfileEdit = () => {
                                 variant="contained"
                                 color="secondary"
                                 className={classes.btn}
-                                onClick={() => {redirect(`/info/${localStorage.getItem('id')}`)}}
+                                onClick={() => { redirect(`/info/${localStorage.getItem('id')}`) }}
                             >
                                 Cancel
                             </Button>

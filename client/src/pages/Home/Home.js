@@ -27,6 +27,10 @@ const useStyles = makeStyles({
     },
     input: {
         marginBottom: 5
+    },
+    pageTitle: {
+        fontSize: 26,
+        marginBottom: 12
     }
 });
 
@@ -57,6 +61,7 @@ const Home = () => {
                         <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                             <form onSubmit={e => handleSearchPlant(e)}>
                                 <Grid item xs={12}>
+                                    <Typography variant='h1' className={classes.pageTitle}>Search for a Plant!</Typography>
                                     <InputLabel htmlFor="selectSortBy">SortBy</InputLabel>
                                     <Select
                                         native
@@ -71,7 +76,6 @@ const Home = () => {
                                             id: 'age-native-simple'
                                         }}
                                     >
-                                        <option aria-label="SortBy" value="" />
                                         <option value='q'>Common or Scientific Name</option>
                                     </Select>
                                 </Grid>

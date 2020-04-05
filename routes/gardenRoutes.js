@@ -10,10 +10,15 @@ router.get('/gardens', (req, res) => {
 })
 
 //POST a garden
-router.post('/gardens', (req, res) => Garden.create(req.body)
-  .then(({ _id }) => {
-    User.findByIdAndUpdate(req.body.owner, { $push: { gardens: _id } })
-  }))
+router.post('/gardens', (req, res) => {
+  Garden.create(req.body)
+    .then(response => {
+      User.findByIdAndUpdate(req.body.userId, { $push: { gardens: response._id } })
+        .then(() => res.sendStatus(200))
+        .catch(e => console.error(e))
+      })
+    .catch(e => console.error(e))
+  })
 
 //PUT a garden
 router.put('/gardens/:id', (req, res) => {

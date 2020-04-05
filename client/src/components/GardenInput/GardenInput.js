@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import GardenContext from '../../utils/GardenContext'
 import { makeStyles } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core'
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -12,8 +13,6 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,74 +44,74 @@ const useStyles = makeStyles((theme) => ({
   },
   subtitle: {
     fontSize: 12
+  },
+  stepper: {
+    padding: 0,
+    margin: 4
+  },
+  pageTitle: {
+    fontSize: 26,
+    marginLeft: 6,
+    marginTop: 12
   }
 }));
-
-
 
 function getSteps() {
   return ['Garden Name', 'About Garden', 'Garden Location', 'Your Garden?'];
 }
 
 
-function getStepContent(step, garden_name,
+function getStepContent(
+  step,
+  garden_name,
   about,
   location,
   my_garden,
-  handleGardenInputChange,
-  handleCreateGarden) {
+  handleGardenInputChange
+) {
   switch (step) {
     case 0:
       return (
-        <>
-        <container>
-        <form>
-          <FormLabel>What is your garden called?</FormLabel>
-  
-        <TextField
-            id="standard-basic"
-            margin="normal"
-            required
-            fullWidth
-            label="Garden Name"
-            name="garden_name"
-            value={garden_name}
-            onChange={handleGardenInputChange}
-           />
+        <Container>
+          <form>
+            <FormLabel>What is your garden called?</FormLabel>
+            <TextField
+              id="standard-basic"
+              margin="normal"
+              required
+              fullWidth
+              label="Garden Name"
+              name="garden_name"
+              value={garden_name}
+              onChange={handleGardenInputChange}
+            />
           </form>
-          </container>
-       
-        </>
+        </Container>
       );
     case 1:
       return (
-        <>
-          <container>
-            <form>
-              <FormLabel>Write a short description about your garden.</FormLabel>
-              <br/>
-              <TextField
-                id="outlined-multiline-flexible"
-                label="About Your Garden"
-                multiline rowsMax="4"
-                variant="outlined"
-                name="about"
-                value={about}
-                onChange={handleGardenInputChange}
+        <Container>
+          <form>
+            <FormLabel>Write a short description about your garden.</FormLabel>
+            <br />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="About Your Garden"
+              multiline rowsMax="4"
+              variant="outlined"
+              name="about"
+              value={about}
+              onChange={handleGardenInputChange}
 
-              />
-            </form>
-          </container>
-
-        </>
+            />
+          </form>
+        </Container>
       )
     case 2:
       return (
-        <>
-        <container>
+        <Container>
           <form>
             <FormLabel>Where is your garden located?</FormLabel>
-
             <TextField
               id="standard-basic"
               margin="normal"
@@ -124,35 +123,43 @@ function getStepContent(step, garden_name,
               onChange={handleGardenInputChange}
             />
           </form>
-        </container>
-       
-        </>
+        </Container>
       )
     case 3:
       return (
-          <>
+        <Container>
           <FormControl component="fieldset">
             <FormLabel component="legend">Who's garden is this?</FormLabel>
-
             <RadioGroup aria-label="Whose Garden" name="my_garden" value={my_garden} onChange={handleGardenInputChange}>
               <FormControlLabel value="myGarden" control={<Radio />} label="This is my wonderful garden!" />
               <FormControlLabel value="otherGarden" control={<Radio />} label="A garden I've visited or want to visit someday!" />
             </RadioGroup>
           </FormControl>
-          </>
-        );
+        </Container>
+      );
+    default:
+      return (
+        <></>
+      )
   }
 }
 
-
 export default function HorizontalLinearStepper() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
   const steps = getSteps();
+  const {
+    garden_name,
+    about,
+    location,
+    my_garden,
+    handleGardenInputChange,
+    handleCreateGarden
+  } = useContext(GardenContext)
 
   const isStepOptional = (step) => {
-    return step === 1, 2;
+    return step === (1, 2);
   };
 
   const isStepSkipped = (step) => {
@@ -189,22 +196,18 @@ export default function HorizontalLinearStepper() {
     });
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  const returnHome = () => {
+    window.location.replace('/')
+  }
 
-  const {
-    garden_name,
-    about,
-    location,
-    my_garden,
-    handleGardenInputChange,
-    handleCreateGarden
-  }= useContext(GardenContext)
+  // const handleReset = () => {
+  //   setActiveStep(0);
+  // };
 
   return (
     <div className={classes.root}>
-      <Stepper activeStep={activeStep}>
+      <h1 className={classes.pageTitle}>Create a Garden!</h1>
+      <Stepper activeStep={activeStep} className={classes.stepper}>
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
@@ -221,68 +224,71 @@ export default function HorizontalLinearStepper() {
           );
         })}
       </Stepper>
-      <div>
+      <>
         {activeStep === steps.length ? (
-          <div>
+          <Container>
             <Typography className={classes.instructions}>
-              Your garden is created! Click below to either return to your My Gardens page or to start adding plants to your new garden!
+              Your garden is created! Click below to either return to your 'My Gardens' page or to start adding plants to your new garden!
             </Typography>
             {/* <Button onClick={handleReset} className={classes.button}>
               Reset
             </Button> */}
-            <Button 
+            <Button
               variant="contained"
-              color="primary" 
-              className={classes.button}>
+              color="primary"
+              className={classes.button}
+              onClick={() => returnHome()}
+            >
               Return Home
             </Button>
-            <Button 
+            <Button
               variant="contained"
-              color="primary" 
+              color="primary"
               className={classes.button}>
               Add Plants
             </Button>
-          </div>
+          </Container>
         ) : (
-            <div>
-              <Typography className={classes.instructions}>{getStepContent(activeStep, garden_name,
-                about,
-                location,
-                my_garden,
-                handleGardenInputChange, 
-                handleCreateGarden)}</Typography>
-              <div>
-                <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                  Back
+            <>
+              <div className={classes.instructions}>{
+                getStepContent(
+                  activeStep,
+                  garden_name,
+                  about,
+                  location,
+                  my_garden,
+                  handleGardenInputChange,
+                  handleCreateGarden)}
+              </div>
+              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                Back
               </Button>
-                {isStepOptional(activeStep) && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSkip}
-                    className={classes.button}
-                  >
-                    Skip
-                  </Button>
-                )}
-
+              {isStepOptional(activeStep) && (
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={(event) => {
-                    if (activeStep === steps.length - 1) {
-                      handleCreateGarden(event)
-                    }
-                    handleNext(event)
-                  }}
+                  onClick={handleSkip}
                   className={classes.button}
                 >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  Skip
                 </Button>
-              </div>
-            </div>
+              )}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={(event) => {
+                  if (activeStep === steps.length - 1) {
+                    handleCreateGarden(event)
+                  }
+                  handleNext(event)
+                }}
+                className={classes.button}
+              >
+                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              </Button>
+            </>
           )}
-      </div>
+      </>
     </div>
   );
 }

@@ -44,7 +44,8 @@ const useStyles = makeStyles((theme) => ({
     },
     infoText: {
         color: 'gray',
-        marginLeft: 16
+        marginLeft: 16,
+        overflow: 'hidden'
     },
     paper: {
         padding: 6

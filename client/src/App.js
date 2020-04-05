@@ -13,9 +13,9 @@ import PlantContext from './utils/PlantContext'
 import User from './utils/Users';
 import Plant from './utils/Plant'
 import PlantInfo from './pages/PlantInfo'
-import GardenContext from './utils/GardenContext'
 import Garden from './utils/Garden'
-
+import GardenContext from './utils/GardenContext';
+import PlantInfoContext from './utils/PlantInfoContext'
 
 function App() {
 
@@ -54,8 +54,28 @@ function App() {
     currentPlant: {}
   });
 
-  const [gardenState, setGardenState] =
-  useState({
+  const [plantInfoState, setPlantInfoState] = useState({
+    common_name: '',
+    scientific_name: '',
+    family_common_name: '',
+    duration: '',
+    precipitation_max: '',
+    precipitation_min: '',
+    specifications: '',
+    native_status: '',
+    growth_habit: '',
+    drought_tolerance: '',
+    foliage_color: '',
+    lifespan: '',
+    mature_height: '',
+    shade_tolerance: '',
+    fruit_seed_color: '',
+    bloom_period: '',
+    growth_period: '',
+    flower_color: ''
+  })
+
+  const [gardenState, setGardenState] = useState({
     garden: {},
     garden_name: '',
     about: '',
@@ -63,19 +83,18 @@ function App() {
     my_garden: '',
   })
 
-  
   plantState.handlePlantInputChange = ({ target }) => {
     setPlantState({ ...plantState, [target.name]: target.value })
   }
-  
+
   plantState.handleSelectInputChange = ({ target }) => {
     setPlantState({ ...plantState, [target.name]: target.value })
   }
-  
+
   gardenState.handleGardenInputChange = ({ target }) => {
     setGardenState({ ...gardenState, [target.name]: target.value })
   }
-  
+
   // User Handlers
   userState.handleInputChange = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
@@ -84,11 +103,9 @@ function App() {
   userState.handleProfileEditChange = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
   }
-  
+
   userState.handleRegisterUser = event => {
     event.preventDefault()
-    
-
     const user = {
       first_name: userState.first,
       last_name: userState.last,
@@ -114,7 +131,6 @@ function App() {
 
     User.login(user)
       .then(({ data }) => {
-        console.log(data)
         localStorage.setItem('jwt', data.token)
         localStorage.setItem('isLoggedIn', data.isLoggedIn)
         setUserState({ ...userState, username: '', password: '', isLoggedIn: data.isLoggedIn })
@@ -143,45 +159,73 @@ function App() {
       .catch(e => console.error(e))
   }
 
-    userState.handleEditProfileSubmit = event => {
-      event.preventDefault()
+  userState.handleEditProfileSubmit = event => {
+    event.preventDefault()
 
-      const user = {
-        first_name: userState.editFirst,
-        last_name: userState.editLast,
-        username: userState.editUser,
-        email: userState.edutEmail
-      }
-      User.editUserInfo(localStorage.getItem('id'), user)
-        .then(({ data }) => {
-          localStorage.setItem('username', data.username)
-          localStorage.setItem('first_name', data.first_name)
-          localStorage.setItem('last_name', data.last_name)
-          localStorage.setItem('email', data.email)
-        })
-        .catch(e => console.error(e))
+    const user = {
+      first_name: userState.editFirst,
+      last_name: userState.editLast,
+      username: userState.editUser,
+      email: userState.edutEmail
     }
+    User.editUserInfo(localStorage.getItem('id'), user)
+      .then(({ data }) => {
+        localStorage.setItem('username', data.username)
+        localStorage.setItem('first_name', data.first_name)
+        localStorage.setItem('last_name', data.last_name)
+        localStorage.setItem('email', data.email)
+        window.location.replace(`/info/${localStorage.getItem('id')}`)
+      })
+      .catch(e => console.error(e))
+  }
 
   userState.handleLogOut = () => {
     localStorage.clear()
     setUserState({ ...userState, isLoggedIn: false })
   }
-    // Plant Handlers 
-    plantState.handlePlantInputChange = ({ target }) => {
-      setPlantState({ ...plantState, [target.name]: target.value })
-    }
+  // Plant Handlers 
+  plantState.handlePlantInputChange = ({ target }) => {
+    setPlantState({ ...plantState, [target.name]: target.value })
+  }
 
-    plantState.handleSelectInputChange = ({ target }) => {
-      setPlantState({ ...plantState, [target.name]: target.value })
-    }
+  plantState.handleSelectInputChange = ({ target }) => {
+    setPlantState({ ...plantState, [target.name]: target.value })
+  }
+
+  plantInfoState.handlePlantInfoSearch = (event, id) => {
+    event.preventDefault()
+
+    Plant.getPlantInfoPage(id)
+      .then(({ data }) => {
+        setPlantInfoState({
+          ...plantInfoState,
+          common_name: '',
+          scientific_name: '',
+          family_common_name: '',
+          duration: '',
+          precipitation_max: '',
+          precipitation_min: '',
+          specifications: '',
+          native_status: '',
+          growth_habit: '',
+          drought_tolerance: '',
+          foliage_color: '',
+          lifespan: '',
+          mature_height: '',
+          shade_tolerance: '',
+          fruit_seed_color: '',
+          bloom_period: '',
+          growth_period: '',
+          flower_color: '',
+        })
+      })
+      .catch(e => console.error(e))
+  }
 
   plantState.handleSearchPlant = event => {
     event.preventDefault()
     Plant.getPlants(`${plantState.sortBy}`, `${plantState.searchPlant}`)
       .then(({ data: plantsObj }) => {
-        console.log(plantsObj)
-        console.log(plantState.searchPlant)
-
         let resultCount = plantsObj.length
         let searchedPlantResult = plantState.searchPlant
         setPlantState({ ...plantState, plants: plantsObj, result: resultCount, searchedPlant: ` for '${searchedPlantResult}'`, searchPlant: '' })
@@ -189,35 +233,19 @@ function App() {
       .catch(e => console.error(e))
   }
 
-  // plantState.handlePlantinfo = ( index, scientific_name,
-  //   common_name) => {
-  plantState.handlePlantInfo = (event, index, plant) =>{
-     event.preventDefault()
-     Plant.getPlant(`${plant.id}`)
-     .then(({ data: plantObj }) => {
-      console.log('Plant Details: ', plantObj)
-      console.log('plant: ', plant)
-    //  setPlantState({ ...plantState, isInfo: true, currentPlant: plant })
-     setPlantState({ ...plantState, isInfo: true, currentPlant: plantObj })
-     })
-     .catch(e => console.error(e))
-    
+  // plantState.handlePlantInfo = (event, index, plant) => {
+  //   event.preventDefault()
+  //   Plant.getPlant(`${plant.id}`)
+  //     .then(({ data: plantObj }) => {
+  //       setPlantState({ ...plantState, isInfo: true, currentPlant: plantObj })
+  //     })
+  //     .catch(e => console.error(e))
+  // }
 
-     // Plant.getPlants(`${plantState.sortBy}`, scientific_name)
-    //   .then(({ data: plantsObj }) => {
-    //     let resultCount = plantsObj.length
-    //     let searchedPlantResult = plantState.searchPlant
-    //     PlantInfo(scientific_name)
-    //   })
-      // .catch(e => console.error(e))
-  }
+  // plantState.handleToggleInfo = () => {
+  //   setPlantState({ ...plantState, isInfo: !plantState.isInfo })
+  // }
 
-  plantState.handleToggleInfo = () => {
-    setPlantState({ ...plantState, isInfo: !plantState.isInfo })
-  }
-
-  
-  
   gardenState.handleCreateGarden = event => {
     event.preventDefault()
 
@@ -225,7 +253,8 @@ function App() {
       garden_name: gardenState.garden_name,
       about: gardenState.about,
       location: gardenState.location,
-      my_garden: gardenState.my_garden
+      my_garden: gardenState.my_garden,
+      userId: localStorage.getItem('id')
     }
 
     Garden.create(garden)
@@ -233,24 +262,28 @@ function App() {
         setGardenState({ ...gardenState, redirect: true, garden })
       })
       .catch(e => console.error(e))
-    
+
   }
 
   return (
     <>
       <UserContext.Provider value={userState} >
-        <PlantContext.Provider value={plantState}>
-          <ThemeProvider theme={theme} >
-            <Route exact path="/" component={Home} />
-            <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/signin" component={LogIn} />
-            <Route path="/plant_info" component={PlantInfo} />
-            <Route path="/user/:userid" component={Profile} />
-            <Route path="/info/:userid" component={ProfileInfo} />
-            <Route path="/edit" component={ProfileEdit} />
-            <Route path="/creategarden" component={CreateGarden} />
-          </ThemeProvider>
-        </PlantContext.Provider>
+        <GardenContext.Provider value={gardenState} >
+          <PlantInfoContext.Provider value={plantInfoState}>
+            <PlantContext.Provider value={plantState}>
+              <ThemeProvider theme={theme} >
+                <Route exact path="/" component={Home} />
+                <Route exact path="/signup" component={SignUp} />
+                <Route exact path="/signin" component={LogIn} />
+                <Route path="/user/:userid" component={Profile} />
+                <Route path="/info/:userid" component={ProfileInfo} />
+                <Route path="/edit" component={ProfileEdit} />
+                <Route path="/plant_info" component={PlantInfo} />
+                <Route path="/creategarden" component={CreateGarden} />
+              </ThemeProvider>
+            </PlantContext.Provider>
+          </PlantInfoContext.Provider>
+        </GardenContext.Provider>
       </UserContext.Provider>
     </>
   );

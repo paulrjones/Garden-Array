@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatarDiv: {
         display: 'flex',
-        justifyContent: 'space-around',
-        marginRight: 10,
+        justifyContent: 'space-around'
     },
     username: {
         display: 'flex',
@@ -104,14 +103,6 @@ const ProfileHeader = () => {
             <Grid item xs={12} className={classes.infoContainer}>
                 <hr />
                 <div className={classes.infoDiv}>
-                    <div className={classes.infoContent}>
-                        <Typography>
-                            5
-                            </Typography>
-                        <Typography className={classes.infoTitle}>
-                            Posts
-                            </Typography>
-                    </div>
                     <div className={classes.infoContent}>
                         <Typography>
                             10

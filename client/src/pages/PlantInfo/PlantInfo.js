@@ -9,6 +9,7 @@ import {
     Divider,
     Paper
 } from '@material-ui/core'
+import { Redirect } from 'react-router-dom'
 import PlantInfoContext from '../../utils/PlantInfoContext'
 import UserContext from '../../utils/UserContext'
 
@@ -64,59 +65,64 @@ const PlantInfo = () => {
 
     useEffect(() => {
         handleRenderPlant(plantId)
+        // eslint-disable-next-line
     }, [isLoggedIn])
 
     return (
         <>
-            {console.log(plantId)}
-            <Navbar />
-            <Container>
-                <Paper elevation={3} className={classes.paper}>
-                    {common_name ?
-                        (
-                            <>
-                                <Typography variant='h5' className={classes.text}>
-                                    Common Name:
-                    </Typography>
-                                <Typography variant='h4' className={classes.text}>
-                                    {common_name}
-                                </Typography>
-                            </>
-                        ) : <></>}
-                    {scientific_name ? 
-                    (<Typography variant='subtitle1'>
-                        Scientific Name: {scientific_name}
-                    </Typography>) : <></>}
-                    {family_common_name ? (<p>Family Common Name: {family_common_name}</p>) : <></>}
-                    {duration ? (<p>Duration: {duration}</p>) : <></>}
-                    {precipitation_max ? (<p>Precipitation(MAX): {precipitation_max}</p>) : <></>}
-                    {precipitation_min ? (<p>Precipitation(MIN): {precipitation_min}</p>) : <></>}
-                    {native_status ? (<p>Native Status: {native_status}</p>) : <></>}
-                    {growth_habit ? (<p>Growth Habit: {growth_habit}</p>) : <></>}
-                    {drought_tolerance ? (<p>Drought Tolerance: {drought_tolerance}</p>) : <></>}
-                    {foliage_color ? (<p>Foliage Color: {foliage_color}</p>) : <></>}
-                    {lifespan ? (<p>Lifespan: {lifespan}</p>) : <></>}
-                    {mature_height ? (<p>Mature Height (ft): {mature_height}</p>) : <></>}
-                    {shade_tolerance ? (<p>Shade Tolerance: {shade_tolerance}</p>) : <></>}
-                    {fruit_seed_color ? (<p>Fruit or Seed Color: {fruit_seed_color}</p>) : <></>}
-                    {bloom_period ? (<p>Bloom Period: {bloom_period}</p>) : <></>}
-                    {growth_period ? (<p>Growth Period: {growth_period}</p>) : <></>}
-                    {flower_color ? (<p>Flower Color: {flower_color}</p>) : <></>}
-                    <Divider className={classes.divider} />
-                    <Button
-                        className={classes.button}
-                        size='small'
-                        color='primary'
-                        variant='outlined'
-                    >Save Info</Button>
-                    <Button
-                        size='small'
-                        color='primary'
-                        variant='outlined'
-                    >More Plants</Button>
-                </Paper>
-            </Container>
-            <Footer />
+            {isLoggedIn ?
+                (<>
+                    <Navbar />
+                    <Container>
+                        <Paper elevation={3} className={classes.paper}>
+                            {common_name ?
+                                (
+                                    <>
+                                        <Typography variant='h5' className={classes.text}>
+                                            Common Name:
+                                        </Typography>
+                                        <Typography variant='h4' className={classes.text}>
+                                            {common_name}
+                                        </Typography>
+                                    </>
+                                ) : <></>}
+                            {scientific_name ?
+                                (<Typography variant='subtitle1'>
+                                    Scientific Name: {scientific_name}
+                                </Typography>) : <></>}
+                            {family_common_name ? (<p>Family Common Name: {family_common_name}</p>) : <></>}
+                            {duration ? (<p>Duration: {duration}</p>) : <></>}
+                            {precipitation_max ? (<p>Precipitation(MAX): {precipitation_max}</p>) : <></>}
+                            {precipitation_min ? (<p>Precipitation(MIN): {precipitation_min}</p>) : <></>}
+                            {native_status ? (<p>Native Status: {native_status}</p>) : <></>}
+                            {growth_habit ? (<p>Growth Habit: {growth_habit}</p>) : <></>}
+                            {drought_tolerance ? (<p>Drought Tolerance: {drought_tolerance}</p>) : <></>}
+                            {foliage_color ? (<p>Foliage Color: {foliage_color}</p>) : <></>}
+                            {lifespan ? (<p>Lifespan: {lifespan}</p>) : <></>}
+                            {mature_height ? (<p>Mature Height (ft): {mature_height}</p>) : <></>}
+                            {shade_tolerance ? (<p>Shade Tolerance: {shade_tolerance}</p>) : <></>}
+                            {fruit_seed_color ? (<p>Fruit or Seed Color: {fruit_seed_color}</p>) : <></>}
+                            {bloom_period ? (<p>Bloom Period: {bloom_period}</p>) : <></>}
+                            {growth_period ? (<p>Growth Period: {growth_period}</p>) : <></>}
+                            {flower_color ? (<p>Flower Color: {flower_color}</p>) : <></>}
+                            <Divider className={classes.divider} />
+                            <Button
+                                className={classes.button}
+                                size='small'
+                                color='primary'
+                                variant='outlined'
+                            >Save Info</Button>
+                            <Button
+                                size='small'
+                                color='primary'
+                                variant='outlined'
+                            >More Plants</Button>
+                        </Paper>
+                    </Container>
+                    <Footer />
+                </>
+                ) : <Redirect to={{ pathname: '/signin' }} />
+            }
         </>
     )
 }

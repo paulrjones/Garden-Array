@@ -197,7 +197,11 @@ export default function HorizontalLinearStepper() {
   };
 
   const returnHome = () => {
-    window.location.replace('/')
+    window.location.replace(`/user/${localStorage.getItem('id')}`)
+  }
+
+  const addPlants = () => {
+    window.location.replace(`/`)
   }
 
   // const handleReset = () => {
@@ -244,7 +248,9 @@ export default function HorizontalLinearStepper() {
             <Button
               variant="contained"
               color="primary"
-              className={classes.button}>
+              className={classes.button}
+              onClick={() => addPlants()}
+              >
               Add Plants
             </Button>
           </Container>

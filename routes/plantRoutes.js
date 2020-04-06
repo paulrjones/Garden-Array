@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const axios = require('axios')
+const { Garden } = require('../models')
 
 // Fixes CORS error
 router.get('/plants/:type/:plantname', (req, res) => {
@@ -31,9 +32,22 @@ router.get('/plants/:id', (req, res) => {
 router.get('/plantinfo/:id', (req, res) => {
     axios.get(`http://trefle.io/api/plants/${req.params.id}?token=MTlkYVBRamp0Q3ZzaG5NQ2JEbHYrQT09`)
         .then(({ data: plant }) => {
-            // console.log(plant)
             res.json(plant)
         })
+        .catch(e => console.error(e))
+})
+
+// Add Plant to Garden
+router.put('/addplant/:id', (req, res) => {
+    Garden.findByIdAndUpdate(req.params.id, {$push: {plants: req.body}})
+        .then(() => res.sendStatus(200))
+        .catch(e => console.error(e))
+})
+
+// Delete Plant from Garden
+router.put('/deleteplant/:gardenid/:plant', (req, res) => {
+    Garden.findByIdAndUpdate(req.params.id, {$pull: {plants: req.params.plant}})
+        .then(() => res.sendStatus(200))
         .catch(e => console.error(e))
 })
 

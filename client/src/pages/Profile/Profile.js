@@ -1,19 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import {
     Container,
     makeStyles,
     Grid,
     GridList,
-    GridListTile,
-    ListSubheader,
+    Typography
 } from '@material-ui/core'
-import InfoIcon from '@material-ui/icons/Info'
 import ProfileHeader from '../../components/ProfileHeader'
 import UserContext from '../../utils/UserContext'
 import Navbar from '../../components/Navbar'
-import GardenDisplayCard from '../../components/GardenDisplayCard'
-import db from '../../mockdb/db.json'
+import GardenDisplay from '../../components/GardenDisplay'
+import Garden from '../../utils/Garden'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,29 +38,59 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             cellHeight: 180
         }
+    },
+    gardensTitle: {
+        fontWeight: 'bold',
+        margin: 8
     }
 }));
 
 const Profile = () => {
-
     const classes = useStyles()
-
     const { isLoggedIn } = useContext(UserContext)
+
+    const [gardenInfoState, setGardenInfoState] = useState({
+        gardens: []
+    })
+
+    useEffect(() => {
+        Garden.getGardenByUser(localStorage.getItem('id'))
+      .then(({data}) => {
+         setGardenInfoState({ ...gardenInfoState, gardens: data.gardens })
+      })
+      .catch(e => console.error(e))
+    }, [isLoggedIn, gardenInfoState])
 
     return (
         <>
+
             {isLoggedIn ?
                 (<>
                     <Navbar />
                     <Container className={classes.root}>
                         <Grid className={classes.header} container>
-                            <ProfileHeader />
+                            <ProfileHeader gardenAmount={gardenInfoState.gardens.length} />
                             <Grid item xs={12}>
+                                <Typography 
+                                variant="subtitle1"
+                                className={classes.gardensTitle}
+                                >My Gardens</Typography>
                                 <div className={classes.gridListRoot}>
                                     <GridList className={classes.gridList}>
-                                        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-                                            <ListSubheader component="div">Garden Name Here</ListSubheader>
-                                        </GridListTile>
+                                        {gardenInfoState.gardens.length > 1 ?
+                                            (gardenInfoState.gardens.map((data, i) => 
+                                                (<GardenDisplay
+                                                    key={i}
+                                                    title={data.garden_name}
+                                                    plants={data.plants}
+                                                />)
+                                            )) :
+                                                <GardenDisplay
+                                                title='You do not have any gardens! Please add a garden'
+                                                disabled={true}
+                                                plants={[]}
+                                                />
+                                        }
                                     </GridList>
                                 </div>
                             </Grid>

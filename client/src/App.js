@@ -210,30 +210,58 @@ function App() {
 
   plantInfoState.handleRenderPlant = id => {
     Plant.getPlantInfoPage(id)
-        .then(({ data }) => {
-          console.log(data)
-          setPlantInfoState({
-            ...plantInfoState,
-            common_name: data.common_name,
-            scientific_name: data.scientific_name,
-            family_common_name: data.family.common_name,
-            duration: data.duration,
-            precipitation_max: data.main_species.growth.precipitation_maximum.inches,
-            precipitation_min: data.main_species.growth.precipitation_minimum.inches,
-            native_status: data.native_status,
-            growth_habit: data.main_species.specifications.growth_habit,
-            foliage_color: data.main_species.foliage.color,
-            lifespan: data.main_species.specifications.lifespan,
-            drought_tolerance: data.main_species.growth.drought_tolerance,
-            mature_height: data.main_species.specifications.mature_height.ft,
-            shade_tolerance: data.main_species.growth.shade_tolerance,
-            fruit_seed_color: data.main_species.fruit_or_seed.color,
-            bloom_period: data.main_species.seed.bloom_period,
-            growth_period: data.main_species.specifications.growth_period,
-            flower_color: data.main_species.flower.color,
-          })
+      .then(({ data }) => {
+        setPlantInfoState({
+          ...plantInfoState,
+          common_name: data.common_name,
+          scientific_name: data.scientific_name,
+          family_common_name: data.family.common_name,
+          duration: data.duration,
+          precipitation_max: data.main_species.growth.precipitation_maximum.inches,
+          precipitation_min: data.main_species.growth.precipitation_minimum.inches,
+          native_status: data.native_status,
+          growth_habit: data.main_species.specifications.growth_habit,
+          foliage_color: data.main_species.foliage.color,
+          lifespan: data.main_species.specifications.lifespan,
+          drought_tolerance: data.main_species.growth.drought_tolerance,
+          mature_height: data.main_species.specifications.mature_height.ft,
+          shade_tolerance: data.main_species.growth.shade_tolerance,
+          fruit_seed_color: data.main_species.fruit_or_seed.color,
+          bloom_period: data.main_species.seed.bloom_period,
+          growth_period: data.main_species.specifications.growth_period,
+          flower_color: data.main_species.flower.color,
         })
-        .catch(e => console.error(e))
+      })
+      .catch(e => console.error(e))
+  }
+
+  // Add Plant to Garden
+  plantState.handleSavePlant = () => {
+    let plantObj = {
+      common_name: plantInfoState.common_name,
+      scientific_name: plantInfoState.scientific_name,
+      family_common_name: plantInfoState.family_common_name,
+      duration: plantInfoState.duration,
+      precipitation_max: plantInfoState.precipitation_max,
+      precipitation_min: plantInfoState.precipitation_min,
+      native_status: plantInfoState.native_status,
+      growth_habit: plantInfoState.growth_habit,
+      foliage_color: plantInfoState.foliage_color,
+      lifespan: plantInfoState.lifespan,
+      drought_tolerance: plantInfoState.drought_tolerance,
+      mature_height: plantInfoState.mature_height,
+      shade_tolerance: plantInfoState.shade_tolerance,
+      fruit_seed_color: plantInfoState.fruit_seed_color,
+      bloom_period: plantInfoState.bloom_period,
+      growth_period: plantInfoState.growth_period,
+      flower_color: plantInfoState.flower_color,
+    }
+
+    Plant.savePlantToGarden((window.location.pathname).slice(12), plantObj)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(e => console.error(e))
   }
 
   // plantState.handlePlantInfo = (event, index, plant) => {
@@ -265,7 +293,10 @@ function App() {
         setGardenState({ ...gardenState, redirect: true, garden })
       })
       .catch(e => console.error(e))
+  }
 
+  gardenState.handleGetAllGardens = () => {
+    window.location.replace(`/user/${localStorage.getItem('id')}`)
   }
 
   return (

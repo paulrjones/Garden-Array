@@ -12,6 +12,7 @@ import {
 import { Redirect } from 'react-router-dom'
 import PlantInfoContext from '../../utils/PlantInfoContext'
 import UserContext from '../../utils/UserContext'
+import Plant from '../../utils/Plant/Plant'
 
 const useStyles = makeStyles({
     paper: {
@@ -67,6 +68,10 @@ const PlantInfo = () => {
         handleRenderPlant(plantId)
         // eslint-disable-next-line
     }, [isLoggedIn])
+
+    const savePlantInfo = () => {
+        
+    }
 
     return (
         <>

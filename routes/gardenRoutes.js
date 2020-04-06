@@ -9,6 +9,16 @@ router.get('/gardens', (req, res) => {
     )
 })
 
+// Get all Garden by USER
+router.get('/userplants/:userid', (req, res) => {
+  User.findById(req.params.userid).populate('gardens')
+    .then(user => {
+      res.json(user)
+    })
+    .catch(e => console.error(e))
+})
+
+
 //POST a garden
 router.post('/gardens', (req, res) => {
   Garden.create(req.body)
@@ -16,9 +26,9 @@ router.post('/gardens', (req, res) => {
       User.findByIdAndUpdate(req.body.userId, { $push: { gardens: response._id } })
         .then(() => res.sendStatus(200))
         .catch(e => console.error(e))
-      })
+    })
     .catch(e => console.error(e))
-  })
+})
 
 //PUT a garden
 router.put('/gardens/:id', (req, res) => {

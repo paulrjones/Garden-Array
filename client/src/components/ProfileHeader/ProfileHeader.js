@@ -5,7 +5,8 @@ import {
     Typography,
     Avatar,
     Grid,
-    makeStyles
+    makeStyles,
+    Button
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
 
@@ -76,10 +77,10 @@ const useStyles = makeStyles((theme) => ({
     },
     infoContainer: {
         marginTop: 10
-    },
+    }
 }));
 
-const ProfileHeader = () => {
+const ProfileHeader = (props) => {
 
     const classes = useStyles()
 
@@ -105,7 +106,7 @@ const ProfileHeader = () => {
                 <div className={classes.infoDiv}>
                     <div className={classes.infoContent}>
                         <Typography>
-                            10
+                            {props.gardenAmount}
                         </Typography>
                         <Typography className={classes.infoTitle}>
                             Gardens
@@ -113,6 +114,19 @@ const ProfileHeader = () => {
                     </div>
                 </div>
                 <hr />
+            </Grid>
+            <Grid item xs={12}>
+                <div className={classes.headerBtnDiv}>
+                    <Button
+                        className={classes.headerBtn}
+                        variant='outlined'
+                        onClick={() => { window.location.replace(`/creategarden/${localStorage.getItem('id')}`) }}
+                    >Add Garden</Button>
+                    <Button
+                        className={classes.headerBtn}
+                        variant='outlined'
+                    >Edit Garden</Button>
+                </div>
             </Grid>
         </Container>
     )

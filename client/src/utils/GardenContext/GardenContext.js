@@ -7,7 +7,8 @@ const GardenContext = createContext({
   location: '',
   my_garden: '',
   handleGardenInputChange: () => {},
-  handleCreateGarden: () => {}
-})
+  handleCreateGarden: () => {},
+  handleGetAllGardens: () => {}
+}) 
 
 export default GardenContext;

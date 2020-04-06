@@ -12,7 +12,7 @@ import {
 import { Redirect } from 'react-router-dom'
 import PlantInfoContext from '../../utils/PlantInfoContext'
 import UserContext from '../../utils/UserContext'
-import Plant from '../../utils/Plant/Plant'
+import axios from 'axios'
 
 const useStyles = makeStyles({
     paper: {
@@ -69,8 +69,30 @@ const PlantInfo = () => {
         // eslint-disable-next-line
     }, [isLoggedIn])
 
-    const savePlantInfo = () => {
-        
+    const savePlantInfo = (gardenid) => {
+        axios.put(`/api/addplant/${gardenid}`, {
+            saved_common_name: common_name,
+            saved_scientific_name: scientific_name,
+            saved_family_common_name: family_common_name,
+            saved_duration: duration,
+            saved_precipitation_max: precipitation_max,
+            saved_precipitation_min: precipitation_min,
+            saved_native_status: native_status,
+            saved_growth_habit: growth_habit,
+            saved_drought_tolerance: drought_tolerance,
+            saved_foliage_color: foliage_color,
+            saved_lifespan: lifespan,
+            saved_mature_height: mature_height,
+            saved_shade_tolerance: shade_tolerance,
+            saved_fruit_seed_color: fruit_seed_color,
+            saved_bloom_period: bloom_period,
+            saved_growth_period: growth_period,
+            saved_flower_color: flower_color,
+            saved_plant_qty: 1
+        })
+            .then(response => 
+                console.log(response))
+            .catch(e => console.error(e))
     }
 
     return (
@@ -116,6 +138,7 @@ const PlantInfo = () => {
                                 size='small'
                                 color='primary'
                                 variant='outlined'
+                                onClick={() => savePlantInfo('5e8b69cde06f4b3e08989727')}
                             >Save Info</Button>
                             <Button
                                 size='small'

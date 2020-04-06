@@ -35,39 +35,36 @@ const PlantQueryCard = () => {
 
     const classes = useStyles();
 
-    const { plants, isInfo} = useContext(PlantContext)
+    const { plants, isInfo } = useContext(PlantContext)
     const { handlePlantInfoSearch } = useContext(PlantInfoContext)
 
     return (
         <>
             {
-             isInfo ? <Redirect to='/plant_info/' /> 
-             :   
-             plants.map((plantsMap, i) =>
-                    <Card key={i} className={classes.root} variant="outlined">
-                        <CardContent className={classes.cardContent}>
-                            <Typography className={classes.title}>
-                                Scientific Name: 
-                            </Typography>
-                            <Typography>
-                            {plantsMap.scientific_name}
-                            </Typography>
-                            {plantsMap.common_name ? (
+                isInfo ? <Redirect to='/plant_info/' />
+                    :
+                    plants.map((plantsMap, i) =>
+                        <Card key={i} className={classes.root} variant="outlined">
+                            <CardContent className={classes.cardContent}>
                                 <Typography className={classes.title}>
-                                    Common Name:
-                                </Typography>) : <></>}
-                            {plantsMap.common_name ? (
+                                    Scientific Name:
+                            </Typography>
                                 <Typography>
-                                    {plantsMap.common_name}
-                                </Typography>) : <></>}
-                        </CardContent> 
-                        <CardActions>
-                            {/* <Button size="small">Learn More</Button> */}
-                            <Button onClick={event => handlePlantInfoSearch(event, plantsMap.id)} size="small">Learn More</Button>
-                            {/* <Button onClick={(e) =>handlePlantInfo(e, i, `${plantsMap.scientific_name}`)}size="small">Learn More</Button> */}
-                            <Button href={`/plants/${plantsMap.common_name}`} size="small">Save</Button>
-                        </CardActions>
-                    </Card>)
+                                    {plantsMap.scientific_name}
+                                </Typography>
+                                {plantsMap.common_name ? (
+                                    <Typography className={classes.title}>
+                                        Common Name:
+                                    </Typography>) : <></>}
+                                {plantsMap.common_name ? (
+                                    <Typography>
+                                        {plantsMap.common_name}
+                                    </Typography>) : <></>}
+                            </CardContent>
+                            <CardActions>
+                                <Button onClick={event => handlePlantInfoSearch(event, plantsMap.id)} size="small">Learn More</Button>
+                            </CardActions>
+                        </Card>)
             }
         </>
     )

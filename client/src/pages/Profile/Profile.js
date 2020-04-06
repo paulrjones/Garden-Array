@@ -48,18 +48,30 @@ const useStyles = makeStyles((theme) => ({
 const Profile = () => {
     const classes = useStyles()
     const { isLoggedIn } = useContext(UserContext)
-
+    const [userInfoState, setUserInfoState] = useState({
+        first_name: '',
+        last_name: '',
+        username: ''
+    })
     const [gardenInfoState, setGardenInfoState] = useState({
         gardens: []
     })
 
     useEffect(() => {
         Garden.getGardenByUser(localStorage.getItem('id'))
-      .then(({data}) => {
-         setGardenInfoState({ ...gardenInfoState, gardens: data.gardens })
-      })
-      .catch(e => console.error(e))
-    }, [isLoggedIn, gardenInfoState])
+            .then(({ data }) => {
+                setUserInfoState({
+                    ...userInfoState,
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    username: data.username
+                })
+                setGardenInfoState({ ...gardenInfoState, gardens: data.gardens })
+            })
+            .catch(e => console.error(e))
+
+        // eslint-disable-next-line
+    }, [isLoggedIn])
 
     return (
         <>
@@ -69,27 +81,32 @@ const Profile = () => {
                     <Navbar />
                     <Container className={classes.root}>
                         <Grid className={classes.header} container>
-                            <ProfileHeader gardenAmount={gardenInfoState.gardens.length} />
+                            <ProfileHeader
+                                gardenAmount={gardenInfoState.gardens.length}
+                                firstName={userInfoState.first_name}
+                                lastName={userInfoState.last_name}
+                                username={userInfoState.username}
+                            />
                             <Grid item xs={12}>
-                                <Typography 
-                                variant="subtitle1"
-                                className={classes.gardensTitle}
+                                <Typography
+                                    variant="subtitle1"
+                                    className={classes.gardensTitle}
                                 >My Gardens</Typography>
                                 <div className={classes.gridListRoot}>
                                     <GridList className={classes.gridList}>
-                                        {gardenInfoState.gardens.length > 1 ?
-                                            (gardenInfoState.gardens.map((data, i) => 
+                                        {gardenInfoState.gardens.length > 0 ?
+                                            (gardenInfoState.gardens.map((data, i) =>
                                                 (<GardenDisplay
                                                     key={i}
                                                     title={data.garden_name}
                                                     plants={data.plants}
                                                 />)
                                             )) :
-                                                <GardenDisplay
+                                            <GardenDisplay
                                                 title='You do not have any gardens! Please add a garden'
                                                 disabled={true}
                                                 plants={[]}
-                                                />
+                                            />
                                         }
                                     </GridList>
                                 </div>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import {
     TextField,
     Typography,
@@ -9,6 +9,10 @@ import {
     Grid,
     InputLabel,
     Select,
+    FormControl,
+    FormControlLabel,
+    RadioGroup,
+    Radio
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search'
@@ -47,10 +51,13 @@ const Home = () => {
         searchPlant,
         searchedPlant,
         sortBy,
+        completeData,
         handleSelectInputChange,
         handlePlantInputChange,
         handleSearchPlant
     } = useContext(PlantContext)
+
+    const [value] = useState(completeData)
 
     return (
         <>
@@ -80,8 +87,22 @@ const Home = () => {
                                     </Select>
                                 </Grid>
                                 <Grid item xs={12}>
+                                    <FormControl component="fieldset">
+                                        <RadioGroup value={value} onChange={handleSelectInputChange}>
+                                            <FormControlLabel
+                                                value={true}
+                                                control={<Radio />}
+                                                label="Complete Data" />
+                                            <FormControlLabel
+                                                value={false}
+                                                control={<Radio />}
+                                                label="Incomplete Data" />
+                                        </RadioGroup>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
                                     <TextField
-                                        label="Search"
+                                        label="Plant Name"
                                         id="searchPlant"
                                         name="searchPlant"
                                         value={searchPlant}

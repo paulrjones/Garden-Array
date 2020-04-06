@@ -6,6 +6,7 @@ const PlantContext = createContext({
     searchPlant: '',
     searchedPlant: '',
     sortBy: '',
+    completeData: true,
     name: '',
     isInfo: false,
     currentPlant: {},

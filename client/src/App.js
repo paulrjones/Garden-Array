@@ -51,7 +51,8 @@ function App() {
     sortBy: 'q',
     name: '',
     isInfo: false,
-    currentPlant: {}
+    currentPlant: {},
+    completeData: true
   });
 
   const [plantInfoState, setPlantInfoState] = useState({

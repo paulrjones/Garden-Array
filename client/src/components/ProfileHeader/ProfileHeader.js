@@ -85,7 +85,7 @@ const ProfileHeader = (props) => {
     const classes = useStyles()
 
     const avatarLetters = () => {
-        let chars = localStorage.getItem('first_name').charAt(0) + localStorage.getItem('last_name').charAt(0)
+        let chars = (props.firstName).charAt(0) + (props.lastName).charAt(0)
         return chars.toUpperCase()
     }
 
@@ -97,7 +97,7 @@ const ProfileHeader = (props) => {
                 </div>
                 <div className={classes.usernameDiv}>
                     <Typography variant='h2' className={classes.username}>
-                        {localStorage.getItem('username')}
+                        {props.username}
                     </Typography>
                 </div>
             </Grid>

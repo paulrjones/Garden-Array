@@ -67,7 +67,7 @@ export default function SignIn() {
 
   return (
     <>
-      {isLoggedIn ? <Redirect to={{ pathname: '/' }} /> :
+      {isLoggedIn ? <Redirect to={{ pathname: `/user/${localStorage.getItem('id')}` }} /> :
         (<Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>

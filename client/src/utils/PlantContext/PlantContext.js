@@ -6,6 +6,7 @@ const PlantContext = createContext({
     searchPlant: '',
     searchedPlant: '',
     sortBy: '',
+    completeData: true,
     name: '',
     isInfo: false,
     currentPlant: {},
@@ -14,7 +15,8 @@ const PlantContext = createContext({
     handlePlantInputChange: () => { },
     handleSearchPlant: () => { },
     handlePlantInfo: () => { },
-    handleToggleInfo: () => { }
+    handleToggleInfo: () => { },
+    handleSavePlant: () => { }
 });
 
 export default PlantContext;

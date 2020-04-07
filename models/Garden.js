@@ -14,9 +14,9 @@ const GardenSchema = new Schema({
   my_garden: {
     type: String
   },
-  plant: {
-    type: Array,
-  }, 
+  plants: [{
+    type: Object
+  }], 
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'user'

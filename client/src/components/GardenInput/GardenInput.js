@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import GardenContext from '../../utils/GardenContext'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core'
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -13,6 +13,16 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { green } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: green
+  },
+  stepper: {
+    iconColor: green
+  }
+})
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '50%', // Fix IE 11 issue.
@@ -53,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 26,
     marginLeft: 6,
     marginTop: 12
+  },
+  stepLabelColor: {
+    backgroundColor: '#4caf50'
   }
 }));
 
@@ -197,7 +209,11 @@ export default function HorizontalLinearStepper() {
   };
 
   const returnHome = () => {
-    window.location.replace('/')
+    window.location.replace(`/user/${localStorage.getItem('id')}`)
+  }
+
+  const addPlants = () => {
+    window.location.replace(`/`)
   }
 
   // const handleReset = () => {
@@ -207,23 +223,25 @@ export default function HorizontalLinearStepper() {
   return (
     <div className={classes.root}>
       <h1 className={classes.pageTitle}>Create a Garden!</h1>
-      <Stepper activeStep={activeStep} className={classes.stepper}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = <Typography variant="caption">Optional</Typography>;
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
+      <ThemeProvider theme={theme}>
+        <Stepper activeStep={activeStep} className={classes.stepper}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            if (isStepOptional(index)) {
+              labelProps.optional = <Typography variant="caption">Optional</Typography>;
+            }
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+      </ThemeProvider>
       <>
         {activeStep === steps.length ? (
           <Container>
@@ -233,20 +251,24 @@ export default function HorizontalLinearStepper() {
             {/* <Button onClick={handleReset} className={classes.button}>
               Reset
             </Button> */}
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={() => returnHome()}
-            >
-              Return Home
+            <ThemeProvider theme={theme}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={() => returnHome()}
+              >
+                Return Home
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}>
-              Add Plants
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={() => addPlants()}
+              >
+                Add Plants
             </Button>
+            </ThemeProvider>
           </Container>
         ) : (
             <>
@@ -264,28 +286,32 @@ export default function HorizontalLinearStepper() {
                 Back
               </Button>
               {isStepOptional(activeStep) && (
+                <ThemeProvider theme={theme}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSkip}
+                    className={classes.button}
+                  >
+                    Skip
+                </Button>
+                </ThemeProvider>
+              )}
+              <ThemeProvider theme={theme}>
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSkip}
+                  onClick={(event) => {
+                    if (activeStep === steps.length - 1) {
+                      handleCreateGarden(event)
+                    }
+                    handleNext(event)
+                  }}
                   className={classes.button}
                 >
-                  Skip
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>
-              )}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={(event) => {
-                  if (activeStep === steps.length - 1) {
-                    handleCreateGarden(event)
-                  }
-                  handleNext(event)
-                }}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
+              </ThemeProvider>
             </>
           )}
       </>

@@ -5,7 +5,8 @@ import {
     Typography,
     Avatar,
     Grid,
-    makeStyles
+    makeStyles,
+    Button
 } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
 
@@ -29,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatarDiv: {
         display: 'flex',
-        justifyContent: 'space-around',
-        marginRight: 10,
+        justifyContent: 'space-around'
     },
     username: {
         display: 'flex',
@@ -77,15 +77,15 @@ const useStyles = makeStyles((theme) => ({
     },
     infoContainer: {
         marginTop: 10
-    },
+    }
 }));
 
-const ProfileHeader = () => {
+const ProfileHeader = (props) => {
 
     const classes = useStyles()
 
     const avatarLetters = () => {
-        let chars = localStorage.getItem('first_name').charAt(0) + localStorage.getItem('last_name').charAt(0)
+        let chars = (props.firstName).charAt(0) + (props.lastName).charAt(0)
         return chars.toUpperCase()
     }
 
@@ -97,7 +97,7 @@ const ProfileHeader = () => {
                 </div>
                 <div className={classes.usernameDiv}>
                     <Typography variant='h2' className={classes.username}>
-                        {localStorage.getItem('username')}
+                        {props.username}
                     </Typography>
                 </div>
             </Grid>
@@ -106,15 +106,7 @@ const ProfileHeader = () => {
                 <div className={classes.infoDiv}>
                     <div className={classes.infoContent}>
                         <Typography>
-                            5
-                            </Typography>
-                        <Typography className={classes.infoTitle}>
-                            Posts
-                            </Typography>
-                    </div>
-                    <div className={classes.infoContent}>
-                        <Typography>
-                            10
+                            {props.gardenAmount}
                         </Typography>
                         <Typography className={classes.infoTitle}>
                             Gardens
@@ -122,6 +114,19 @@ const ProfileHeader = () => {
                     </div>
                 </div>
                 <hr />
+            </Grid>
+            <Grid item xs={12}>
+                <div className={classes.headerBtnDiv}>
+                    <Button
+                        className={classes.headerBtn}
+                        variant='outlined'
+                        onClick={() => { window.location.replace(`/creategarden/${localStorage.getItem('id')}`) }}
+                    >Add Garden</Button>
+                    <Button
+                        className={classes.headerBtn}
+                        variant='outlined'
+                    >Edit Garden</Button>
+                </div>
             </Grid>
         </Container>
     )

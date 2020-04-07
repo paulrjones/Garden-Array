@@ -8,7 +8,7 @@ import {
     Container,
     Grid,
     InputLabel,
-    Select,
+    Select
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search'
@@ -31,6 +31,9 @@ const useStyles = makeStyles({
     pageTitle: {
         fontSize: 26,
         marginBottom: 12
+    },
+    dataType: {
+        marginTop: 12
     }
 });
 
@@ -47,6 +50,7 @@ const Home = () => {
         searchPlant,
         searchedPlant,
         sortBy,
+        completeData,
         handleSelectInputChange,
         handlePlantInputChange,
         handleSearchPlant
@@ -79,9 +83,28 @@ const Home = () => {
                                         <option value='q'>Common or Scientific Name</option>
                                     </Select>
                                 </Grid>
+                                <Grid item xs={12} className={classes.dataType}>
+                                    <InputLabel htmlFor="selectDataType">Choose Data Type</InputLabel>
+                                    <Select
+                                        native
+                                        id='selectDataType'
+                                        name='completeData'
+                                        value={completeData}
+                                        onChange={handleSelectInputChange}
+                                        className={classes.input}
+                                        display='flex'
+                                        inputProps={{
+                                            name: 'completeData',
+                                            id: 'age-native-simple'
+                                        }}
+                                    >
+                                        <option value='completeData'>Complete</option>
+                                        <option value='incompleteData'>Incomplete</option>
+                                    </Select>
+                                </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        label="Search"
+                                        label="Plant Name"
                                         id="searchPlant"
                                         name="searchPlant"
                                         value={searchPlant}

@@ -52,7 +52,7 @@ function App() {
     name: '',
     isInfo: false,
     currentPlant: {},
-    completeData: true
+    completeData: 'completeData'
   });
 
   const [plantInfoState, setPlantInfoState] = useState({
@@ -82,6 +82,8 @@ function App() {
     about: '',
     location: '',
     my_garden: '',
+    userGarden: [],
+    userGardenSelect: ''
   })
 
   plantState.handlePlantInputChange = ({ target }) => {
@@ -147,6 +149,7 @@ function App() {
         localStorage.setItem('last_name', userData.last_name)
         localStorage.setItem('email', userData.email)
         setUserState({ ...userState, user: userData })
+        window.location.replace(`/user/${userData._id}`)
       })
       .catch(e => console.error(e))
 
@@ -200,7 +203,7 @@ function App() {
 
   plantState.handleSearchPlant = event => {
     event.preventDefault()
-    Plant.getPlants(`${plantState.sortBy}`, `${plantState.searchPlant}`)
+    Plant.getPlants(plantState.sortBy, plantState.searchPlant, plantState.completeData)
       .then(({ data: plantsObj }) => {
         let resultCount = plantsObj.length
         let searchedPlantResult = plantState.searchPlant
@@ -237,46 +240,45 @@ function App() {
   }
 
   // Add Plant to Garden
-  plantState.handleSavePlant = () => {
+  plantState.handleSavePlant = (e, gardenid) => {
+    e.preventDefault()
     let plantObj = {
-      common_name: plantInfoState.common_name,
-      scientific_name: plantInfoState.scientific_name,
-      family_common_name: plantInfoState.family_common_name,
-      duration: plantInfoState.duration,
-      precipitation_max: plantInfoState.precipitation_max,
-      precipitation_min: plantInfoState.precipitation_min,
-      native_status: plantInfoState.native_status,
-      growth_habit: plantInfoState.growth_habit,
-      foliage_color: plantInfoState.foliage_color,
-      lifespan: plantInfoState.lifespan,
-      drought_tolerance: plantInfoState.drought_tolerance,
-      mature_height: plantInfoState.mature_height,
-      shade_tolerance: plantInfoState.shade_tolerance,
-      fruit_seed_color: plantInfoState.fruit_seed_color,
-      bloom_period: plantInfoState.bloom_period,
-      growth_period: plantInfoState.growth_period,
-      flower_color: plantInfoState.flower_color,
+      saved_common_name: plantInfoState.common_name,
+      saved_scientific_name: plantInfoState.scientific_name,
+      saved_family_common_name: plantInfoState.family_common_name,
+      saved_duration: plantInfoState.duration,
+      saved_precipitation_max: plantInfoState.precipitation_max,
+      saved_precipitation_min: plantInfoState.precipitation_min,
+      saved_native_status: plantInfoState.native_status,
+      saved_growth_habit: plantInfoState.growth_habit,
+      saved_foliage_color: plantInfoState.foliage_color,
+      saved_lifespan: plantInfoState.lifespan,
+      saved_drought_tolerance: plantInfoState.drought_tolerance,
+      saved_mature_height: plantInfoState.mature_height,
+      saved_shade_tolerance: plantInfoState.shade_tolerance,
+      saved_fruit_seed_color: plantInfoState.fruit_seed_color,
+      saved_bloom_period: plantInfoState.bloom_period,
+      saved_growth_period: plantInfoState.growth_period,
+      saved_flower_color: plantInfoState.flower_color,
+      saved_plant_qty: 1
     }
 
-    Plant.savePlantToGarden((window.location.pathname).slice(12), plantObj)
-      .then(response => {
-        console.log(response)
-      })
+    Plant.savePlantToGarden(gardenid, plantObj)
+      .then(() => {window.location.replace(`/user/${localStorage.getItem('id')}`)})
       .catch(e => console.error(e))
   }
 
-  // plantState.handlePlantInfo = (event, index, plant) => {
-  //   event.preventDefault()
-  //   Plant.getPlant(`${plant.id}`)
-  //     .then(({ data: plantObj }) => {
-  //       setPlantState({ ...plantState, isInfo: true, currentPlant: plantObj })
-  //     })
-  //     .catch(e => console.error(e))
-  // }
+  gardenState.handleSelectInputChange = ({ target }) => {
+    setGardenState({ ...gardenState, [target.name]: target.value })
+  }
 
-  // plantState.handleToggleInfo = () => {
-  //   setPlantState({ ...plantState, isInfo: !plantState.isInfo })
-  // }
+  gardenState.handleRenderGardenNames = () => {
+    Garden.getGardenByUser(localStorage.getItem('id'))
+      .then(({data}) => {
+        setGardenState({ ...gardenState, userGarden: data.gardens, userGardenSelect: data.gardens[0]._id})
+      })
+      .catch(e => console.error(e))
+  }
 
   gardenState.handleCreateGarden = event => {
     event.preventDefault()
@@ -290,8 +292,9 @@ function App() {
     }
 
     Garden.create(garden)
-      .then(() => {
-        setGardenState({ ...gardenState, redirect: true, garden })
+      .then(({data}) => {
+        console.log(data)
+        setGardenState({ ...gardenState, redirect: true, garden, userGardenSelect: data.gardens[0]})
       })
       .catch(e => console.error(e))
   }

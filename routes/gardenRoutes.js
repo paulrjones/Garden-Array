@@ -24,7 +24,7 @@ router.post('/gardens', (req, res) => {
   Garden.create(req.body)
     .then(response => {
       User.findByIdAndUpdate(req.body.userId, { $push: { gardens: response._id } })
-        .then(() => res.sendStatus(200))
+        .then(newGarden => res.json(newGarden))
         .catch(e => console.error(e))
     })
     .catch(e => console.error(e))

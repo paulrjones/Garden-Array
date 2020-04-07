@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import {
@@ -7,17 +7,27 @@ import {
     Button,
     Typography,
     Divider,
-    Paper
+    Paper,
+    Modal,
+    Backdrop,
+    Fade,
+    FormControl,
+    InputLabel,
+    Select
 } from '@material-ui/core'
 import { Redirect } from 'react-router-dom'
+import PlantContext from '../../utils/PlantContext'
 import PlantInfoContext from '../../utils/PlantInfoContext'
 import UserContext from '../../utils/UserContext'
-import axios from 'axios'
+import GardenContext from '../../utils/GardenContext'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     paper: {
         padding: 10,
-        marginTop: 10
+        marginTop: 10,
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        borderRadius: 15
     },
     mediaDiv: {
         width: '100%',
@@ -34,8 +44,23 @@ const useStyles = makeStyles({
     },
     button: {
         margin: 8
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    select: {
+        width: '220px'
+    },
+    modalBtnDiv: {
+        margin: 6,
+        marginTop: 8
+    },
+    modalBtn: {
+        margin: 6
     }
-});
+}))
 
 const PlantInfo = () => {
 
@@ -61,39 +86,32 @@ const PlantInfo = () => {
         bloom_period,
         growth_period,
         flower_color,
-        handleRenderPlant
+        handleRenderPlant,
     } = useContext(PlantInfoContext)
+    const { handleSavePlant } = useContext(PlantContext)
+
+    const {
+        userGardenSelect,
+        userGarden,
+        handleRenderGardenNames,
+        handleSelectInputChange
+    } = useContext(GardenContext)
 
     useEffect(() => {
         handleRenderPlant(plantId)
+        handleRenderGardenNames(localStorage.getItem('id'))
         // eslint-disable-next-line
     }, [isLoggedIn])
 
-    const savePlantInfo = (gardenid) => {
-        axios.put(`/api/addplant/${gardenid}`, {
-            saved_common_name: common_name,
-            saved_scientific_name: scientific_name,
-            saved_family_common_name: family_common_name,
-            saved_duration: duration,
-            saved_precipitation_max: precipitation_max,
-            saved_precipitation_min: precipitation_min,
-            saved_native_status: native_status,
-            saved_growth_habit: growth_habit,
-            saved_drought_tolerance: drought_tolerance,
-            saved_foliage_color: foliage_color,
-            saved_lifespan: lifespan,
-            saved_mature_height: mature_height,
-            saved_shade_tolerance: shade_tolerance,
-            saved_fruit_seed_color: fruit_seed_color,
-            saved_bloom_period: bloom_period,
-            saved_growth_period: growth_period,
-            saved_flower_color: flower_color,
-            saved_plant_qty: 1
-        })
-            .then(response => 
-                console.log(response))
-            .catch(e => console.error(e))
-    }
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <>
@@ -101,6 +119,61 @@ const PlantInfo = () => {
                 (<>
                     <Navbar />
                     <Container>
+                        {console.log(userGarden)}
+                        <Modal
+                            aria-labelledby="transition-modal-title"
+                            aria-describedby="transition-modal-description"
+                            className={classes.modal}
+                            open={open}
+                            onClose={handleClose}
+                            closeAfterTransition
+                            BackdropComponent={Backdrop}
+                            BackdropProps={{
+                                timeout: 500,
+                            }}
+                        >
+                            <Fade in={open}>
+                                <div className={classes.paper}>
+                                    <FormControl variant="filled" className={classes.formControl}>
+                                        <InputLabel htmlFor="filled-age-native-simple">Choose a Garden</InputLabel>
+                                        <Select
+                                            native
+                                            className={classes.select}
+                                            name='userGardenSelect'
+                                            value={userGardenSelect}
+                                            onChange={handleSelectInputChange}
+                                            inputProps={{
+                                                name: 'userGardenSelect',
+                                                id: 'filled-age-native-simple',
+                                            }}
+                                        >
+                                            {userGarden.map((garden, i) =>
+                                                (
+                                                    <option
+                                                        key={i}
+                                                        value={garden._id}
+                                                    >{garden.garden_name}</option>
+                                                )
+                                            )}
+                                        </Select>
+                                        <div className={classes.modalBtnDiv}>
+                                            <Button
+                                                className={classes.modalBtn}
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={(e) => {handleSavePlant(e, userGardenSelect) }}
+                                            >Save Plant</Button>
+                                            <Button
+                                                className={classes.modalBtn}
+                                                variant="contained"
+                                                color="secondary"
+                                                onClick={() => handleClose()}
+                                            >Cancel</Button>
+                                        </div>
+                                    </FormControl>
+                                </div>
+                            </Fade>
+                        </Modal>
                         <Paper elevation={3} className={classes.paper}>
                             {common_name ?
                                 (
@@ -138,12 +211,13 @@ const PlantInfo = () => {
                                 size='small'
                                 color='primary'
                                 variant='outlined'
-                                onClick={() => savePlantInfo('5e8b69cde06f4b3e08989727')}
+                                onClick={handleOpen}
                             >Save Info</Button>
                             <Button
                                 size='small'
                                 color='primary'
                                 variant='outlined'
+                                onClick={() => window.location.replace('/')}
                             >More Plants</Button>
                         </Paper>
                     </Container>

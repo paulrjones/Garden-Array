@@ -69,7 +69,6 @@ const Profile = () => {
                 setGardenInfoState({ ...gardenInfoState, gardens: data.gardens })
             })
             .catch(e => console.error(e))
-
         // eslint-disable-next-line
     }, [isLoggedIn])
 
@@ -94,6 +93,7 @@ const Profile = () => {
                                 >My Gardens</Typography>
                                 <div className={classes.gridListRoot}>
                                     <GridList className={classes.gridList}>
+                                        {console.log(gardenInfoState.gardens)}
                                         {gardenInfoState.gardens.length > 0 ?
                                             (gardenInfoState.gardens.map((data, i) =>
                                                 (<GardenDisplay

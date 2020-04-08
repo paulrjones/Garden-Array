@@ -13,7 +13,8 @@ const GardenContext = createContext({
   handleCreateGarden: () => {},
   handleGetAllGardens: () => {},
   handleRenderGardenNames: () => {},
-  handleGardenEdit: () => {}
+  handleGardenEdit: () => {},
+  handleGardenDelete: () => {}
 }) 
 
 export default GardenContext;

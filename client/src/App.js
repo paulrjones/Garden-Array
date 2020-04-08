@@ -95,6 +95,7 @@ function App() {
     saved_bloom_period: '',
     saved_growth_period: '',
     saved_flower_color: '',
+    saved_plant_qty: ''
   })
 
   const [gardenState, setGardenState] = useState({
@@ -382,17 +383,101 @@ function App() {
       location: gardenState.location
     }
 
-    if(gardenChanges.garden_name === '') {
+    if (gardenChanges.garden_name === '') {
       gardenChanges.garden_name = obj.garden_name
     }
-    if(gardenChanges.about === '') {
+    if (gardenChanges.about === '') {
       gardenChanges.about = obj.about
     }
-    if(gardenChanges.location === '') {
+    if (gardenChanges.location === '') {
       gardenChanges.location = obj.location
     }
-    
+
     Garden.updateGardenInfo(obj._id, gardenChanges)
+      .then(() => {
+        window.location.replace(`/user/${localStorage.getItem('id')}`)
+      })
+      .catch(e => console.error(e))
+  }
+
+  gardenState.handleGardenDelete = (e, gardenid) => {
+    e.preventDefault()
+
+    Garden.delete(gardenid)
+      .then(() => window.location.replace(window.location.pathname))
+      .catch(e => console.error(e))
+  }
+
+  // Update Saved Plant
+  plantInfoState.handlePlantInputchange = ({ target }) => {
+    setPlantInfoState({ ...plantInfoState, [target.name]: target.value })
+  }
+
+  plantInfoState.handleUpdateSavedPlant = (e, gardenid, plantindex) => {
+    e.preventDefault()
+
+    const savedPlantObj = {
+      saved_common_name: plantInfoState.saved_common_name,
+      saved_scientific_name: plantInfoState.saved_scientific_name,
+      saved_family_common_name: plantInfoState.saved_family_common_name,
+      saved_duration: plantInfoState.saved_duration,
+      saved_precipitation_max: plantInfoState.saved_precipitation_max,
+      saved_precipitation_min: plantInfoState.saved_precipitation_min,
+      saved_native_status: plantInfoState.saved_native_status,
+      saved_growth_habit: plantInfoState.saved_growth_habit,
+      saved_foliage_color: plantInfoState.saved_foliage_color,
+      saved_lifespan: plantInfoState.saved_lifespan,
+      saved_drought_tolerance: plantInfoState.saved_drought_tolerance,
+      saved_mature_height: plantInfoState.saved_mature_height,
+      saved_shade_tolerance: plantInfoState.saved_shade_tolerance,
+      saved_fruit_seed_color: plantInfoState.saved_fruit_seed_color,
+      saved_bloom_period: plantInfoState.saved_bloom_period,
+      saved_growth_period: plantInfoState.saved_growth_period,
+      saved_flower_color: plantInfoState.saved_flower_color,
+      saved_plant_qty: plantInfoState.saved_plant_qty
+    }
+
+    Plant.getSavedPlant(gardenid)
+      .then(({ data }) => {
+
+        let oldAndNew = {
+          oldPlant: data.plants[plantindex],
+          newPlant: savedPlantObj
+        }
+
+        Plant.updateSavedPlant(gardenid, oldAndNew)
+          .then(() => {
+            window.location.replace(window.location.pathname)
+          })
+          .catch(e => console.error(e))
+      })
+      .catch(e => console.error(e))
+  }
+
+  plantInfoState.handleRemovePlant = (gardenid) => {
+
+    const savedPlantObj = {
+      saved_common_name: plantInfoState.saved_common_name,
+      saved_scientific_name: plantInfoState.saved_scientific_name,
+      saved_family_common_name: plantInfoState.saved_family_common_name,
+      saved_duration: plantInfoState.saved_duration,
+      saved_precipitation_max: plantInfoState.saved_precipitation_max,
+      saved_precipitation_min: plantInfoState.saved_precipitation_min,
+      saved_native_status: plantInfoState.saved_native_status,
+      saved_growth_habit: plantInfoState.saved_growth_habit,
+      saved_foliage_color: plantInfoState.saved_foliage_color,
+      saved_lifespan: plantInfoState.saved_lifespan,
+      saved_drought_tolerance: plantInfoState.saved_drought_tolerance,
+      saved_mature_height: plantInfoState.saved_mature_height,
+      saved_shade_tolerance: plantInfoState.saved_shade_tolerance,
+      saved_fruit_seed_color: plantInfoState.saved_fruit_seed_color,
+      saved_bloom_period: plantInfoState.saved_bloom_period,
+      saved_growth_period: plantInfoState.saved_growth_period,
+      saved_flower_color: plantInfoState.saved_flower_color,
+      saved_plant_qty: plantInfoState.saved_plant_qty
+    }
+
+    Plant.removePlant(gardenid, {plant: savedPlantObj})
       .then(() => {
         window.location.replace(`/user/${localStorage.getItem('id')}`)
       })

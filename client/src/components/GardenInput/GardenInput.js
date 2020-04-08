@@ -65,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
   },
   stepLabelColor: {
     backgroundColor: '#4caf50'
+  },
+  description: {
+    marginTop: 6
   }
 }));
 
@@ -114,7 +117,6 @@ function getStepContent(
               name="about"
               value={about}
               onChange={handleGardenInputChange}
-
             />
           </form>
         </Container>

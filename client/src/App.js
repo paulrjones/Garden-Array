@@ -113,7 +113,6 @@ function App() {
   }
 
   plantState.handleSelectInputChange = ({ target }) => {
-    console.log(target.value)
     setPlantState({ ...plantState, [target.name]: target.value })
   }
 
@@ -157,7 +156,6 @@ function App() {
 
     User.login(user)
       .then(({ data }) => {
-        console.log(data)
         localStorage.setItem('jwt', data.token)
         localStorage.setItem('isLoggedIn', data.isLoggedIn)
         setUserState({ ...userState, username: '', password: '', isLoggedIn: data.isLoggedIn })
@@ -238,13 +236,12 @@ function App() {
   plantInfoState.handleRenderPlant = id => {
     Plant.getPlantInfoPage(id)
       .then(({ data }) => {
-        console.log(data)
         setPlantInfoState({
           ...plantInfoState,
           plant_id: data.id,
           common_name: data.common_name,
           scientific_name: data.scientific_name,
-          family_common_name: data.family.common_name,
+          family_common_name: data.family_common_name,
           duration: data.duration,
           precipitation_max: data.main_species.growth.precipitation_maximum.inches,
           precipitation_min: data.main_species.growth.precipitation_minimum.inches,
@@ -299,7 +296,6 @@ function App() {
   }
 
   plantState.handleSavedPlantRender = (gardenid, plantindex) => {
-    // console.log(gardenid)
     Plant.getSavedPlant(gardenid)
       .then(({ data }) => {
         setPlantInfoState({
@@ -353,7 +349,6 @@ function App() {
 
     Garden.create(garden)
       .then(({ data }) => {
-        console.log(data)
         setGardenState({ ...gardenState, redirect: true, garden, userGardenSelect: data.gardens[0] })
       })
       .catch(e => console.error(e))

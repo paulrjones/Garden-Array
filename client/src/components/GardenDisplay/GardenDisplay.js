@@ -13,6 +13,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import PlantContext from '../../utils/PlantContext'
+import PlantInfoContext from '../../utils/PlantInfoContext'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleExpansionPanel(props) {
     const classes = useStyles();
     const { handleSavedPlantSearch } = useContext(PlantContext)
+    const { handleRemovePlant } = useContext(PlantInfoContext)
 
     return (
         <div className={classes.root}>
@@ -60,6 +62,7 @@ export default function SimpleExpansionPanel(props) {
                 {props.plants.length > 0 ?
                     props.plants.map((data, i) => (
                         <Card key={i} className={classes.root}>
+                            {console.log(data)}
                             <Divider />
                             <CardContent>
                                 {data.saved_common_name ?
@@ -73,6 +76,7 @@ export default function SimpleExpansionPanel(props) {
                                     Qty: {data.saved_plant_qty}x
                                 </Typography>
                             </CardContent>
+                            {console.log(props.gardenId)}
                             <CardActions>
                                 <Button
                                     size="small"
@@ -83,6 +87,7 @@ export default function SimpleExpansionPanel(props) {
                                     size="small"
                                     variant="contained"
                                     color="secondary"
+                                    onClick={() => handleRemovePlant(props.gardenId)}
                                 >Remove</Button>
                             </CardActions>
                         </Card>)

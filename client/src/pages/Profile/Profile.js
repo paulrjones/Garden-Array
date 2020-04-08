@@ -181,6 +181,8 @@ const Profile = () => {
                                                         (<GardenDisplay
                                                             key={i}
                                                             title={data.garden_name}
+                                                            about={data.about}
+                                                            location={data.location}
                                                             plants={data.plants}
                                                             gardenId={data._id}
                                                         />)

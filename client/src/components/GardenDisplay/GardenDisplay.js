@@ -55,6 +55,8 @@ export default function SimpleExpansionPanel(props) {
                 >
                     <Typography className={classes.heading}>{props.title}</Typography>
                 </ExpansionPanelSummary>
+                <Typography className={classes.heading}>Description: {props.about}</Typography>
+                <Typography className={classes.heading}>Location: {props.location}</Typography>
                 {props.plants.length > 0 ?
                     props.plants.map((data, i) => (
                         <Card key={i} className={classes.root}>
@@ -75,7 +77,7 @@ export default function SimpleExpansionPanel(props) {
                                 <Button
                                     size="small"
                                     variant="outlined"
-                                    onClick={() => handleSavedPlantSearch(props.gardenId ,i)}
+                                    onClick={() => handleSavedPlantSearch(props.gardenId, i)}
                                 >View Info</Button>
                                 <Button
                                     size="small"

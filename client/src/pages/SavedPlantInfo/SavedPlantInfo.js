@@ -75,7 +75,6 @@ const SavedPlantInfo = () => {
         handleToggleEdit
     } = useContext(UserContext)
     const {
-        saved_plant_id,
         saved_common_name,
         saved_scientific_name,
         saved_family_common_name,
@@ -93,8 +92,12 @@ const SavedPlantInfo = () => {
         saved_bloom_period,
         saved_growth_period,
         saved_flower_color,
-        saved_plant_qty
+        saved_plant_qty,
+        handleUpdateSavedPlant,
+        handlePlantInputchange,
+        handleRemovePlant
     } = useContext(PlantInfoContext)
+
     const {
         handleSavedPlantRender
     } = useContext(PlantContext)
@@ -105,10 +108,6 @@ const SavedPlantInfo = () => {
         handleSavedPlantRender(gardenId, plantIndex)
         // eslint-disable-next-line
     }, [isLoggedIn])
-
-    const handleRemovePlant = () => {
-
-    }
 
     return (
         <>
@@ -285,10 +284,13 @@ const SavedPlantInfo = () => {
                                             />
                                             <div className={classes.editBtns}>
                                                 <Button
+                                                variant="outlined"
+                                                onClick={(e) => handleUpdateSavedPlant(e, gardenId, plantIndex)}
                                                 >Save</Button>
                                                 <Button
                                                     variant="contained"
                                                     color="secondary"
+                                                    className={classes.editBtns}
                                                     onClick={() => window.location.replace(window.location.pathname)}
                                                 >Cancel</Button>
                                             </div>
@@ -336,7 +338,7 @@ const SavedPlantInfo = () => {
                                         <Button
                                             variant="contained"
                                             color="secondary"
-                                            onClick={() => handleRemovePlant(saved_plant_id)}
+                                            onClick={() => handleRemovePlant(gardenId)}
                                         >Remove</Button>
                                     </div>)}
                         </Paper>

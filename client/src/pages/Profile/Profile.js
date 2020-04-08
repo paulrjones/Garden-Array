@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
     editInput: {
         width: '100%',
         margin: 8
+    },
+    cancelBtn: {
+        margin: 8
     }
 }));
 
@@ -77,7 +80,8 @@ const Profile = () => {
 
     const {
         handleGardenInputChange,
-        handleGardenEdit
+        handleGardenEdit,
+        handleGardenDelete
     } = useContext(GardenContext)
 
     useEffect(() => {
@@ -153,9 +157,14 @@ const Profile = () => {
                                                         <Button
                                                             onClick={(e) => handleGardenEdit(e, data)}
                                                         >Save</Button>
+                                                        <Button
+                                                            variant="contained"
+                                                            color="secondary"
+                                                            onClick={(e) => handleGardenDelete(e, data._id)}
+                                                        >Delete Garden</Button>
                                                     </div>
                                                 ))}
-                                                <Button variant="contained" color="secondary" onClick={(e) => handleToggleEditFalse(e)}>Cancel</Button>
+                                                <Button className={classes.cancelBtn} variant="contained" color="secondary" onClick={(e) => handleToggleEditFalse(e)}>Cancel</Button>
                                             </form>
                                         </Grid>
                                     </>

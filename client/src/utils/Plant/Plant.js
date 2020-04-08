@@ -5,7 +5,8 @@ const Plant = {
   getPlantInfoPage: (id) => axios.get(`/api/plantinfo/${id}`),
   getSavedPlant: (gardenid) => axios.get(`/api/savedplant/${gardenid}`),
   savePlantToGarden: (gardenid, body) => axios.put(`/api/addplant/${gardenid}`, body),
-  removePlant: (gardenid, index) => axios.put(`/api/deleteplant/${gardenid}/${index}`)
+  removePlant: (gardenid, body) => axios.put(`/api/deleteplant/${gardenid}`, body),
+  updateSavedPlant: (gardenid, body) => axios.put(`/api/updateplant/${gardenid}`, body)
 }
 
 export default Plant

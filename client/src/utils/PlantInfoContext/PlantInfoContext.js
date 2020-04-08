@@ -37,8 +37,12 @@ const PlantInfoContext = createContext({
     saved_bloom_period: '',
     saved_growth_period: '',
     saved_flower_color: '',
+    saved_plant_qty: '',
+    handlePlantInputchange: () => {},
     handlePlantInfoSearch: () => {},
-    handleRenderPlant: () => {}
+    handleRenderPlant: () => {},
+    handleUpdateSavedPlant: () => {},
+    handleRemovePlant: () => {}
 });
 
 export default PlantInfoContext;

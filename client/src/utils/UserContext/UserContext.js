@@ -18,7 +18,8 @@ const UserContext = createContext({
     handleRegisterUser: () => { },
     handleSignInUser: () => { },
     handleLogOut: () => { },
-    handleUserProfile: () => { }
+    handleUserProfile: () => { },
+    handleToggleEditFalse: () => { }
 });
 
 export default UserContext;

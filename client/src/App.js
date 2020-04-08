@@ -13,6 +13,7 @@ import PlantContext from './utils/PlantContext'
 import User from './utils/Users';
 import Plant from './utils/Plant'
 import PlantInfo from './pages/PlantInfo'
+import SavedPlantInfo from './pages/SavedPlantInfo'
 import Garden from './utils/Garden'
 import GardenContext from './utils/GardenContext';
 import PlantInfoContext from './utils/PlantInfoContext'
@@ -40,6 +41,7 @@ function App() {
     editLast: localStorage.getItem('last_name'),
     editEmail: localStorage.getItem('email'),
     redirect: false,
+    edit: false,
     isLoggedIn: localStorage.getItem('isLoggedIn')
   });
 
@@ -56,6 +58,7 @@ function App() {
   });
 
   const [plantInfoState, setPlantInfoState] = useState({
+    plant_id: '',
     common_name: '',
     scientific_name: '',
     family_common_name: '',
@@ -73,7 +76,25 @@ function App() {
     fruit_seed_color: '',
     bloom_period: '',
     growth_period: '',
-    flower_color: ''
+    flower_color: '',
+    saved_common_name: '',
+    saved_scientific_name: '',
+    saved_family_common_name: '',
+    saved_duration: '',
+    saved_precipitation_max: '',
+    saved_precipitation_min: '',
+    saved_specifications: '',
+    saved_native_status: '',
+    saved_growth_habit: '',
+    saved_drought_tolerance: '',
+    saved_foliage_color: '',
+    saved_lifespan: '',
+    saved_mature_height: '',
+    saved_shade_tolerance: '',
+    saved_fruit_seed_color: '',
+    saved_bloom_period: '',
+    saved_growth_period: '',
+    saved_flower_color: '',
   })
 
   const [gardenState, setGardenState] = useState({
@@ -135,6 +156,7 @@ function App() {
 
     User.login(user)
       .then(({ data }) => {
+        console.log(data)
         localStorage.setItem('jwt', data.token)
         localStorage.setItem('isLoggedIn', data.isLoggedIn)
         setUserState({ ...userState, username: '', password: '', isLoggedIn: data.isLoggedIn })
@@ -149,7 +171,7 @@ function App() {
         localStorage.setItem('last_name', userData.last_name)
         localStorage.setItem('email', userData.email)
         setUserState({ ...userState, user: userData })
-        window.location.replace(`/user/${userData._id}`)
+        // window.location.replace(`/user/${userData._id}`)
       })
       .catch(e => console.error(e))
 
@@ -159,7 +181,7 @@ function App() {
         localStorage.setItem('first_name', data.first_name)
         localStorage.setItem('last_name', data.last_name)
         localStorage.setItem('email', data.email)
-        window.location.href = `/user/${localStorage.getItem('id')}`
+        window.location.replace(`/user/${localStorage.getItem('id')}`)
       })
       .catch(e => console.error(e))
   }
@@ -197,7 +219,7 @@ function App() {
     setPlantState({ ...plantState, [target.name]: target.value })
   }
 
-  plantInfoState.handlePlantInfoSearch = (event, id) => {
+  plantInfoState.handlePlantInfoSearch = (id) => {
     window.location.replace(`/plant_info/${id}`)
   }
 
@@ -215,8 +237,10 @@ function App() {
   plantInfoState.handleRenderPlant = id => {
     Plant.getPlantInfoPage(id)
       .then(({ data }) => {
+        console.log(data)
         setPlantInfoState({
           ...plantInfoState,
+          plant_id: data.id,
           common_name: data.common_name,
           scientific_name: data.scientific_name,
           family_common_name: data.family.common_name,
@@ -240,9 +264,10 @@ function App() {
   }
 
   // Add Plant to Garden
-  plantState.handleSavePlant = (e, gardenid) => {
+  plantState.handleSavePlant = (e, gardenid, plantId) => {
     e.preventDefault()
     let plantObj = {
+      saved_plant_id: plantId,
       saved_common_name: plantInfoState.common_name,
       saved_scientific_name: plantInfoState.scientific_name,
       saved_family_common_name: plantInfoState.family_common_name,
@@ -264,18 +289,52 @@ function App() {
     }
 
     Plant.savePlantToGarden(gardenid, plantObj)
-      .then(() => {window.location.replace(`/user/${localStorage.getItem('id')}`)})
+      .then(() => { window.location.replace(`/user/${localStorage.getItem('id')}`) })
       .catch(e => console.error(e))
   }
 
+  plantState.handleSavedPlantSearch = (gardenId, plantIndex) => {
+    window.location.replace(`/saved_plant/${gardenId}/${plantIndex}`)
+  }
+
+  plantState.handleSavedPlantRender = (gardenid, plantindex) => {
+    // console.log(gardenid)
+    Plant.getSavedPlant(gardenid)
+      .then(({ data }) => {
+        setPlantInfoState({
+          ...plantInfoState,
+          saved_common_name: data.plants[plantindex].saved_common_name,
+          saved_scientific_name: data.plants[plantindex].saved_scientific_name,
+          saved_family_common_name: data.plants[plantindex].saved_family_common_name,
+          saved_duration: data.plants[plantindex].saved_duration,
+          saved_precipitation_max: data.plants[plantindex].saved_precipitation_max,
+          saved_precipitation_min: data.plants[plantindex].saved_precipitation_min,
+          saved_native_status: data.plants[plantindex].saved_native_status,
+          saved_growth_habit: data.plants[plantindex].saved_growth_habit,
+          saved_foliage_color: data.plants[plantindex].saved_foliage_color,
+          saved_lifespan: data.plants[plantindex].saved_lifespan,
+          saved_drought_tolerance: data.plants[plantindex].saved_drought_tolerance,
+          saved_mature_height: data.plants[plantindex].saved_mature_height,
+          saved_shade_tolerance: data.plants[plantindex].saved_shade_tolerance,
+          saved_fruit_seed_color: data.plants[plantindex].saved_fruit_seed_color,
+          saved_bloom_period: data.plants[plantindex].saved_bloom_period,
+          saved_growth_period: data.plants[plantindex].aved_growth_period,
+          saved_flower_color: data.plants[plantindex].saved_flower_color,
+          saved_plant_qty: data.plants[plantindex].saved_plant_qty
+        })
+      })
+      .catch(e => console.error(e))
+  }
+
+  // Garden Functions
   gardenState.handleSelectInputChange = ({ target }) => {
     setGardenState({ ...gardenState, [target.name]: target.value })
   }
 
   gardenState.handleRenderGardenNames = () => {
     Garden.getGardenByUser(localStorage.getItem('id'))
-      .then(({data}) => {
-        setGardenState({ ...gardenState, userGarden: data.gardens, userGardenSelect: data.gardens[0]._id})
+      .then(({ data }) => {
+        setGardenState({ ...gardenState, userGarden: data.gardens, userGardenSelect: data.gardens[0]._id })
       })
       .catch(e => console.error(e))
   }
@@ -292,15 +351,52 @@ function App() {
     }
 
     Garden.create(garden)
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log(data)
-        setGardenState({ ...gardenState, redirect: true, garden, userGardenSelect: data.gardens[0]})
+        setGardenState({ ...gardenState, redirect: true, garden, userGardenSelect: data.gardens[0] })
       })
       .catch(e => console.error(e))
   }
 
   gardenState.handleGetAllGardens = () => {
     window.location.replace(`/user/${localStorage.getItem('id')}`)
+  }
+
+  // Edit Toggle
+  userState.handleToggleEdit = () => {
+    setUserState({ ...userState, edit: true })
+  }
+
+  userState.handleToggleEditFalse = (e) => {
+    e.preventDefault()
+    setUserState({ ...userState, edit: false })
+  }
+
+  // Save Garden Edit
+  gardenState.handleGardenEdit = (e, obj) => {
+    e.preventDefault()
+
+    let gardenChanges = {
+      garden_name: gardenState.garden_name,
+      about: gardenState.about,
+      location: gardenState.location
+    }
+
+    if(gardenChanges.garden_name === '') {
+      gardenChanges.garden_name = obj.garden_name
+    }
+    if(gardenChanges.about === '') {
+      gardenChanges.about = obj.about
+    }
+    if(gardenChanges.location === '') {
+      gardenChanges.location = obj.location
+    }
+    
+    Garden.updateGardenInfo(obj._id, gardenChanges)
+      .then(() => {
+        window.location.replace(`/user/${localStorage.getItem('id')}`)
+      })
+      .catch(e => console.error(e))
   }
 
   return (
@@ -317,6 +413,7 @@ function App() {
                 <Route path="/info/:userid" component={ProfileInfo} />
                 <Route path="/edit" component={ProfileEdit} />
                 <Route path="/plant_info/:id" component={PlantInfo} />
+                <Route path="/saved_plant/:plantindex" component={SavedPlantInfo} />
                 <Route path="/creategarden" component={CreateGarden} />
               </ThemeProvider>
             </PlantContext.Provider>

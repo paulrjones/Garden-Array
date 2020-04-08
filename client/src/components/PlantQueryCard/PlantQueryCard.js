@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PlantContext from '../../utils/PlantContext'
 import PlantInfoContext from '../../utils/PlantInfoContext'
-import { Redirect } from 'react-router-dom'
+
 const useStyles = makeStyles({
     root: {
         minWidth: 275,
@@ -35,36 +35,34 @@ const PlantQueryCard = () => {
 
     const classes = useStyles();
 
-    const { plants, isInfo } = useContext(PlantContext)
+    const { plants } = useContext(PlantContext)
     const { handlePlantInfoSearch } = useContext(PlantInfoContext)
 
     return (
         <>
-            {
-                isInfo ? <Redirect to='/plant_info/' />
-                    :
-                    plants.map((plantsMap, i) =>
-                        <Card key={i} className={classes.root} variant="outlined">
-                            <CardContent className={classes.cardContent}>
-                                <Typography className={classes.title}>
-                                    Scientific Name:
+            {plants.map((plantsMap, i) =>
+                <Card key={i} className={classes.root} variant="outlined">
+                    {console.log(plantsMap)}
+                    <CardContent className={classes.cardContent}>
+                        <Typography className={classes.title}>
+                            Scientific Name:
                             </Typography>
-                                <Typography>
-                                    {plantsMap.scientific_name}
-                                </Typography>
-                                {plantsMap.common_name ? (
-                                    <Typography className={classes.title}>
-                                        Common Name:
-                                    </Typography>) : <></>}
-                                {plantsMap.common_name ? (
-                                    <Typography>
-                                        {plantsMap.common_name}
-                                    </Typography>) : <></>}
-                            </CardContent>
-                            <CardActions>
-                                <Button onClick={event => handlePlantInfoSearch(event, plantsMap.id)} size="small">Learn More</Button>
-                            </CardActions>
-                        </Card>)
+                        <Typography>
+                            {plantsMap.scientific_name}
+                        </Typography>
+                        {plantsMap.common_name ? (
+                            <Typography className={classes.title}>
+                                Common Name:
+                            </Typography>) : <></>}
+                        {plantsMap.common_name ? (
+                            <Typography>
+                                {plantsMap.common_name}
+                            </Typography>) : <></>}
+                    </CardContent>
+                    <CardActions>
+                        <Button onClick={() => handlePlantInfoSearch(plantsMap.id)} size="small">Learn More</Button>
+                    </CardActions>
+                </Card>)
             }
         </>
     )

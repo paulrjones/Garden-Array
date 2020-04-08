@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 
 const PlantInfoContext = createContext({
+    plant_id: '',
     common_name: '',
     scientific_name: '',
     family_common_name: '',
@@ -18,6 +19,24 @@ const PlantInfoContext = createContext({
     bloom_period: '',
     growth_period: '',
     flower_color: '',
+    saved_common_name: '',
+    saved_scientific_name: '',
+    saved_family_common_name: '',
+    saved_duration: '',
+    saved_precipitation_max: '',
+    saved_precipitation_min: '',
+    saved_specifications: '',
+    saved_native_status: '',
+    saved_growth_habit: '',
+    saved_drought_tolerance: '',
+    saved_foliage_color: '',
+    saved_lifespan: '',
+    saved_mature_height: '',
+    saved_shade_tolerance: '',
+    saved_fruit_seed_color: '',
+    saved_bloom_period: '',
+    saved_growth_period: '',
+    saved_flower_color: '',
     handlePlantInfoSearch: () => {},
     handleRenderPlant: () => {}
 });

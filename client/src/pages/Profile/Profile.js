@@ -5,9 +5,13 @@ import {
     makeStyles,
     Grid,
     GridList,
-    Typography
+    Typography,
+    Button,
+    TextField,
+    Divider
 } from '@material-ui/core'
 import ProfileHeader from '../../components/ProfileHeader'
+import GardenContext from '../../utils/GardenContext'
 import UserContext from '../../utils/UserContext'
 import Navbar from '../../components/Navbar'
 import GardenDisplay from '../../components/GardenDisplay'
@@ -42,6 +46,13 @@ const useStyles = makeStyles((theme) => ({
     gardensTitle: {
         fontWeight: 'bold',
         margin: 8
+    },
+    divider: {
+        margin: 12
+    },
+    editInput: {
+        width: '100%',
+        margin: 8
     }
 }));
 
@@ -53,9 +64,21 @@ const Profile = () => {
         last_name: '',
         username: ''
     })
+
     const [gardenInfoState, setGardenInfoState] = useState({
         gardens: []
     })
+
+    const {
+        edit,
+        handleToggleEdit,
+        handleToggleEditFalse,
+    } = useContext(UserContext)
+
+    const {
+        handleGardenInputChange,
+        handleGardenEdit
+    } = useContext(GardenContext)
 
     useEffect(() => {
         Garden.getGardenByUser(localStorage.getItem('id'))
@@ -85,32 +108,83 @@ const Profile = () => {
                                 firstName={userInfoState.first_name}
                                 lastName={userInfoState.last_name}
                                 username={userInfoState.username}
+                                toggleEdit={handleToggleEdit}
                             />
-                            <Grid item xs={12}>
-                                <Typography
-                                    variant="subtitle1"
-                                    className={classes.gardensTitle}
-                                >My Gardens</Typography>
-                                <div className={classes.gridListRoot}>
-                                    <GridList className={classes.gridList}>
-                                        {console.log(gardenInfoState.gardens)}
-                                        {gardenInfoState.gardens.length > 0 ?
-                                            (gardenInfoState.gardens.map((data, i) =>
-                                                (<GardenDisplay
-                                                    key={i}
-                                                    title={data.garden_name}
-                                                    plants={data.plants}
-                                                />)
-                                            )) :
-                                            <GardenDisplay
-                                                title='You do not have any gardens! Please add a garden'
-                                                disabled={true}
-                                                plants={[]}
-                                            />
-                                        }
-                                    </GridList>
-                                </div>
-                            </Grid>
+                            {edit ?
+                                (
+                                    <>
+                                        <Grid item xs={12}>
+                                            <Typography
+                                                variant="subtitle1"
+                                                className={classes.gardensTitle}
+                                            >My Gardens</Typography>
+                                            <form>
+                                                {gardenInfoState.gardens.map((data, i) => (
+                                                    <div key={i}>
+                                                        <Divider className={classes.divider} />
+                                                        <TextField
+                                                            className={classes.editInput}
+                                                            id="garden_name"
+                                                            label="Garden Name"
+                                                            name='garden_name'
+                                                            defaultValue={data.garden_name}
+                                                            onChange={handleGardenInputChange}
+                                                            variant="outlined"
+                                                        />
+                                                        <TextField
+                                                            className={classes.editInput}
+                                                            id="about_garden"
+                                                            label="About Garden"
+                                                            name='about'
+                                                            defaultValue={data.about}
+                                                            onChange={handleGardenInputChange}
+                                                            variant="outlined"
+                                                        />
+                                                        <TextField
+                                                            className={classes.editInput}
+                                                            id="location"
+                                                            label="Location"
+                                                            name='location'
+                                                            defaultValue={data.location}
+                                                            onChange={handleGardenInputChange}
+                                                            variant="outlined"
+                                                        />
+                                                        <Divider className={classes.divider} />
+                                                        <Button
+                                                            onClick={(e) => handleGardenEdit(e, data)}
+                                                        >Save</Button>
+                                                    </div>
+                                                ))}
+                                                <Button variant="contained" color="secondary" onClick={(e) => handleToggleEditFalse(e)}>Cancel</Button>
+                                            </form>
+                                        </Grid>
+                                    </>
+                                ) : (
+                                    <Grid item xs={12}>
+                                        <Typography
+                                            variant="subtitle1"
+                                            className={classes.gardensTitle}
+                                        >My Gardens</Typography>
+                                        <div className={classes.gridListRoot}>
+                                            <GridList className={classes.gridList}>
+                                                {gardenInfoState.gardens.length > 0 ?
+                                                    (gardenInfoState.gardens.map((data, i) =>
+                                                        (<GardenDisplay
+                                                            key={i}
+                                                            title={data.garden_name}
+                                                            plants={data.plants}
+                                                            gardenId={data._id}
+                                                        />)
+                                                    )) :
+                                                    <GardenDisplay
+                                                        title='You do not have any gardens! Please add a garden'
+                                                        disabled={true}
+                                                        plants={[]}
+                                                    />
+                                                }
+                                            </GridList>
+                                        </div>
+                                    </Grid>)}
                         </Grid>
                     </Container>
                 </>

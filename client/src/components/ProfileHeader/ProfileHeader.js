@@ -125,6 +125,7 @@ const ProfileHeader = (props) => {
                     <Button
                         className={classes.headerBtn}
                         variant='outlined'
+                        onClick={() => props.toggleEdit()}
                     >Edit Garden</Button>
                 </div>
             </Grid>

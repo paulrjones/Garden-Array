@@ -65,10 +65,10 @@ const useStyles = makeStyles(theme => ({
 const PlantInfo = () => {
 
     const classes = useStyles()
-
     const plantId = (window.location.pathname).slice(12)
     const { isLoggedIn } = useContext(UserContext)
     const {
+        plant_id,
         common_name,
         scientific_name,
         family_common_name,
@@ -119,7 +119,6 @@ const PlantInfo = () => {
                 (<>
                     <Navbar />
                     <Container>
-                        {console.log(userGarden)}
                         <Modal
                             aria-labelledby="transition-modal-title"
                             aria-describedby="transition-modal-description"
@@ -161,7 +160,7 @@ const PlantInfo = () => {
                                                 className={classes.modalBtn}
                                                 variant="contained"
                                                 color="primary"
-                                                onClick={(e) => {handleSavePlant(e, userGardenSelect) }}
+                                                onClick={(e) => { handleSavePlant(e, userGardenSelect, plant_id) }}
                                             >Save Plant</Button>
                                             <Button
                                                 className={classes.modalBtn}
